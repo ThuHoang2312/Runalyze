@@ -49,6 +49,12 @@ fun Navigation(navController: NavHostController, scrollState: ScrollState){
         composable("Training"){
             TrainingScreen(navController = navController)
         }
+        composable("Goal"){
+            TrainingScreen(navController = navController)
+        }
+        composable("Plan"){
+            TrainingScreen(navController = navController)
+        }
     }
 }
 

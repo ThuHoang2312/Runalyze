@@ -1,5 +1,6 @@
 package com.example.runalyze.components
 
+import android.annotation.SuppressLint
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -12,6 +13,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.runalyze.BottomNavItem
 import com.example.runalyze.R
 
+@SuppressLint("SuspiciousIndentation")
 @Composable
 fun BottomNavigationMenu(navController: NavController) {
     val items = listOf(
@@ -19,7 +21,6 @@ fun BottomNavigationMenu(navController: NavController) {
         BottomNavItem.Training,
         BottomNavItem.Activity,
         BottomNavItem.Profile)
-
 
         NavigationBar(contentColor = colorResource(id = R.color.white)) {
             val navBackStackEntry by navController.currentBackStackEntryAsState()
