@@ -61,12 +61,14 @@ import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.graphics.Color
+import com.example.runalyze.database.Goal
+import com.example.runalyze.viewmodel.GoalViewModel
 
 @SuppressLint("RememberReturnType", "UnrememberedMutableState")
 @OptIn(ExperimentalMaterial3Api::class)
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun AddGoalView() {
+fun AddGoalView(viewModel: GoalViewModel) {
     var openDateRangePickerDialog = remember { mutableStateOf(false) }
     val dateRangePickerState = rememberDateRangePickerState()
     val formattedStartDate = dateRangePickerState.selectedStartDateMillis?.let {
@@ -82,6 +84,14 @@ fun AddGoalView() {
     var openTimePickerDialog by remember { mutableStateOf(false) }
     var timePickerState = rememberTimePickerState()
     val isReminderTimeSet = remember { mutableStateOf(false) }
+    var targetDistance by rememberSaveable { mutableDoubleStateOf(0.0) }
+    var targetSpeed by rememberSaveable { mutableDoubleStateOf(0.0) }
+    var targetHeartRate by rememberSaveable { mutableIntStateOf(0) }
+    val formatter = remember { SimpleDateFormat("hh:mm a", Locale.getDefault()) }
+    var formattedTime = remember { mutableStateOf("") }
+    val daysOfWeek = listOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")
+    val selectedDays =
+        remember { mutableStateListOf<Boolean>(false, false, false, false, false, false, false) }
 
     Column(
         modifier = Modifier.padding(8.dp)
@@ -115,7 +125,18 @@ fun AddGoalView() {
                 )
             }
             TextButton(
-                onClick = {}
+                onClick = {
+                    viewModel.addGoalLiveData(Goal(
+                        0,
+                        dateRangePickerState.selectedStartDateMillis,
+                        dateRangePickerState.selectedEndDateMillis,
+                        selectedDays.toList().toString(),
+                        formattedTime.value,
+                        targetDistance,
+                        targetSpeed,
+                        targetHeartRate
+                        ))
+                }
             ) {
                 Text("Save")
             }
@@ -147,9 +168,8 @@ fun AddGoalView() {
                 text = "Repeat: ",
                 fontWeight = FontWeight.Bold
             )
-            DayOfWeekSelection()
+            DayOfWeekSelection(daysOfWeek, selectedDays)
 
-            val formatter = remember { SimpleDateFormat("hh:mm a", Locale.getDefault()) }
             val cal = Calendar.getInstance()
 
             cal.set(Calendar.HOUR_OF_DAY, timePickerState.hour)
@@ -172,6 +192,7 @@ fun AddGoalView() {
                     )
                     Spacer(modifier = Modifier.size(8.dp))
                     if (isReminderTimeSet.value) {
+                        formattedTime.value = formatter.format(cal.time)
                         Box(
                             contentAlignment = Alignment.Center,
                             modifier = Modifier
@@ -182,7 +203,7 @@ fun AddGoalView() {
                                 verticalAlignment = Alignment.CenterVertically,
                                 horizontalArrangement = Arrangement.Center
                             ) {
-                                Text(text = "${formatter.format(cal.time)}")
+                                Text(text = formattedTime.value)
                                 Spacer(modifier = Modifier.size(8.dp))
                                 IconButton(
                                     modifier = Modifier.size(20.dp),
@@ -204,10 +225,6 @@ fun AddGoalView() {
                 }
             }
 
-            var targetDistance by rememberSaveable { mutableIntStateOf(0) }
-            var targetSpeed by rememberSaveable { mutableDoubleStateOf(0.0) }
-            var targetHeartRate by rememberSaveable { mutableIntStateOf(0) }
-
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center,
@@ -219,7 +236,7 @@ fun AddGoalView() {
                     modifier = Modifier
                         .padding(8.dp)
                         .border(1.dp, Color.DarkGray),
-                    onValueChange = { targetDistance = it.toInt() },
+                    onValueChange = { targetDistance = it.toDouble() },
                     placeholder = { Text("5 km") }
                 )
             }
@@ -339,10 +356,10 @@ fun DateRangePickerDialog(
 }
 
 @Composable
-fun DayOfWeekSelection() {
-    val daysOfWeek = listOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")
-    val selectedDays =
-        remember { mutableStateListOf<Boolean>(false, false, false, false, false, false, false) }
+fun DayOfWeekSelection(
+    daysOfWeek: List<String>,
+    selectedDays: MutableList<Boolean>
+) {
 
     LazyRow(
         modifier = Modifier.height(75.dp).fillMaxWidth()
@@ -408,14 +425,6 @@ fun TimePickerDialog(
                 state = state,
             )
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun AddGoalPreview() {
-    RunalyzeTheme {
-        AddGoalView()
     }
 }
 

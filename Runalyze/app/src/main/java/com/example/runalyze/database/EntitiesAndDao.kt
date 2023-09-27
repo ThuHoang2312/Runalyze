@@ -13,13 +13,11 @@ data class Goal(
     @PrimaryKey(autoGenerate = true)
     val goalId: Long,
     @TypeConverters(Converters::class)
-    val startDate:Long,
+    val startDate:Long?,
     @TypeConverters(Converters::class)
     val endDate:Long?,
     val repeatedDays: String,
-    @TypeConverters(Converters::class)
-    val reminderTime: Long?,
-    val targetDurationInMinutes: Int,
+    val reminderTime: String,
     val targetDistanceInKm: Double,
     val targetSpeedInKmh: Double,
     val targetHeartRateInBpm: Int
