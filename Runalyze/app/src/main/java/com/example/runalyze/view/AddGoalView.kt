@@ -87,7 +87,7 @@ fun AddGoalView(viewModel: GoalViewModel) {
     var targetDistance by rememberSaveable { mutableDoubleStateOf(0.0) }
     var targetSpeed by rememberSaveable { mutableDoubleStateOf(0.0) }
     var targetHeartRate by rememberSaveable { mutableIntStateOf(0) }
-    val formatter = remember { SimpleDateFormat("hh:mm a", Locale.getDefault()) }
+    val formatter = remember { SimpleDateFormat("HH:mm", Locale.getDefault()) }
     var formattedTime = remember { mutableStateOf("") }
     val daysOfWeek = listOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")
     val selectedDays =
