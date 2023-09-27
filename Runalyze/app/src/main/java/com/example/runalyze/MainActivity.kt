@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.runalyze.ui.RunalyzeApp
 import com.example.runalyze.ui.theme.RunalyzeTheme
 import com.example.runalyze.view.AddGoalView
 import com.example.runalyze.viewmodel.GoalViewModel
@@ -26,17 +27,17 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    AddGoalView(goalViewModel)
+                    RunalyzeApp()
                 }
             }
         }
     }
 }
 
+@Preview(showBackground = true)
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
+fun GreetingPreview() {
+    RunalyzeTheme {
+        RunalyzeApp()
+    }
 }
