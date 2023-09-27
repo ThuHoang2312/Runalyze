@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -21,6 +22,8 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.AlertDialogDefaults
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -61,6 +64,7 @@ import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.graphics.Color
+import androidx.navigation.NavController
 import com.example.runalyze.database.Goal
 import com.example.runalyze.viewmodel.GoalViewModel
 
@@ -68,7 +72,7 @@ import com.example.runalyze.viewmodel.GoalViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun AddGoalView(viewModel: GoalViewModel) {
+fun AddGoalView(viewModel: GoalViewModel, navController: NavController) {
     var openDateRangePickerDialog = remember { mutableStateOf(false) }
     val dateRangePickerState = rememberDateRangePickerState()
     val formattedStartDate = dateRangePickerState.selectedStartDateMillis?.let {
@@ -111,6 +115,7 @@ fun AddGoalView(viewModel: GoalViewModel) {
                     modifier = Modifier.size(20.dp),
                     onClick = {
                         isReminderTimeSet.value = false
+                        navController.navigate("Home")
                     }) {
                     Icon(
                         Icons.AutoMirrored.Filled.KeyboardArrowLeft,
@@ -126,16 +131,19 @@ fun AddGoalView(viewModel: GoalViewModel) {
             }
             TextButton(
                 onClick = {
-                    viewModel.addGoalLiveData(Goal(
-                        0,
-                        dateRangePickerState.selectedStartDateMillis,
-                        dateRangePickerState.selectedEndDateMillis,
-                        selectedDays.toList().toString(),
-                        formattedTime.value,
-                        targetDistance,
-                        targetSpeed,
-                        targetHeartRate
-                        ))
+                    viewModel.addGoalLiveData(
+                        Goal(
+                            0,
+                            dateRangePickerState.selectedStartDateMillis,
+                            dateRangePickerState.selectedEndDateMillis,
+                            selectedDays.toList().toString(),
+                            formattedTime.value,
+                            targetDistance,
+                            targetSpeed,
+                            targetHeartRate
+                        )
+                    )
+                    navController.navigate("Home")
                 }
             ) {
                 Text("Save")
@@ -274,9 +282,7 @@ fun AddGoalView(viewModel: GoalViewModel) {
     }
 
     if (openDateRangePickerDialog.value) {
-        Surface(
-            modifier = Modifier.fillMaxWidth()
-        ) {
+        //Surface(modifier = Modifier.fillMaxWidth()) {
             DateRangePickerDialog(
                 state = dateRangePickerState,
                 onDismissRequest = { openDateRangePickerDialog.value = false },
@@ -288,11 +294,11 @@ fun AddGoalView(viewModel: GoalViewModel) {
                     openDateRangePickerDialog.value = false
                 }
             )
-        }
+        //}
     }
 
     if (openTimePickerDialog) {
-        Surface {
+        //Surface(tonalElevation = AlertDialogDefaults.TonalElevation) {
             TimePickerDialog(
                 state = timePickerState,
                 onDismissRequest = { openTimePickerDialog = false },
@@ -302,7 +308,7 @@ fun AddGoalView(viewModel: GoalViewModel) {
                 }
             )
         }
-    }
+    //}
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -312,45 +318,49 @@ fun DateRangePickerDialog(
     onDismissRequest: () -> Unit,
     onSaveClick: (startDateMillis: Long, endDateMillis: Long) -> Unit
 ) {
-    Dialog(
+    AlertDialog(
         onDismissRequest = onDismissRequest,
         properties = DialogProperties(dismissOnBackPress = true, dismissOnClickOutside = true)
     ) {
-        Column(
-            modifier = Modifier.requiredWidth(LocalConfiguration.current.screenWidthDp.dp * 0.96f),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
+        Surface(
+            tonalElevation = AlertDialogDefaults.TonalElevation,
+            modifier = Modifier.requiredWidth(LocalConfiguration.current.screenWidthDp.dp * 0.96f)
         ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 12.dp, end = 12.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
+            Column(
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                TextButton(
-                    onClick = onDismissRequest
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 12.dp, end = 12.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    Text("Cancel")
+                    TextButton(
+                        onClick = onDismissRequest
+                    ) {
+                        Text("Cancel")
+                    }
+                    TextButton(
+                        onClick = {
+                            onSaveClick(
+                                state.selectedStartDateMillis ?: return@TextButton,
+                                state.selectedEndDateMillis ?: return@TextButton
+                            )
+                            onDismissRequest()
+                        },
+                        enabled = state.selectedEndDateMillis != null
+                    ) {
+                        Text("Save")
+                    }
                 }
-                TextButton(
-                    onClick = {
-                        onSaveClick(
-                            state.selectedStartDateMillis ?: return@TextButton,
-                            state.selectedEndDateMillis ?: return@TextButton
-                        )
-                        onDismissRequest()
-                    },
-                    enabled = state.selectedEndDateMillis != null
-                ) {
-                    Text("Save")
-                }
+                Spacer(modifier = Modifier.height(16.dp))
+                DateRangePicker(
+                    state = state,
+                    modifier = Modifier.fillMaxWidth()
+                )
             }
-            Spacer(modifier = Modifier.height(16.dp))
-            DateRangePicker(
-                state = state,
-                modifier = Modifier.fillMaxWidth()
-            )
         }
     }
 }
@@ -360,9 +370,10 @@ fun DayOfWeekSelection(
     daysOfWeek: List<String>,
     selectedDays: MutableList<Boolean>
 ) {
-
     LazyRow(
-        modifier = Modifier.height(75.dp).fillMaxWidth()
+        modifier = Modifier
+            .height(75.dp)
+            .fillMaxWidth()
     ) {
         itemsIndexed(daysOfWeek) { index, day ->
             Column(
@@ -380,6 +391,7 @@ fun DayOfWeekSelection(
             }
         }
     }
+
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -389,41 +401,45 @@ fun TimePickerDialog(
     onDismissRequest: () -> Unit,
     onSaveClick: () -> Unit
 ) {
-    Dialog(
+    AlertDialog(
         onDismissRequest = onDismissRequest,
         properties = DialogProperties(dismissOnBackPress = true, dismissOnClickOutside = true)
     ) {
-        Column(
-            modifier = Modifier.requiredWidth(LocalConfiguration.current.screenWidthDp.dp * 0.96f),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
+        Surface(
+            tonalElevation = AlertDialogDefaults.TonalElevation,
+            modifier = Modifier.requiredWidth(LocalConfiguration.current.screenWidthDp.dp * 0.96f)
         ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 12.dp, end = 12.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
+            Column(
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                TextButton(
-                    onClick = onDismissRequest
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 12.dp, end = 12.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    Text("Cancel")
+                    TextButton(
+                        onClick = onDismissRequest
+                    ) {
+                        Text("Cancel")
+                    }
+                    TextButton(
+                        onClick = {
+                            onSaveClick()
+                            onDismissRequest()
+                        },
+                        enabled = state.minute != null
+                    ) {
+                        Text("Save")
+                    }
                 }
-                TextButton(
-                    onClick = {
-                        onSaveClick()
-                        onDismissRequest()
-                    },
-                    enabled = state.minute != null
-                ) {
-                    Text("Save")
-                }
+                Spacer(modifier = Modifier.height(16.dp))
+                TimePicker(
+                    state = state,
+                )
             }
-            Spacer(modifier = Modifier.height(16.dp))
-            TimePicker(
-                state = state,
-            )
         }
     }
 }

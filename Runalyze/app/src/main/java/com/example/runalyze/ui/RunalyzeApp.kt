@@ -1,6 +1,7 @@
 package com.example.runalyze.ui
 
 import android.annotation.SuppressLint
+import androidx.activity.viewModels
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -18,29 +19,37 @@ import com.example.runalyze.ui.screen.Activity
 import com.example.runalyze.ui.screen.Home
 import com.example.runalyze.ui.screen.Profile
 import com.example.runalyze.ui.screen.TrainingScreen
+import com.example.runalyze.view.AddGoalView
+import com.example.runalyze.viewmodel.GoalViewModel
 
 @Composable
-fun RunalyzeApp(){
+fun RunalyzeApp(goalViewModel: GoalViewModel){
     val scrollState = rememberScrollState()
     val navController = rememberNavController()
-    MainScreen(navHostController = navController, scrollState = scrollState)
+    MainScreen(
+        navHostController = navController,
+        scrollState = scrollState,
+        goalViewModel = goalViewModel)
 }
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen(navHostController: NavHostController, scrollState: ScrollState){
+fun MainScreen(navHostController: NavHostController, scrollState: ScrollState, goalViewModel: GoalViewModel){
     Scaffold(
         bottomBar = {
             BottomNavigationMenu(navController = navHostController)
         },
     ) {
-        Navigation(navController = navHostController, scrollState = scrollState)
+        Navigation(navController = navHostController, scrollState = scrollState, goalViewModel = goalViewModel)
     }
 }
 
 @Composable
-fun Navigation(navController: NavHostController, scrollState: ScrollState){
+fun Navigation(
+    navController: NavHostController,
+    scrollState: ScrollState,
+    goalViewModel: GoalViewModel){
     NavHost(navController = navController, startDestination = "Home"){
         bottomNavigation(navController = navController)
         composable("Home"){
@@ -50,7 +59,7 @@ fun Navigation(navController: NavHostController, scrollState: ScrollState){
             TrainingScreen(navController = navController)
         }
         composable("Goal"){
-            TrainingScreen(navController = navController)
+            AddGoalView(goalViewModel, navController)
         }
         composable("Plan"){
             TrainingScreen(navController = navController)
