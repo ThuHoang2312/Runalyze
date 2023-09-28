@@ -17,10 +17,11 @@ data class Goal(
     @TypeConverters(Converters::class)
     val endDate:Long?,
     val repeatedDays: String,
-    val reminderTime: String,
+    val reminderTime: String?,
     val targetDistanceInKm: Double,
     val targetSpeedInKmh: Double,
-    val targetHeartRateInBpm: Int
+    val targetHeartRateInBpm: Int,
+    val isActive: Boolean
 )
 
 @Entity
