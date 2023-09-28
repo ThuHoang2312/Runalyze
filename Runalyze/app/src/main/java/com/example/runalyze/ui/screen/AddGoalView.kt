@@ -1,10 +1,9 @@
-package com.example.runalyze.view
+package com.example.runalyze.ui.screen
 
 import android.annotation.SuppressLint
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -21,8 +20,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.AlertDialogDefaults
@@ -43,7 +42,6 @@ import androidx.compose.material3.DateRangePicker
 import androidx.compose.material3.DateRangePickerState
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.TextField
@@ -56,11 +54,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.sp
-import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import com.example.runalyze.ui.theme.RunalyzeTheme
 import java.util.Calendar
 import androidx.compose.material3.TimePickerState
 import androidx.compose.material3.TopAppBarDefaults
@@ -69,6 +63,8 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.runalyze.components.TopNavigation
 import com.example.runalyze.database.Goal
@@ -94,9 +90,9 @@ fun AddGoalView(viewModel: GoalViewModel, navController: NavController) {
     var openTimePickerDialog by remember { mutableStateOf(false) }
     var timePickerState = rememberTimePickerState()
     val isReminderTimeSet = remember { mutableStateOf(false) }
-    var targetDistance by rememberSaveable { mutableDoubleStateOf(0.0) }
-    var targetSpeed by rememberSaveable { mutableDoubleStateOf(0.0) }
-    var targetHeartRate by rememberSaveable { mutableIntStateOf(0) }
+    var targetDistance by rememberSaveable { mutableStateOf("") }
+    var targetSpeed by rememberSaveable { mutableStateOf("") }
+    var targetHeartRate by rememberSaveable { mutableStateOf("") }
     val formatter = remember { SimpleDateFormat("HH:mm", Locale.getDefault()) }
     var formattedTime = remember { mutableStateOf("") }
     val daysOfWeek = listOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")
@@ -217,12 +213,17 @@ fun AddGoalView(viewModel: GoalViewModel, navController: NavController) {
             ) {
                 Text(text = "Target Distance (km): ", fontWeight = FontWeight.Bold)
                 TextField(
-                    value = targetDistance.toString(),
+                    value = targetDistance,
                     modifier = Modifier
                         .padding(8.dp)
                         .border(1.dp, Color.DarkGray),
-                    onValueChange = { targetDistance = it.toDouble() },
-                    placeholder = { Text("5 km") }
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
+                    onValueChange = {
+                        if (it.toDoubleOrNull() != null) {
+                            targetDistance = it
+                        }
+                    },
+                    placeholder = { Text("11.5") }
                 )
             }
 
@@ -235,12 +236,17 @@ fun AddGoalView(viewModel: GoalViewModel, navController: NavController) {
             ) {
                 Text(text = "Target Speed (km/h): ", fontWeight = FontWeight.Bold)
                 TextField(
-                    value = targetSpeed.toString(),
+                    value = targetSpeed,
                     modifier = Modifier
                         .padding(8.dp)
                         .border(1.dp, Color.DarkGray),
-                    onValueChange = { targetSpeed = it.toDouble() },
-                    placeholder = { Text("10 km/h") }
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
+                    onValueChange = {
+                        if (it.toDoubleOrNull() != null) {
+                            targetSpeed = it
+                        }
+                    },
+                    placeholder = { Text("7.5") }
                 )
             }
 
@@ -253,11 +259,16 @@ fun AddGoalView(viewModel: GoalViewModel, navController: NavController) {
             ) {
                 Text(text = "Target Heart Rate (bpm): ", fontWeight = FontWeight.Bold)
                 TextField(
-                    value = targetHeartRate.toString(),
+                    value = targetHeartRate,
                     modifier = Modifier
                         .padding(8.dp)
                         .border(1.dp, Color.DarkGray),
-                    onValueChange = { targetHeartRate = it.toInt() },
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                    onValueChange = {
+                        if (it.toIntOrNull() != null) {
+                            targetHeartRate = it
+                        }
+                    },
                     placeholder = { Text("150 bpm") }
                 )
             }
@@ -283,9 +294,9 @@ fun AddGoalView(viewModel: GoalViewModel, navController: NavController) {
                                 dateRangePickerState.selectedEndDateMillis,
                                 selectedDays.toList().toString(),
                                 reminderTime,
-                                targetDistance,
-                                targetSpeed,
-                                targetHeartRate,
+                                targetDistance.toDouble(),
+                                targetSpeed.toDouble(),
+                                targetHeartRate.toInt(),
                                 false
                             )
                         )
