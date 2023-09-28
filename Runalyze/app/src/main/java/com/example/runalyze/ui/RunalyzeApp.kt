@@ -1,7 +1,6 @@
 package com.example.runalyze.ui
 
 import android.annotation.SuppressLint
-import androidx.activity.viewModels
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -19,7 +18,7 @@ import com.example.runalyze.ui.screen.Activity
 import com.example.runalyze.ui.screen.Home
 import com.example.runalyze.ui.screen.Profile
 import com.example.runalyze.ui.screen.TrainingScreen
-import com.example.runalyze.view.AddGoalView
+import com.example.runalyze.ui.screen.AddGoalView
 import com.example.runalyze.viewmodel.GoalViewModel
 
 @Composable
