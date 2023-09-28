@@ -3,6 +3,7 @@ package com.example.runalyze
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -12,8 +13,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.runalyze.ui.RunalyzeApp
 import com.example.runalyze.ui.theme.RunalyzeTheme
+import com.example.runalyze.view.AddGoalView
+import com.example.runalyze.viewmodel.GoalViewModel
 
 class MainActivity : ComponentActivity() {
+    private val goalViewModel: GoalViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -23,13 +27,12 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    RunalyzeApp()
+                    RunalyzeApp(goalViewModel)
                 }
             }
         }
     }
 }
-
 
 @Preview(showBackground = true)
 @Composable
