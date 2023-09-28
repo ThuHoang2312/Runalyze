@@ -19,10 +19,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.runalyze.components.TopNavigation
+import com.example.runalyze.view.RunningPlanList
+import com.example.runalyze.viewmodel.RunningPlanViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TrainingScreen(navController: NavController){
+    val runningPlanViewModel = RunningPlanViewModel()
+    val navController = rememberNavController()
     Surface (
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
@@ -47,6 +51,7 @@ fun TrainingScreen(navController: NavController){
                 horizontalAlignment = Alignment.CenterHorizontally,
 
             ) {
+                RunningPlanList(model = runningPlanViewModel , navController = navController)
                 Button(onClick = {
                     navController.navigate("TrainingProcess")
                 }){

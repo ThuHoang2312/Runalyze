@@ -10,7 +10,7 @@ object GetRunningPlanApi {
     const val URL = "https://users.metropolia.fi/~thuh/"
 
     interface Service {
-        @GET("/RunningPlan.json")
+        @GET("RunningPlan.json")
         suspend fun runningPlanList(): List<RunningPlan>
     }
 

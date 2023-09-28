@@ -20,32 +20,33 @@ fun BottomNavigationMenu(navController: NavController) {
         BottomNavItem.Home,
         BottomNavItem.Training,
         BottomNavItem.Activity,
-        BottomNavItem.Profile)
+        BottomNavItem.Profile
+    )
 
-        NavigationBar(contentColor = colorResource(id = R.color.white)) {
-            val navBackStackEntry by navController.currentBackStackEntryAsState()
-            val currentRoute = navBackStackEntry?.destination?.route
-            items.forEach {
-                NavigationBarItem(
-                    label = {
-                        Text(text = it.title)
-                    },
-                    alwaysShowLabel = true,
-                    selected = currentRoute == it.route,
-                    onClick = {
-                        navController.navigate(it.route) {
-                            navController.graph.startDestinationRoute?.let { route ->
-                                popUpTo(route) {
-                                    saveState = true
-                                }
+    NavigationBar(contentColor = colorResource(id = R.color.white)) {
+        val navBackStackEntry by navController.currentBackStackEntryAsState()
+        val currentRoute = navBackStackEntry?.destination?.route
+        items.forEach {
+            NavigationBarItem(
+                label = {
+                    Text(text = it.title)
+                },
+                alwaysShowLabel = true,
+                selected = currentRoute == it.route,
+                onClick = {
+                    navController.navigate(it.route) {
+                        navController.graph.startDestinationRoute?.let { route ->
+                            popUpTo(route) {
+                                saveState = true
                             }
-                            launchSingleTop = true
-                            restoreState = true
                         }
-                    },
-                    icon = { Icon(imageVector = it.icon, contentDescription = it.title) }
-                )
-            }
+                        launchSingleTop = true
+                        restoreState = true
+                    }
+                },
+                icon = { Icon(imageVector = it.icon, contentDescription = it.title) }
+            )
         }
+    }
 
 }

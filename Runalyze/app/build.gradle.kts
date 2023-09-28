@@ -86,4 +86,6 @@ dependencies {
     //Retrofit and Gson
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    //Live data
+    implementation("androidx.compose.runtime:runtime-livedata:$1.5.1")
 }

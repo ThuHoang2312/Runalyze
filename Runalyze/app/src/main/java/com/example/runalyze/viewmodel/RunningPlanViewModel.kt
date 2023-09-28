@@ -1,5 +1,7 @@
 package com.example.runalyze.viewmodel
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -17,7 +19,6 @@ class RunningPlanViewModel: ViewModel() {
     private val repository: WebServiceRepository = WebServiceRepository()
 
     val runningPlanList = MutableLiveData<List<RunningPlan>>()
-
     fun getRunningPlanList() {
         viewModelScope.launch (Dispatchers.IO){
             val list = repository.getRunningPlan()
