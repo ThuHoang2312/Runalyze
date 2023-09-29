@@ -108,7 +108,7 @@ fun AddGoalView(viewModel: GoalViewModel, navController: NavController) {
             TopNavigation(
                 text = "Set a goal",
                 navController = navController,
-                scrollBehavior = scrollBehavior
+//                scrollBehavior = scrollBehavior
             )
         }
     ) { values ->

@@ -36,13 +36,13 @@ data class HomeOption (
 object Options {
     val optionList = listOf<HomeOption>(
         HomeOption(
-            id = 1, image = R.drawable.running_red, text = "Start a quick run", route = "Training"
+            id = 1, image = R.drawable.running_red, text = "Start a quick run", route = "training"
         ),
         HomeOption(
-            id = 2, image = R.drawable.running_blue, text = "Choose a training plan", route = "Plan"
+            id = 2, image = R.drawable.running_blue, text = "Running plan recommendation", route = "plan"
         ),
         HomeOption(
-            id = 3, image = R.drawable.running_dark, text = "Set a goal", route = "Goal"
+            id = 3, image = R.drawable.running_dark, text = "Set a goal", route = "goal"
         )
     )
 }
@@ -82,5 +82,5 @@ fun HomeItem(option: HomeOption, navController: NavController){
 @Preview(showBackground = true)
 @Composable
 fun HomePreview() {
-    HomeItem(option = HomeOption(id = 1, image = R.drawable.running_red, text = "Start a quick run", route = "Training"), navController = rememberNavController() )
+    HomeItem(option = HomeOption(id = 1, image = R.drawable.running_red, text = "Start a quick run", route = "training"), navController = rememberNavController() )
 }
