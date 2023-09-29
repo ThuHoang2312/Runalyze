@@ -2,6 +2,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id ("kotlin-kapt")
+    id ("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
 }
 
 android {
@@ -88,4 +89,8 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     //Live data
     implementation("androidx.compose.runtime:runtime-livedata:$1.5.1")
+
+    // Google maps
+    implementation ("com.google.maps.android:maps-compose:2.14.0")
+    implementation ("com.google.android.gms:play-services-maps:18.1.0")
 }
