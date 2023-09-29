@@ -20,8 +20,7 @@ data class Goal(
     val reminderTime: String?,
     val targetDistanceInKm: Double,
     val targetSpeedInKmh: Double,
-    val targetHeartRateInBpm: Int,
-    val isActive: Boolean
+    val targetHeartRateInBpm: Int
 )
 
 @Entity
@@ -35,7 +34,9 @@ data class TrainingDetail(
     val averageSpeed: Double,
     val heartRate: Int,
     val elevation: Double,
-    val caloriesInKcal: Int
+    val caloriesInKcal: Int,
+    val rating: Int?,
+    val note: String?
 )
 
 @Dao
