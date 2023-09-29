@@ -19,6 +19,7 @@ import com.example.runalyze.ui.screen.Home
 import com.example.runalyze.ui.screen.Profile
 import com.example.runalyze.ui.screen.TrainingScreen
 import com.example.runalyze.ui.screen.AddGoalView
+import com.example.runalyze.ui.screen.RunningPlanScreen
 import com.example.runalyze.viewmodel.GoalViewModel
 
 @Composable
@@ -51,17 +52,17 @@ fun Navigation(
     goalViewModel: GoalViewModel){
     NavHost(navController = navController, startDestination = "Home"){
         bottomNavigation(navController = navController)
-        composable("Home"){
+        composable("home"){
             Home(navController = navController)
         }
-        composable("Training"){
+        composable("training"){
             TrainingScreen(navController = navController)
         }
-        composable("Goal"){
+        composable("goal"){
             AddGoalView(goalViewModel, navController)
         }
-        composable("Plan"){
-            TrainingScreen(navController = navController)
+        composable("plan"){
+            RunningPlanScreen(navController = navController)
         }
     }
 }
@@ -71,7 +72,7 @@ fun NavGraphBuilder.bottomNavigation(navController: NavController){
         Home(navController = navController)
     }
     composable(BottomNavItem.Training.route){
-        TrainingScreen(navController = navController)
+        RunningPlanScreen(navController = navController)
     }
     composable(BottomNavItem.Activity.route){
         Activity()
