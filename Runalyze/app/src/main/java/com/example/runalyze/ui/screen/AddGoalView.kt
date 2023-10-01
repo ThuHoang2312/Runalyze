@@ -296,8 +296,7 @@ fun AddGoalView(viewModel: GoalViewModel, navController: NavController) {
                                 reminderTime,
                                 targetDistance.toDouble(),
                                 targetSpeed.toDouble(),
-                                targetHeartRate.toInt(),
-                                false
+                                targetHeartRate.toInt()
                             )
                         )
                         navController.navigate("Home")

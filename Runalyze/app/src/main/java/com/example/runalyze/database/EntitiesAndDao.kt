@@ -5,6 +5,7 @@ import androidx.room.Entity
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.PrimaryKey
+import androidx.room.Query
 import androidx.room.TypeConverters
 import java.sql.Date
 
@@ -28,13 +29,13 @@ data class TrainingDetail(
     @PrimaryKey
     val trainingDetailId: Long,
     @TypeConverters(Converters::class)
-    val trainingDateTime: Date,
+    val trainingDateTime: Long,
     val durationInMinutes: Int,
     val distance: Double,
     val averageSpeed: Double,
-    val heartRate: Int,
-    val elevation: Double,
-    val caloriesInKcal: Int,
+    val heartRate: Int?,
+    val elevation: Double?,
+    val caloriesInKcal: Int?,
     val rating: Int?,
     val note: String?
 )
@@ -43,4 +44,13 @@ data class TrainingDetail(
 interface GoalDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addGoal(goal: Goal): Long
+}
+
+@Dao
+interface TrainingDetailDao {
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun addTrainingDetail(detail: TrainingDetail): Long
+
+    @Query("SELECT COUNT(*) FROM TrainingDetail")
+    fun getTrainingDetailCount(): Int
 }

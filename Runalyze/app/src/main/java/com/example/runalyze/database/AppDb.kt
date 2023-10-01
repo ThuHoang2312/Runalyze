@@ -8,12 +8,13 @@ import androidx.room.TypeConverters
 
 @Database(
     entities = [Goal::class, TrainingDetail::class],
-    version = 6,
+    version = 7,
     exportSchema = false
 )
 @TypeConverters(Converters::class)
 abstract class AppDb: RoomDatabase() {
     abstract val goalDao: GoalDao
+    abstract val trainingDetailDao: TrainingDetailDao
 
     companion object {
         @Volatile
@@ -28,7 +29,8 @@ abstract class AppDb: RoomDatabase() {
                         context,
                         AppDb::class.java,
                         "app_database")
-                        .fallbackToDestructiveMigration().build()
+                        .fallbackToDestructiveMigration()
+                        .build()
                     INSTANCE = instance
                 }
 
