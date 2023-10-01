@@ -88,4 +88,8 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     //Live data
     implementation("androidx.compose.runtime:runtime-livedata:$1.5.1")
+    //for drawing graph
+    implementation ("com.github.PhilJay:MPAndroidChart:v3.1.0")
+    implementation ("androidx.compose.ui:ui:1.0.0")
+    implementation ("androidx.compose.foundation:foundation:1.0.0")
 }

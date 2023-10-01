@@ -20,28 +20,30 @@ import com.example.runalyze.ui.screen.Profile
 import com.example.runalyze.ui.screen.TrainingScreen
 import com.example.runalyze.ui.screen.AddGoalView
 import com.example.runalyze.ui.screen.RunningPlanScreen
+import com.example.runalyze.viewmodel.ActivityViewModel
 import com.example.runalyze.viewmodel.GoalViewModel
 
 @Composable
-fun RunalyzeApp(goalViewModel: GoalViewModel){
+fun RunalyzeApp(goalViewModel: GoalViewModel, activityViewModel: ActivityViewModel){
     val scrollState = rememberScrollState()
     val navController = rememberNavController()
     MainScreen(
         navHostController = navController,
         scrollState = scrollState,
-        goalViewModel = goalViewModel)
+        goalViewModel = goalViewModel,
+        activityViewModel)
 }
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen(navHostController: NavHostController, scrollState: ScrollState, goalViewModel: GoalViewModel){
+fun MainScreen(navHostController: NavHostController, scrollState: ScrollState, goalViewModel: GoalViewModel, activityViewModel: ActivityViewModel){
     Scaffold(
         bottomBar = {
             BottomNavigationMenu(navController = navHostController)
         },
     ) {
-        Navigation(navController = navHostController, scrollState = scrollState, goalViewModel = goalViewModel)
+        Navigation(navController = navHostController, scrollState = scrollState, goalViewModel = goalViewModel, activityViewModel)
     }
 }
 
@@ -49,9 +51,10 @@ fun MainScreen(navHostController: NavHostController, scrollState: ScrollState, g
 fun Navigation(
     navController: NavHostController,
     scrollState: ScrollState,
-    goalViewModel: GoalViewModel){
+    goalViewModel: GoalViewModel,
+    activityViewModel: ActivityViewModel){
     NavHost(navController = navController, startDestination = "Home"){
-        bottomNavigation(navController = navController)
+        bottomNavigation(navController = navController, activityViewModel)
         composable("home"){
             Home(navController = navController)
         }
@@ -67,7 +70,7 @@ fun Navigation(
     }
 }
 
-fun NavGraphBuilder.bottomNavigation(navController: NavController){
+fun NavGraphBuilder.bottomNavigation(navController: NavController, activityViewModel: ActivityViewModel){
     composable(BottomNavItem.Home.route){
         Home(navController = navController)
     }
@@ -75,7 +78,7 @@ fun NavGraphBuilder.bottomNavigation(navController: NavController){
         RunningPlanScreen(navController = navController)
     }
     composable(BottomNavItem.Activity.route){
-        Activity()
+        Activity(activityViewModel)
     }
     composable(BottomNavItem.Profile.route){
         Profile()

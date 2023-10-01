@@ -58,13 +58,10 @@ import androidx.compose.ui.window.DialogProperties
 import java.util.Calendar
 import androidx.compose.material3.TimePickerState
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.runtime.mutableDoubleStateOf
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.runalyze.components.TopNavigation
 import com.example.runalyze.database.Goal

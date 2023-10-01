@@ -1,5 +1,6 @@
 package com.example.runalyze.database
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Entity
 import androidx.room.Insert
@@ -26,7 +27,7 @@ data class Goal(
 
 @Entity
 data class TrainingDetail(
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     val trainingDetailId: Long,
     @TypeConverters(Converters::class)
     val trainingDateTime: Long,
@@ -52,5 +53,8 @@ interface TrainingDetailDao {
     suspend fun addTrainingDetail(detail: TrainingDetail): Long
 
     @Query("SELECT COUNT(*) FROM TrainingDetail")
-    fun getTrainingDetailCount(): Int
+    fun getTrainingDetailCount(): LiveData<Int>
+
+    @Query("SELECT * FROM TrainingDetail")
+    fun getTrainingDetails(): LiveData<List<TrainingDetail>>
 }
