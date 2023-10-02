@@ -26,9 +26,9 @@ import androidx.navigation.compose.rememberNavController
 import com.example.runalyze.R
 
 
-data class HomeOption (
+data class HomeOption(
     val id: Int,
-    val image:Int = R.drawable.running_red,
+    val image: Int = R.drawable.running_red,
     val text: String,
     val route: String
 )
@@ -39,7 +39,10 @@ object Options {
             id = 1, image = R.drawable.running_red, text = "Start a quick run", route = "training"
         ),
         HomeOption(
-            id = 2, image = R.drawable.running_blue, text = "Running plan recommendation", route = "plan"
+            id = 2,
+            image = R.drawable.running_blue,
+            text = "Running plan recommendation",
+            route = "plan"
         ),
         HomeOption(
             id = 3, image = R.drawable.running_dark, text = "Set a goal", route = "goal"
@@ -48,11 +51,13 @@ object Options {
 }
 
 @Composable
-fun Home(navController: NavController){
-    Column(modifier = Modifier.fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally) {
+fun Home(navController: NavController) {
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
         LazyColumn {
-            items(Options.optionList){option ->
+            items(Options.optionList) { option ->
                 HomeItem(option = option, navController = navController)
             }
         }
@@ -60,19 +65,25 @@ fun Home(navController: NavController){
 }
 
 @Composable
-fun HomeItem(option: HomeOption, navController: NavController){
-    Box(modifier = Modifier
-        .height(250.dp).fillMaxSize()){
-        Image(painter = painterResource(id = option.image ), contentDescription = "",
-                contentScale = ContentScale.FillBounds,
+fun HomeItem(option: HomeOption, navController: NavController) {
+    Box(
+        modifier = Modifier
+            .height(250.dp)
+            .fillMaxSize()
+    ) {
+        Image(
+            painter = painterResource(id = option.image), contentDescription = "",
+            contentScale = ContentScale.FillBounds,
             modifier = Modifier.fillMaxSize()
-            )
-        Column (modifier = Modifier.fillMaxSize(),
+        )
+        Column(
+            modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally){
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
             Button(onClick = {
                 navController.navigate(option.route)
-            }){
+            }) {
                 Text(text = option.text, fontWeight = FontWeight.SemiBold)
             }
         }
@@ -82,5 +93,12 @@ fun HomeItem(option: HomeOption, navController: NavController){
 @Preview(showBackground = true)
 @Composable
 fun HomePreview() {
-    HomeItem(option = HomeOption(id = 1, image = R.drawable.running_red, text = "Start a quick run", route = "training"), navController = rememberNavController() )
+    HomeItem(
+        option = HomeOption(
+            id = 1,
+            image = R.drawable.running_red,
+            text = "Start a quick run",
+            route = "training"
+        ), navController = rememberNavController()
+    )
 }

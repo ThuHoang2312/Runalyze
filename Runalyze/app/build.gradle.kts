@@ -88,4 +88,6 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     //Live data
     implementation("androidx.compose.runtime:runtime-livedata:$1.5.1")
+    //Coil for AsyncImage
+    implementation("io.coil-kt:coil-compose:2.4.0")
 }
