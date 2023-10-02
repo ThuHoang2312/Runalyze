@@ -47,11 +47,11 @@ fun TextModifiedWithPaddingStart(
     size: Int = 12,
 //    font: FontFamily = semibold,
     paddingStart: Int = 5,
-    color: Color = Color.White,
+//    color: Color = ,
 ) {
     Text(
         text = string,
-        color = color,
+//        color = color,
 //        fontFamily = font,
         fontSize = size.sp,
         modifier = Modifier.padding(start = paddingStart.dp)

@@ -1,22 +1,10 @@
-package com.example.runalyze.view
+package com.example.runalyze.ui.screen.runningPlan
 
-import android.annotation.SuppressLint
-import android.content.Context
-import android.content.Context.CONNECTIVITY_SERVICE
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
-import android.os.Build
-import android.util.Log
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
@@ -27,7 +15,6 @@ import androidx.compose.material.icons.automirrored.filled.DirectionsRun
 import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.StackedLineChart
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -38,28 +25,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
-import coil.compose.SubcomposeAsyncImage
-import coil.compose.rememberAsyncImagePainter
-import coil.request.ImageRequest
-import com.example.runalyze.R
 import com.example.runalyze.componentLibrary.TextModifiedWithPaddingStart
 import com.example.runalyze.service.RunningPlan
 import com.example.runalyze.viewmodel.RunningPlanViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import java.io.InputStream
-import java.net.HttpURLConnection
-import java.net.URL
-import kotlin.math.log
 
 @Composable
+// Display running plan list fetch from network
 fun RunningPlanList(model: RunningPlanViewModel, navController: NavController) {
     model.getRunningPlanList()
     val runningPlanList: List<RunningPlan> by model.runningPlanList.observeAsState(mutableListOf())
@@ -72,7 +48,6 @@ fun RunningPlanList(model: RunningPlanViewModel, navController: NavController) {
         if (runningPlanList.isNotEmpty()) {
             runningPlanList.forEach { runningPlan ->
                 RunningPlanListItem(runningPlan = runningPlan, navController = navController)
-                Log.d("aaaa", runningPlan.toString())
             }
 
         } else {
@@ -83,6 +58,7 @@ fun RunningPlanList(model: RunningPlanViewModel, navController: NavController) {
 }
 
 @Composable
+// View for item in running plan list
 fun RunningPlanListItem(runningPlan: RunningPlan, navController: NavController) {
     ElevatedCard(
         elevation = CardDefaults.cardElevation(
@@ -130,6 +106,7 @@ fun RunningPlanListItem(runningPlan: RunningPlan, navController: NavController) 
 }
 
 @Composable
+// View for detail in running plan item
 fun RunningPlanItemDetail(icon: ImageVector, contentDescription: String, label: String) {
     Row(verticalAlignment = Alignment.CenterVertically) {
         Icon(
@@ -137,51 +114,6 @@ fun RunningPlanItemDetail(icon: ImageVector, contentDescription: String, label: 
             contentDescription = contentDescription,
             modifier = Modifier.size(14.dp)
         )
-        TextModifiedWithPaddingStart(label, color = Color.Black, size = 12)
+        TextModifiedWithPaddingStart(label, size = 12)
     }
-}
-
-//private suspend fun getImage(context: Context, url: URL): Bitmap? = withContext(Dispatchers.IO) {
-//    val TAG = "Runalyze"
-//    if (isNetworkAvailable(context = context)) {
-//        try {
-//            val connection = url.openConnection() as HttpURLConnection
-//            connection.doInput = true
-//            connection.connect()
-//            val input: InputStream = connection.inputStream
-//            return@withContext BitmapFactory.decodeStream(input)
-//        } catch (e: Exception) {
-//            e.printStackTrace()
-//        }
-//    } else Log.d(TAG, "Network is not available")
-//    return@withContext null
-//}
-
-//@Composable
-//fun ShowPicture(url: URL): Bitmap? {
-//    var text by remember { mutableStateOf("") }
-//    LaunchedEffect(urlText) {
-//        text = getText(urlText)
-//    } Text(text)
-//}
-
-
-@SuppressLint("ServiceCast", "MissingPermission")
-fun isNetworkAvailable(context: Context): Boolean {
-    val connectionManager =
-        context.getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
-    val networkCapabilities =
-        connectionManager.getNetworkCapabilities(connectionManager.activeNetwork)
-
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-        networkCapabilities?.let { networkCapability ->
-            return networkCapability.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)
-                    || networkCapability.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)
-        }
-    } else {
-        return networkCapabilities != null && networkCapabilities.hasCapability(
-            NetworkCapabilities.NET_CAPABILITY_INTERNET
-        )
-    }
-    return false
 }

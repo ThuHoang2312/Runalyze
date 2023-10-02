@@ -24,7 +24,7 @@ import com.example.runalyze.ui.screen.Home
 import com.example.runalyze.ui.screen.Profile
 import com.example.runalyze.ui.screen.TrainingScreen
 import com.example.runalyze.ui.screen.AddGoalView
-import com.example.runalyze.ui.screen.RunningPlanScreen
+import com.example.runalyze.ui.screen.runningPlan.RunningPlanScreen
 import com.example.runalyze.viewmodel.GoalViewModel
 
 @Composable
