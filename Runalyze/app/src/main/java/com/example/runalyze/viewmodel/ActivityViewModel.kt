@@ -10,22 +10,26 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.runalyze.database.AppDb
 import com.example.runalyze.database.TrainingDetail
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class ActivityViewModel(application: Application) : AndroidViewModel(application) {
     private val db = AppDb.getInstance(application).trainingDetailDao
-    private val trainingDetailsCount: LiveData<Int> = db.getTrainingDetailCount()
-    private val _distanceData = mutableStateOf<List<Double>>(emptyList())
-    val distanceData: State<List<Double>> = _distanceData
+    private val _allTrainings = MutableLiveData<List<TrainingDetail>>()
+    val alTrainings = _allTrainings
+    private val _count = MutableLiveData<Int>()
+    val count = _count
 
     init {
-        addDummyData()
-        getDistanceData()
+        //addDummyData()
+        getAllTrainingDetails()
+        //getDistanceData()
     }
 
-    private fun addDummyData() {
-        Log.d("RynalyzeApp", "Training Detail Count: ${trainingDetailsCount.value}")
-        if (trainingDetailsCount.value == null) {
+    fun addDummyData() {
+        Log.d("RynalyzeApp", "Training Detail Count: ${count.value}")
+        if (count.value == null) {
             viewModelScope.launch {
                 db.addTrainingDetail(
                     TrainingDetail(
@@ -104,19 +108,25 @@ class ActivityViewModel(application: Application) : AndroidViewModel(application
     fun addTrainingDetailLiveData(detail: TrainingDetail) {
         viewModelScope.launch {
             db.addTrainingDetail(detail)
+
         }
     }
 
     fun getAllTrainingDetails() {
         viewModelScope.launch {
-            db.getTrainingDetails()
+            val data = withContext(Dispatchers.IO) {
+                db.getTrainingDetails() // Replace with your DAO function to fetch all data
+            }
+            _allTrainings.value = data
         }
     }
 
-    private fun getDistanceData() {
+    fun getDistanceData() {
         viewModelScope.launch {
-            val data = db.getTrainingDetails().value?.map { it.distance } ?: emptyList()
-            _distanceData.value = data
+            val count = withContext(Dispatchers.IO) {
+                db.getTrainingDetailCount() // Replace with your DAO function to count rows
+            }
+            _count.value = count
         }
     }
 }

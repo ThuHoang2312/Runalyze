@@ -1,5 +1,6 @@
 package com.example.runalyze.ui.component
 
+import android.util.Log
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
@@ -17,6 +18,7 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun BarChart(data: List<Double>) {
+    Log.d("Runalyze", "Data for bar chart: $data")
     var maxValue by remember { mutableDoubleStateOf(0.0) }
 
     data.map {

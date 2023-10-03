@@ -53,8 +53,8 @@ interface TrainingDetailDao {
     suspend fun addTrainingDetail(detail: TrainingDetail): Long
 
     @Query("SELECT COUNT(*) FROM TrainingDetail")
-    fun getTrainingDetailCount(): LiveData<Int>
+    fun getTrainingDetailCount(): Int
 
     @Query("SELECT * FROM TrainingDetail")
-    fun getTrainingDetails(): LiveData<List<TrainingDetail>>
+    fun getTrainingDetails(): List<TrainingDetail>
 }
