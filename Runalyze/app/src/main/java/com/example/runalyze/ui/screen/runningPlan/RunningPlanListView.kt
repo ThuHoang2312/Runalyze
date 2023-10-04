@@ -1,5 +1,7 @@
 package com.example.runalyze.ui.screen.runningPlan
 
+import android.util.Log
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -8,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -15,8 +18,8 @@ import androidx.compose.material.icons.automirrored.filled.DirectionsRun
 import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.StackedLineChart
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.ElevatedCard
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -24,21 +27,20 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
-import com.example.runalyze.componentLibrary.TextModifiedWithPaddingStart
+import com.example.runalyze.componentLibrary.RunningPlanItemDetail
 import com.example.runalyze.service.RunningPlan
 import com.example.runalyze.viewmodel.RunningPlanViewModel
 
 @Composable
 // Display running plan list fetch from network
-fun RunningPlanList(model: RunningPlanViewModel, navController: NavController) {
-    model.getRunningPlanList()
-    val runningPlanList: List<RunningPlan> by model.runningPlanList.observeAsState(mutableListOf())
+fun RunningPlanList(runningPlanList: List<RunningPlan>, navController: NavController) {
+//    model.getRunningPlanList()
+//    val runningPlanList: List<RunningPlan> by model.runningPlanList.observeAsState(mutableListOf())
 
     Column(
         modifier = Modifier
@@ -49,7 +51,6 @@ fun RunningPlanList(model: RunningPlanViewModel, navController: NavController) {
             runningPlanList.forEach { runningPlan ->
                 RunningPlanListItem(runningPlan = runningPlan, navController = navController)
             }
-
         } else {
             Text("Empty")
         }
@@ -60,15 +61,20 @@ fun RunningPlanList(model: RunningPlanViewModel, navController: NavController) {
 @Composable
 // View for item in running plan list
 fun RunningPlanListItem(runningPlan: RunningPlan, navController: NavController) {
+    val planId = runningPlan.planId
+//    val title by MainS.observeValue { MainScreenTitle.get(it) }
     ElevatedCard(
         elevation = CardDefaults.cardElevation(
             defaultElevation = 6.dp
         ),
+        shape = RoundedCornerShape(10.dp),
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp),
-        shape = RoundedCornerShape(10.dp)
-
+            .padding(8.dp)
+            .clickable {
+            navController.navigate("runningPlanDetail/${planId}")
+                Log.d("aaaa id click", planId.toString())
+        }
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -82,8 +88,8 @@ fun RunningPlanListItem(runningPlan: RunningPlan, navController: NavController) 
             ) {
                 Text(
                     text = runningPlan.name,
-                    fontSize = 12.sp,
-                    fontWeight = FontWeight.Bold
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold,
                 )
                 RunningPlanItemDetail(Icons.Filled.CalendarMonth, "Duration", runningPlan.duration)
                 RunningPlanItemDetail(
@@ -105,15 +111,3 @@ fun RunningPlanListItem(runningPlan: RunningPlan, navController: NavController) 
     }
 }
 
-@Composable
-// View for detail in running plan item
-fun RunningPlanItemDetail(icon: ImageVector, contentDescription: String, label: String) {
-    Row(verticalAlignment = Alignment.CenterVertically) {
-        Icon(
-            imageVector = icon,
-            contentDescription = contentDescription,
-            modifier = Modifier.size(14.dp)
-        )
-        TextModifiedWithPaddingStart(label, size = 12)
-    }
-}

@@ -22,34 +22,5 @@ import com.example.runalyze.viewmodel.RunningPlanViewModel
 @Composable
 // View for running plan screen
 fun RunningPlanDetailScreen(navController: NavController) {
-    val runningPlanViewModel = RunningPlanViewModel()
-    val navController = rememberNavController()
-    Surface(
-        modifier = Modifier.fillMaxSize(),
-        color = MaterialTheme.colorScheme.background
-    ) {
-        val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
-        Scaffold(
-            modifier = Modifier
-                .fillMaxSize()
-                .nestedScroll(scrollBehavior.nestedScrollConnection),
-            topBar = {
-                TopNavigation(
-                    text = "Running plan",
-                    navController = navController,
-                )
-            }
-        ) { values ->
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(values),
-                horizontalAlignment = Alignment.CenterHorizontally,
 
-                ) {
-//                RunningPlanList(model = runningPlanViewModel, navController = navController)
-                Text(text = "Detail")
-            }
-        }
-    }
 }

@@ -1,53 +1,33 @@
 package com.example.runalyze.ui.screen.runningPlan
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
-import androidx.compose.material3.TopAppBarDefaults
+import android.util.Log
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.navigation.NavController
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.runalyze.components.TopNavigation
+import androidx.navigation.navArgument
+import com.example.runalyze.service.RunningPlan
 import com.example.runalyze.viewmodel.RunningPlanViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-// View for running plan screen
-fun RunningPlanScreen(navController: NavController) {
-    val runningPlanViewModel = RunningPlanViewModel()
+fun RunningPlanScreen() {
     val navController = rememberNavController()
-    Surface(
-        modifier = Modifier.fillMaxSize(),
-        color = MaterialTheme.colorScheme.background
-    ) {
-        val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
-        Scaffold(
-            modifier = Modifier
-                .fillMaxSize()
-                .nestedScroll(scrollBehavior.nestedScrollConnection),
-            topBar = {
-                TopNavigation(
-                    text = "Running plan",
-                    navController = navController,
-                )
-            }
-        ) { values ->
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(values),
-                horizontalAlignment = Alignment.CenterHorizontally,
+    val runningPlanViewModel = RunningPlanViewModel()
+    runningPlanViewModel.getRunningPlanList()
+    val runningPlanList: List<RunningPlan> by runningPlanViewModel.runningPlanList.observeAsState(mutableListOf())
+    NavHost(navController = navController, startDestination = "runningPlanList") {
+        composable("runningPlanList") {
+            RunningPlanListScreen(runningPlanList, navController = navController)
+        }
+        composable("runningPlanDetail/{runningPlanId}") {
+                backStackEntry ->
+            RunningPlanDetailView(backStackEntry.arguments?.getInt("runningPlanId") ?: 1, runningPlanList)
+//            Log.d("aaaa nav id", (it.arguments?.getInt("runningPlanId")).toString())
+//            val planId = it.arguments?.getInt("runningPlanId") ?: 1
+//            RunningPlanDetailView(planId = planId, runningPlanList)
 
-                ) {
-                RunningPlanList(model = runningPlanViewModel, navController = navController)
-            }
         }
     }
 }
