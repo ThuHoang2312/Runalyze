@@ -18,6 +18,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.runalyze.components.MapCard
 import com.example.runalyze.components.TopNavigation
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -50,6 +51,7 @@ fun TrainingScreen(navController: NavController) {
                 horizontalAlignment = Alignment.CenterHorizontally,
 
                 ) {
+                MapCard()
                 Button(onClick = {
 
                 }){
