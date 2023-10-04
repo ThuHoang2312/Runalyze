@@ -7,13 +7,14 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 
 @Database(
-    entities = [Goal::class, TrainingDetail::class],
-    version = 5,
+    entities = [Goal::class, Run::class],
+    version = 6,
     exportSchema = false
 )
 @TypeConverters(Converters::class)
 abstract class AppDb: RoomDatabase() {
     abstract val goalDao: GoalDao
+    abstract val runDao: RunDao
 
     companion object {
         @Volatile

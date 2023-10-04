@@ -93,4 +93,13 @@ dependencies {
     // Google maps
     implementation ("com.google.maps.android:maps-compose:2.14.0")
     implementation ("com.google.android.gms:play-services-maps:18.1.0")
+    implementation ("com.google.android.gms:play-services-location:21.0.1")
+    // KTX for the Maps SDK for Android
+    implementation ("com.google.maps.android:maps-ktx:3.2.1")
+    // KTX for the Maps SDK for Android Utility Library
+    implementation ("com.google.maps.android:maps-utils-ktx:3.2.1")
+
+
+    // Splash screen
+    implementation("androidx.core:core-splashscreen:1.0.0")
 }
