@@ -1,5 +1,6 @@
 package com.example.runalyze.ui.screen
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,12 +16,13 @@ import com.example.runalyze.ui.component.BarChart
 fun Activity(viewModel: ActivityViewModel) {
     val allData by viewModel.alTrainings.observeAsState(emptyList())
     val distanceData = allData.map { it.distance }
+
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        BarChart(data = distanceData)
+        BarChart(data = allData)
     }
 }
 

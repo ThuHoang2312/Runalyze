@@ -28,80 +28,119 @@ class ActivityViewModel(application: Application) : AndroidViewModel(application
     }
 
     fun addDummyData() {
-        Log.d("RynalyzeApp", "Training Detail Count: ${count.value}")
-        if (count.value == null) {
-            viewModelScope.launch {
-                db.addTrainingDetail(
-                    TrainingDetail(
-                        0,
-                        1695801268,
-                        60,
-                        9.0,
-                        9.0,
-                        155,
-                        null,
-                        null,
-                        3,
-                        null
-                    )
+        viewModelScope.launch {
+            db.addTrainingDetail(
+                TrainingDetail(
+                    0,
+                    1695801268,
+                    60,
+                    9.0,
+                    9.0,
+                    155,
+                    null,
+                    null,
+                    3,
+                    null
                 )
-                db.addTrainingDetail(
-                    TrainingDetail(
-                        0,
-                        1695887668,
-                        20,
-                        4.0,
-                        12.0,
-                        160,
-                        null,
-                        null,
-                        5,
-                        null
-                    )
+            )
+            db.addTrainingDetail(
+                TrainingDetail(
+                    0,
+                    1695887668,
+                    20,
+                    4.0,
+                    12.0,
+                    160,
+                    null,
+                    null,
+                    5,
+                    null
                 )
-                db.addTrainingDetail(
-                    TrainingDetail(
-                        0,
-                        1695974068,
-                        50,
-                        8.0,
-                        9.6,
-                        140,
-                        null,
-                        null,
-                        5,
-                        null
-                    )
+            )
+            db.addTrainingDetail(
+                TrainingDetail(
+                    0,
+                    1695974068,
+                    50,
+                    8.0,
+                    9.6,
+                    140,
+                    null,
+                    null,
+                    5,
+                    null
                 )
-                db.addTrainingDetail(
-                    TrainingDetail(
-                        0,
-                        1696060468,
-                        45,
-                        7.5,
-                        10.0,
-                        145,
-                        null,
-                        null,
-                        3,
-                        null
-                    )
+            )
+            db.addTrainingDetail(
+                TrainingDetail(
+                    0,
+                    1696060468,
+                    45,
+                    7.5,
+                    10.0,
+                    145,
+                    null,
+                    null,
+                    3,
+                    null
                 )
-                db.addTrainingDetail(
-                    TrainingDetail(
-                        0,
-                        1696146868,
-                        30,
-                        5.0,
-                        10.0,
-                        150,
-                        null,
-                        null,
-                        4,
-                        null
-                    )
+            )
+            db.addTrainingDetail(
+                TrainingDetail(
+                    0,
+                    1696146868,
+                    30,
+                    5.0,
+                    10.0,
+                    150,
+                    null,
+                    null,
+                    4,
+                    null
                 )
-            }
+            )
+            db.addTrainingDetail(
+                TrainingDetail(
+                    0,
+                    1696224721,
+                    60,
+                    10.0,
+                    10.0,
+                    150,
+                    null,
+                    null,
+                    3,
+                    null
+                )
+            )
+            db.addTrainingDetail(
+                TrainingDetail(
+                    0,
+                    1696311121,
+                    30,
+                    8.0,
+                    16.0,
+                    160,
+                    null,
+                    null,
+                    4,
+                    null
+                )
+            )
+            db.addTrainingDetail(
+                TrainingDetail(
+                    0,
+                    1696397521,
+                    45,
+                    8.0,
+                    10.67,
+                    150,
+                    null,
+                    null,
+                    5,
+                    null
+                )
+            )
         }
     }
 
@@ -112,10 +151,17 @@ class ActivityViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
+    fun getTrainingDetailsCount() {
+        viewModelScope.launch {
+            val currentCount = db.getTrainingDetailCount()
+            _count.value = currentCount
+        }
+    }
+
     fun getAllTrainingDetails() {
         viewModelScope.launch {
             val data = withContext(Dispatchers.IO) {
-                db.getTrainingDetails() // Replace with your DAO function to fetch all data
+                db.getTrainingDetails()
             }
             _allTrainings.value = data
         }
@@ -124,7 +170,7 @@ class ActivityViewModel(application: Application) : AndroidViewModel(application
     fun getDistanceData() {
         viewModelScope.launch {
             val count = withContext(Dispatchers.IO) {
-                db.getTrainingDetailCount() // Replace with your DAO function to count rows
+                db.getTrainingDetailCount()
             }
             _count.value = count
         }

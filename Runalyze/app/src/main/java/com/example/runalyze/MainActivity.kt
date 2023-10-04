@@ -18,8 +18,10 @@ import com.example.runalyze.viewmodel.GoalViewModel
 class MainActivity : ComponentActivity() {
     private val goalViewModel: GoalViewModel by viewModels()
     private val activityViewModel: ActivityViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        //activityViewModel.addDummyData()
         setContent {
             RunalyzeTheme {
                 // A surface container using the 'background' color from the theme

@@ -27,7 +27,7 @@ import com.example.runalyze.viewmodel.GoalViewModel
 fun RunalyzeApp(goalViewModel: GoalViewModel, activityViewModel: ActivityViewModel){
     val scrollState = rememberScrollState()
     val navController = rememberNavController()
-    activityViewModel.addDummyData()
+
     MainScreen(
         navHostController = navController,
         scrollState = scrollState,
