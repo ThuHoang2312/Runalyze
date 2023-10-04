@@ -3,13 +3,10 @@ package com.example.runalyze.ui.component
 import android.graphics.Paint
 import android.util.Log
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.remember
@@ -18,53 +15,87 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Color.Companion.Black
-import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.nativeCanvas
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.core.graphics.ColorUtils
 import com.example.runalyze.database.Converters
 import com.example.runalyze.database.TrainingDetail
 import java.text.SimpleDateFormat
-import java.util.Date
 import java.util.Locale
 
 @Composable
-fun BarChart(data: List<TrainingDetail>) {
+fun BarChart(data: List<TrainingDetail>, key: String, screenWidth: Dp) {
     Log.d("Runalyze", "Data for bar chart: $data")
     var maxValue by remember { mutableDoubleStateOf(0.0) }
 
     data.map {
-        maxValue = maxOf(it.distance, maxValue)
+        var graphFilter: Double = when (key) {
+            "distance" -> it.distance
+            "speed" -> it.averageSpeed
+            else -> it.heartRate?.toDouble() ?: 0.0
+        }
+        maxValue = maxOf(graphFilter, maxValue)
     }
 
-    Canvas(modifier = Modifier.width(275.dp).height(300.dp)) {
-        val barWidth = size.width / data.size
-        val barSpacing = 16.dp.toPx()
+    Canvas(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(300.dp)
+            .padding(8.dp)
+    ) {
+        val barSpacing = 2.dp.toPx()
+        val barCount = data.size
+        val maxLabelWidth = with(density) { (maxValue.toString().length) }
+        //val barWidth = ((size.width - maxLabelWidth - 32.dp.toPx()) - (barSpacing * (barCount + 1))) / barCount
+        val barWidth =
+            (screenWidth.toPx() - maxLabelWidth - (barSpacing * (barCount + 1))) / (barCount + 1)
         val maxBarHeight = size.height - 32.dp.toPx()
+        val yLabelStep = maxValue / 5
+
+        for (i in 0..5) {
+            val distanceLabel = (yLabelStep * i).toString()
+            val yLabelPosition = size.height - (i * maxBarHeight / 5)
+
+            drawIntoCanvas { canvas ->
+                canvas.nativeCanvas.drawText(
+                    distanceLabel,
+                    maxLabelWidth.toFloat(),
+                    yLabelPosition,
+                    Paint().apply {
+                        color = Color.Black.hashCode()
+                        textSize = 16.dp.toPx()
+                    }
+                )
+            }
+        }
 
         data.forEachIndexed { index, trainingDetail ->
-            val barHeight = (trainingDetail.distance / maxValue) * maxBarHeight
-            val x = index * (barWidth + barSpacing)
-            val y = size.height - barHeight
+            var graphFilter: Double = when (key) {
+                "distance" -> trainingDetail.distance
+                "speed" -> trainingDetail.averageSpeed
+                else -> trainingDetail.heartRate?.toDouble() ?: 0.0
+            }
+            val barHeight = (graphFilter.div(maxValue)).times(maxBarHeight)
+            val x = (index + 0.75) * (barWidth + barSpacing)
+            val y = size.height - barHeight!!
             val ratingColor = getRatingColor(rating = trainingDetail.rating ?: 0)
 
             drawRect(
                 color = ratingColor,
-                topLeft = Offset(x, y.toFloat()),
+                topLeft = Offset(x.toFloat(), y.toFloat()),
                 size = Size(barWidth, barHeight.toFloat()),
-                style = Stroke(2.dp.toPx())
             )
 
             val dateFormatter = SimpleDateFormat("dd/MM", Locale.getDefault())
-            val dateTime = dateFormatter.format(Converters().fromTimestamp(trainingDetail.trainingDateTime))
-            val textWidth = with(density) { dateTime.length * 2.dp.toPx()}
+            val dateTime =
+                dateFormatter.format(Converters().fromTimestamp(trainingDetail.trainingDateTime))
+            val textWidth = with(density) { dateTime.length * 2.dp.toPx() }
 
             drawIntoCanvas { canvas ->
                 canvas.nativeCanvas.drawText(
                     dateTime,
-                    x - textWidth / 2,
+                    ((x - textWidth / 2).toFloat()),
                     size.height + 16.dp.toPx(),
                     Paint().apply {
                         color = Color.Black.hashCode()
