@@ -31,6 +31,7 @@ fun TrainingScreen(navController: NavController) {
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
     ) {
+
         val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
         Scaffold(
             modifier = Modifier
@@ -61,9 +62,10 @@ fun TrainingScreen(navController: NavController) {
         }
     }
 
-
-
 }
+
+
+
 
 @Preview(showBackground = true)
 @Composable
