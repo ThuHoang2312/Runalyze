@@ -1,4 +1,4 @@
-package com.example.runalyze.ui.screen
+package com.example.runalyze.ui.screen.runningPlan
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,16 +13,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.runalyze.components.TopNavigation
-import com.example.runalyze.view.RunningPlanList
-import com.example.runalyze.viewmodel.RunningPlanViewModel
+import com.example.runalyze.service.RunningPlan
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RunningPlanScreen(navController: NavController) {
-    val runningPlanViewModel = RunningPlanViewModel()
-    val navController = rememberNavController()
+// View for running plan screen
+fun RunningPlanListScreen(runningPlanList: List<RunningPlan>, navController: NavController) {
+
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
@@ -36,7 +34,6 @@ fun RunningPlanScreen(navController: NavController) {
                 TopNavigation(
                     text = "Running plan",
                     navController = navController,
-//                    scrollBehavior = scrollBehavior
                 )
             }
         ) { values ->
@@ -47,15 +44,8 @@ fun RunningPlanScreen(navController: NavController) {
                 horizontalAlignment = Alignment.CenterHorizontally,
 
                 ) {
-                RunningPlanList(model = runningPlanViewModel, navController = navController)
-//                Button(onClick = {
-//                    navController.navigate("TrainingProcess")
-//                }){
-//                    Text(text = "Start", fontWeight = FontWeight.SemiBold)
-//                }
+                RunningPlanList(runningPlanList = runningPlanList, navController = navController)
             }
         }
     }
-
-
 }
