@@ -15,6 +15,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -30,9 +31,11 @@ import com.example.runalyze.utils.RunUtils.hasAllPermission
 import com.example.runalyze.utils.RunUtils.hasLocationPermission
 import com.example.runalyze.utils.RunUtils.openAppSetting
 import com.example.runalyze.viewmodel.GoalViewModel
+import com.example.runalyze.viewmodel.RunViewModel
 
 class MainActivity : ComponentActivity() {
     private val goalViewModel: GoalViewModel by viewModels()
+    private val runViewModel: RunViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,6 +43,7 @@ class MainActivity : ComponentActivity() {
         installSplashScreen()
 
         setContent {
+            val location by runViewModel.getLocationData().observeAsState()
             RunalyzeTheme {
                 PermissionRequester()
                 // A surface container using the 'background' color from the theme
@@ -47,7 +51,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    RunalyzeApp(  goalViewModel)
+                    RunalyzeApp(  goalViewModel, location)
                 }
             }
         }

@@ -1,5 +1,6 @@
 package com.example.runalyze.ui
 
+import RunScreen
 import android.annotation.SuppressLint
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.rememberScrollState
@@ -14,35 +15,39 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.runalyze.BottomNavItem
 import com.example.runalyze.components.BottomNavigationMenu
+import com.example.runalyze.service.location.LocationDetails
 import com.example.runalyze.ui.screen.Activity
 import com.example.runalyze.ui.screen.AddGoalView
 import com.example.runalyze.ui.screen.Home
 import com.example.runalyze.ui.screen.Profile
 import com.example.runalyze.ui.screen.RunningPlanScreen
-import com.example.runalyze.ui.screen.TrainingScreen
 import com.example.runalyze.viewmodel.GoalViewModel
 
 @Composable
 fun RunalyzeApp(
-    goalViewModel: GoalViewModel){
+    goalViewModel: GoalViewModel,
+    location: LocationDetails?,
+    ){
     val scrollState = rememberScrollState()
     val navController = rememberNavController()
     MainScreen(
         navHostController = navController,
         scrollState = scrollState,
-        goalViewModel = goalViewModel)
+        goalViewModel = goalViewModel,
+        location = location
+    )
 }
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen(navHostController: NavHostController, scrollState: ScrollState, goalViewModel: GoalViewModel){
+fun MainScreen(navHostController: NavHostController, scrollState: ScrollState, goalViewModel: GoalViewModel, location: LocationDetails?){
     Scaffold(
         bottomBar = {
             BottomNavigationMenu(navController = navHostController)
         },
     ) {
-        Navigation(navController = navHostController, scrollState = scrollState, goalViewModel = goalViewModel)
+        Navigation(navController = navHostController, scrollState = scrollState, goalViewModel = goalViewModel, location = location)
     }
 }
 
@@ -50,14 +55,16 @@ fun MainScreen(navHostController: NavHostController, scrollState: ScrollState, g
 fun Navigation(
     navController: NavHostController,
     scrollState: ScrollState,
-    goalViewModel: GoalViewModel){
+    goalViewModel: GoalViewModel,
+    location: LocationDetails?
+    ){
     NavHost(navController = navController, startDestination = "Home"){
         bottomNavigation(navController = navController)
         composable("home"){
             Home(navController = navController)
         }
         composable("training"){
-            TrainingScreen(navController = navController)
+            RunScreen(navController = navController, location)
         }
         composable("goal"){
             AddGoalView(goalViewModel, navController)
