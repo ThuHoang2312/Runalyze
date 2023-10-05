@@ -1,6 +1,7 @@
 package com.example.runalyze.ui.screen.runningPlan
 
 import android.util.Log
+import android.widget.Button
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -15,6 +16,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.DirectionsRun
 import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.StackedLineChart
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -31,6 +33,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -45,8 +48,7 @@ import com.example.runalyze.viewmodel.RunningPlanViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 // View for detail in running plan detail
-fun RunningPlanDetailView(planId: Int, runningPlanList: List<RunningPlan>) {
-    val navController = rememberNavController()
+fun RunningPlanDetailView(planId: Int, runningPlanList: List<RunningPlan>, navController: NavController) {
 //    val runningPlanViewModel = RunningPlanViewModel()
 //    runningPlanViewModel.getRunningPlanList()
 //    val runningPlanList: List<RunningPlan> by runningPlanViewModel.runningPlanList.observeAsState(
@@ -105,6 +107,11 @@ fun RunningPlanDetailView(planId: Int, runningPlanList: List<RunningPlan>) {
                         fontSize = 20.sp
                     )
                     Text(text = runningPlan.description, modifier = Modifier.padding(5.dp),)
+                    Button(onClick = {
+                        navController.navigate("goal")
+                    }) {
+                        Text(text = "Set goal with this plan", fontWeight = FontWeight.SemiBold)
+                    }
                 }
             }
         }

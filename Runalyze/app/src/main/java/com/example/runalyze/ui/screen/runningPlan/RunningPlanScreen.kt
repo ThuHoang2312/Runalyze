@@ -9,6 +9,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.runalyze.service.RunningPlan
+import com.example.runalyze.ui.screen.AddGoalView
+import com.example.runalyze.viewmodel.GoalViewModel
 import com.example.runalyze.viewmodel.RunningPlanViewModel
 
 @Composable
@@ -17,17 +19,16 @@ fun RunningPlanScreen() {
     val runningPlanViewModel = RunningPlanViewModel()
     runningPlanViewModel.getRunningPlanList()
     val runningPlanList: List<RunningPlan> by runningPlanViewModel.runningPlanList.observeAsState(mutableListOf())
-    NavHost(navController = navController, startDestination = "runningPlanList") {
-        composable("runningPlanList") {
-            RunningPlanListScreen(runningPlanList, navController = navController)
-        }
-        composable("runningPlanDetail/{runningPlanId}") {
-                backStackEntry ->
-            RunningPlanDetailView(backStackEntry.arguments?.getInt("runningPlanId") ?: 1, runningPlanList)
-//            Log.d("aaaa nav id", (it.arguments?.getInt("runningPlanId")).toString())
-//            val planId = it.arguments?.getInt("runningPlanId") ?: 1
-//            RunningPlanDetailView(planId = planId, runningPlanList)
-
-        }
-    }
+//    NavHost(navController = navController, startDestination = "runningPlanList") {
+//        composable("runningPlanList") {
+//            RunningPlanListScreen(runningPlanList, navController = navController)
+//        }
+//        composable("runningPlanDetail/{runningPlanId}") {
+//                backStackEntry ->
+//            RunningPlanDetailView(backStackEntry.arguments?.getInt("runningPlanId") ?: 1, runningPlanList)
+////            Log.d("aaaa nav id", (it.arguments?.getInt("runningPlanId")).toString())
+////            val planId = it.arguments?.getInt("runningPlanId") ?: 1
+////            RunningPlanDetailView(planId = planId, runningPlanList)
+//        }
+//    }
 }
