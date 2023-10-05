@@ -2,10 +2,7 @@ package com.example.runalyze.viewmodel
 
 import android.app.Application
 import android.util.Log
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.runalyze.database.AppDb
@@ -13,17 +10,24 @@ import com.example.runalyze.database.TrainingDetail
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.Calendar
 
 class ActivityViewModel(application: Application) : AndroidViewModel(application) {
     private val db = AppDb.getInstance(application).trainingDetailDao
     private val _allTrainings = MutableLiveData<List<TrainingDetail>>()
     val alTrainings = _allTrainings
+    private val _allTrainingsByWeek = MutableLiveData<List<TrainingDetail>>()
+    val alTrainingsByWeek = _allTrainingsByWeek
+    private val _allTrainingsByMonth = MutableLiveData<List<TrainingDetail>>()
+    val alTrainingsByMonth = _allTrainingsByMonth
     private val _count = MutableLiveData<Int>()
     val count = _count
 
     init {
         //addDummyData()
         getAllTrainingDetails()
+        alTrainings.value?.let { filterTrainingByWeek(it) }
+        alTrainings.value?.let { filterTrainingByMonth(it) }
         //getDistanceData()
     }
 
@@ -167,12 +171,38 @@ class ActivityViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
-    fun getDistanceData() {
+    fun filterTrainingByWeek(data: List<TrainingDetail>) {
         viewModelScope.launch {
-            val count = withContext(Dispatchers.IO) {
-                db.getTrainingDetailCount()
+            val currentDate = Calendar.getInstance()
+            val currentWeek = currentDate.get(Calendar.WEEK_OF_YEAR)
+
+            val newData = data.filter { trainingDetail ->
+                val trainingDate = Calendar.getInstance()
+                trainingDate.timeInMillis = trainingDetail.trainingDateTime
+                Log.d(
+                    "Runalyze",
+                    "${trainingDate.timeInMillis} - ${trainingDetail.trainingDateTime}"
+                )
+                trainingDate.get(Calendar.WEEK_OF_YEAR) == currentWeek
             }
-            _count.value = count
+            withContext(Dispatchers.Main) {
+                _allTrainingsByWeek.value = newData
+            }
+        }
+    }
+
+    fun filterTrainingByMonth(data: List<TrainingDetail>) {
+        viewModelScope.launch {
+            val currentDate = Calendar.getInstance()
+            val currentMonth = currentDate.get(Calendar.MONTH)
+
+            _allTrainingsByMonth.value = data.filter { trainingDetail ->
+                val trainingDate = Calendar.getInstance()
+                trainingDate.timeInMillis = trainingDetail.trainingDateTime
+
+                trainingDate.get(Calendar.MONTH) == currentMonth
+            }
+            Log.d("Runalyze", "Current month: ${currentMonth}")
         }
     }
 }

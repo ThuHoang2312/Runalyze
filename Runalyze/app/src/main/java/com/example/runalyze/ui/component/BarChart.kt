@@ -48,7 +48,6 @@ fun BarChart(data: List<TrainingDetail>, key: String, screenWidth: Dp) {
         val barSpacing = 2.dp.toPx()
         val barCount = data.size
         val maxLabelWidth = with(density) { (maxValue.toString().length) }
-        //val barWidth = ((size.width - maxLabelWidth - 32.dp.toPx()) - (barSpacing * (barCount + 1))) / barCount
         val barWidth =
             (screenWidth.toPx() - maxLabelWidth - (barSpacing * (barCount + 1))) / (barCount + 1)
         val maxBarHeight = size.height - 32.dp.toPx()
