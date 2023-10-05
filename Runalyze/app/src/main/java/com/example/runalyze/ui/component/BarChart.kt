@@ -23,6 +23,7 @@ import com.example.runalyze.database.Converters
 import com.example.runalyze.database.TrainingDetail
 import java.text.SimpleDateFormat
 import java.util.Locale
+import kotlin.math.roundToInt
 
 @Composable
 fun BarChart(data: List<TrainingDetail>, key: String, screenWidth: Dp) {
@@ -51,15 +52,15 @@ fun BarChart(data: List<TrainingDetail>, key: String, screenWidth: Dp) {
         val barWidth =
             (screenWidth.toPx() - maxLabelWidth - (barSpacing * (barCount + 1))) / (barCount + 1)
         val maxBarHeight = size.height - 32.dp.toPx()
-        val yLabelStep = maxValue / 5
+        val yLabelStep = (maxValue / 5).roundToInt()
 
         for (i in 0..5) {
-            val distanceLabel = (yLabelStep * i).toString()
+            val label = (yLabelStep * i).toString()
             val yLabelPosition = size.height - (i * maxBarHeight / 5)
 
             drawIntoCanvas { canvas ->
                 canvas.nativeCanvas.drawText(
-                    distanceLabel,
+                    label,
                     maxLabelWidth.toFloat(),
                     yLabelPosition,
                     Paint().apply {
@@ -78,7 +79,7 @@ fun BarChart(data: List<TrainingDetail>, key: String, screenWidth: Dp) {
             }
             val barHeight = (graphFilter.div(maxValue)).times(maxBarHeight)
             val x = (index + 0.75) * (barWidth + barSpacing)
-            val y = size.height - barHeight!!
+            val y = size.height - barHeight
             val ratingColor = getRatingColor(rating = trainingDetail.rating ?: 0)
 
             drawRect(

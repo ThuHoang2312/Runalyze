@@ -15,11 +15,11 @@ import androidx.navigation.compose.rememberNavController
 import com.example.runalyze.BottomNavItem
 import com.example.runalyze.components.BottomNavigationMenu
 import com.example.runalyze.ui.screen.Activity
+import com.example.runalyze.ui.screen.AddGoalView
 import com.example.runalyze.ui.screen.Home
 import com.example.runalyze.ui.screen.Profile
-import com.example.runalyze.ui.screen.TrainingScreen
-import com.example.runalyze.ui.screen.AddGoalView
 import com.example.runalyze.ui.screen.RunningPlanScreen
+import com.example.runalyze.ui.screen.TrainingScreen
 import com.example.runalyze.viewmodel.ActivityViewModel
 import com.example.runalyze.viewmodel.GoalViewModel
 
@@ -79,7 +79,7 @@ fun NavGraphBuilder.bottomNavigation(navController: NavController, activityViewM
         RunningPlanScreen(navController = navController)
     }
     composable(BottomNavItem.Activity.route){
-        Activity(activityViewModel)
+        Activity(activityViewModel, navController)
     }
     composable(BottomNavItem.Profile.route){
         Profile()
