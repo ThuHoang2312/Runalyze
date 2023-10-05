@@ -23,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.example.runalyze.components.LocationPermissionRequestDialog
+import com.example.runalyze.service.RunningPlan
 import com.example.runalyze.ui.RunalyzeApp
 import com.example.runalyze.ui.theme.RunalyzeTheme
 import com.example.runalyze.utils.LocationUtils
@@ -32,10 +33,12 @@ import com.example.runalyze.utils.RunUtils.hasLocationPermission
 import com.example.runalyze.utils.RunUtils.openAppSetting
 import com.example.runalyze.viewmodel.GoalViewModel
 import com.example.runalyze.viewmodel.RunViewModel
+import com.example.runalyze.viewmodel.RunningPlanViewModel
 
 class MainActivity : ComponentActivity() {
     private val goalViewModel: GoalViewModel by viewModels()
     private val runViewModel: RunViewModel by viewModels()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,6 +47,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             val location by runViewModel.getLocationData().observeAsState()
+
             RunalyzeTheme {
                 PermissionRequester()
                 // A surface container using the 'background' color from the theme

@@ -99,7 +99,8 @@ dependencies {
     // KTX for the Maps SDK for Android Utility Library
     implementation ("com.google.maps.android:maps-utils-ktx:3.2.1")
 
-
     // Splash screen
     implementation("androidx.core:core-splashscreen:1.0.0")
+    //Coil for AsyncImage
+    implementation("io.coil-kt:coil-compose:2.4.0")
 }
