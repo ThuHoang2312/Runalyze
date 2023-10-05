@@ -18,9 +18,11 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.runalyze.BottomNavItem
 import com.example.runalyze.components.BottomNavigationMenu
 import com.example.runalyze.service.RunningPlan
@@ -109,7 +111,10 @@ fun Navigation(
         composable("plan") {
             RunningPlanListScreen(runningPlanList, navController = navController)
         }
-        composable("runningPlanDetail/{runningPlanId}") { backStackEntry ->
+        composable(
+            "runningPlanDetail/{runningPlanId}",
+            arguments = listOf(navArgument("runningPlanId") { type = NavType.IntType })
+        ) { backStackEntry ->
             val planId = backStackEntry.arguments?.getInt("runningPlanId")
             Log.d("aaaa navigateId", planId.toString())
             RunningPlanDetailView(
