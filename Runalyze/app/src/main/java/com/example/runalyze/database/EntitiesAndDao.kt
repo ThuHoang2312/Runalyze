@@ -26,12 +26,14 @@ data class Goal(
 @Entity(tableName = "run_table")
 data class Run(
     @PrimaryKey(autoGenerate = true)
-    val trainingId: Int? = null,
-     val timestamp: Long = 0L,
+    val runId: Int = 0,
+    val timestamp: Long = 0L,
     val avgSpeedInKMH: Float = 0f,
     val distanceInMeters:Int = 0,
-    val timesInMillis: Long = 0L,
-    val caloriesBurned: Int = 0
+    val durationInMillis: Long = 0L,
+    val caloriesBurned: Int = 0,
+
+
 )
 
 @Dao
