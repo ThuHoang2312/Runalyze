@@ -1,6 +1,7 @@
 package com.example.runalyze.ui
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -29,7 +30,6 @@ import com.example.runalyze.ui.screen.TrainingScreen
 import com.example.runalyze.ui.screen.AddGoalView
 import com.example.runalyze.ui.screen.runningPlan.RunningPlanDetailView
 import com.example.runalyze.ui.screen.runningPlan.RunningPlanListScreen
-import com.example.runalyze.ui.screen.runningPlan.RunningPlanScreen
 import com.example.runalyze.viewmodel.GoalViewModel
 import com.example.runalyze.viewmodel.RunningPlanViewModel
 
@@ -45,7 +45,6 @@ fun RunalyzeApp(goalViewModel: GoalViewModel) {
 }
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(
     navHostController: NavHostController,
@@ -85,7 +84,9 @@ fun Navigation(
 ) {
     val runningPlanViewModel = RunningPlanViewModel()
     runningPlanViewModel.getRunningPlanList()
-    val runningPlanList: List<RunningPlan> by runningPlanViewModel.runningPlanList.observeAsState(mutableListOf())
+    val runningPlanList: List<RunningPlan> by runningPlanViewModel.runningPlanList.observeAsState(
+        mutableListOf()
+    )
     NavHost(navController = navController, startDestination = "Home") {
         bottomNavigation(runningPlanList, navController = navController)
         composable("home") {
@@ -97,23 +98,25 @@ fun Navigation(
         composable("goal") {
             AddGoalView(goalViewModel, navController)
         }
-//        composable("plan") {
-//            RunningPlanScreen()
-//        }
         composable("plan") {
             RunningPlanListScreen(runningPlanList, navController = navController)
         }
-        composable("runningPlanDetail/{runningPlanId}") {
-                backStackEntry ->
-            RunningPlanDetailView(backStackEntry.arguments?.getInt("runningPlanId") ?: 1, runningPlanList, navController)
-//            Log.d("aaaa nav id", (it.arguments?.getInt("runningPlanId")).toString())
-//            val planId = it.arguments?.getInt("runningPlanId") ?: 1
-//            RunningPlanDetailView(planId = planId, runningPlanList)
+        composable("runningPlanDetail/{runningPlanId}") { backStackEntry ->
+            val planId = backStackEntry.arguments?.getInt("runningPlanId")
+            Log.d("aaaa navigateId", planId.toString())
+            RunningPlanDetailView(
+                backStackEntry.arguments?.getInt("runningPlanId") ?: 1,
+                runningPlanList,
+                navController
+            )
         }
     }
 }
 
-fun NavGraphBuilder.bottomNavigation(runningPlanList: List<RunningPlan>, navController: NavController) {
+fun NavGraphBuilder.bottomNavigation(
+    runningPlanList: List<RunningPlan>,
+    navController: NavController
+) {
     composable(BottomNavItem.Home.route) {
         Home(navController = navController)
     }

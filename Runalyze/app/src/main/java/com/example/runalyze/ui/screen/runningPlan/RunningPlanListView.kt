@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -18,15 +17,11 @@ import androidx.compose.material.icons.automirrored.filled.DirectionsRun
 import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.StackedLineChart
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -34,14 +29,10 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.runalyze.componentLibrary.RunningPlanItemDetail
 import com.example.runalyze.service.RunningPlan
-import com.example.runalyze.viewmodel.RunningPlanViewModel
 
 @Composable
 // Display running plan list fetch from network
 fun RunningPlanList(runningPlanList: List<RunningPlan>, navController: NavController) {
-//    model.getRunningPlanList()
-//    val runningPlanList: List<RunningPlan> by model.runningPlanList.observeAsState(mutableListOf())
-
     Column(
         modifier = Modifier
             .fillMaxHeight()
@@ -52,7 +43,7 @@ fun RunningPlanList(runningPlanList: List<RunningPlan>, navController: NavContro
                 RunningPlanListItem(runningPlan = runningPlan, navController = navController)
             }
         } else {
-            Text("Empty")
+            Text("Loading")
         }
     }
 
@@ -62,7 +53,6 @@ fun RunningPlanList(runningPlanList: List<RunningPlan>, navController: NavContro
 // View for item in running plan list
 fun RunningPlanListItem(runningPlan: RunningPlan, navController: NavController) {
     val planId = runningPlan.planId
-//    val title by MainS.observeValue { MainScreenTitle.get(it) }
     ElevatedCard(
         elevation = CardDefaults.cardElevation(
             defaultElevation = 6.dp

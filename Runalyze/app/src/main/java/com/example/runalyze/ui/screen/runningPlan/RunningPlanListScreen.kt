@@ -13,12 +13,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.navigation.NavController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
 import com.example.runalyze.components.TopNavigation
 import com.example.runalyze.service.RunningPlan
-import com.example.runalyze.viewmodel.RunningPlanViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
