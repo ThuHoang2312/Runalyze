@@ -24,27 +24,40 @@ import com.example.runalyze.viewmodel.ActivityViewModel
 import com.example.runalyze.viewmodel.GoalViewModel
 
 @Composable
-fun RunalyzeApp(goalViewModel: GoalViewModel, activityViewModel: ActivityViewModel){
+fun RunalyzeApp(goalViewModel: GoalViewModel, activityViewModel: ActivityViewModel) {
     val scrollState = rememberScrollState()
     val navController = rememberNavController()
+
+    //activityViewModel.addDummyData()
 
     MainScreen(
         navHostController = navController,
         scrollState = scrollState,
         goalViewModel = goalViewModel,
-        activityViewModel)
+        activityViewModel
+    )
 }
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen(navHostController: NavHostController, scrollState: ScrollState, goalViewModel: GoalViewModel, activityViewModel: ActivityViewModel){
+fun MainScreen(
+    navHostController: NavHostController,
+    scrollState: ScrollState,
+    goalViewModel: GoalViewModel,
+    activityViewModel: ActivityViewModel
+) {
     Scaffold(
         bottomBar = {
             BottomNavigationMenu(navController = navHostController)
         },
     ) {
-        Navigation(navController = navHostController, scrollState = scrollState, goalViewModel = goalViewModel, activityViewModel)
+        Navigation(
+            navController = navHostController,
+            scrollState = scrollState,
+            goalViewModel = goalViewModel,
+            activityViewModel
+        )
     }
 }
 
@@ -53,35 +66,39 @@ fun Navigation(
     navController: NavHostController,
     scrollState: ScrollState,
     goalViewModel: GoalViewModel,
-    activityViewModel: ActivityViewModel){
-    NavHost(navController = navController, startDestination = "Home"){
+    activityViewModel: ActivityViewModel
+) {
+    NavHost(navController = navController, startDestination = "Home") {
         bottomNavigation(navController = navController, activityViewModel)
-        composable("home"){
+        composable("home") {
             Home(navController = navController)
         }
-        composable("training"){
+        composable("training") {
             TrainingScreen(navController = navController)
         }
-        composable("goal"){
+        composable("goal") {
             AddGoalView(goalViewModel, navController)
         }
-        composable("plan"){
+        composable("plan") {
             RunningPlanScreen(navController = navController)
         }
     }
 }
 
-fun NavGraphBuilder.bottomNavigation(navController: NavController, activityViewModel: ActivityViewModel){
-    composable(BottomNavItem.Home.route){
+fun NavGraphBuilder.bottomNavigation(
+    navController: NavController,
+    activityViewModel: ActivityViewModel
+) {
+    composable(BottomNavItem.Home.route) {
         Home(navController = navController)
     }
-    composable(BottomNavItem.Training.route){
+    composable(BottomNavItem.Training.route) {
         RunningPlanScreen(navController = navController)
     }
-    composable(BottomNavItem.Activity.route){
+    composable(BottomNavItem.Activity.route) {
         Activity(activityViewModel, navController)
     }
-    composable(BottomNavItem.Profile.route){
+    composable(BottomNavItem.Profile.route) {
         Profile()
     }
 }

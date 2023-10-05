@@ -1,6 +1,5 @@
 package com.example.runalyze.ui.screen
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -40,8 +39,7 @@ import java.util.Calendar
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Activity(viewModel: ActivityViewModel, navController: NavController) {
-    val allData by viewModel.alTrainings.observeAsState(emptyList())
-    val allDataByWeek by viewModel.alTrainingsByWeek.observeAsState(emptyList())
+    val allData by viewModel.allTrainings.observeAsState(emptyList())
     var filteredData by remember { mutableStateOf(emptyList<TrainingDetail>()) }
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
@@ -116,40 +114,3 @@ fun GraphView(allData: List<TrainingDetail>, screenWidth: Dp) {
     }
     Spacer(modifier = Modifier.height(100.dp))
 }
-
-fun filterTrainingByWeek(data: List<TrainingDetail>): List<TrainingDetail> {
-    val currentDate = Calendar.getInstance()
-    val currentWeek = currentDate.get(Calendar.WEEK_OF_YEAR)
-
-    return data.filter { trainingDetail ->
-        val trainingDate = Calendar.getInstance()
-        trainingDate.timeInMillis = trainingDetail.trainingDateTime
-        Log.d("Runalyze", "${trainingDate.timeInMillis} - ${trainingDetail.trainingDateTime}")
-        trainingDate.get(Calendar.WEEK_OF_YEAR) == currentWeek
-    }
-}
-
-fun filterTrainingByMonth(data: List<TrainingDetail>): List<TrainingDetail> {
-    val currentDate = Calendar.getInstance()
-    val currentMonth = currentDate.get(Calendar.MONTH)
-
-    return data.filter { trainingDetail ->
-        val trainingDate = Calendar.getInstance()
-        trainingDate.timeInMillis = trainingDetail.trainingDateTime
-
-        trainingDate.get(Calendar.MONTH) == currentMonth
-    }
-}
-
-fun filterTrainingByYear(data: List<TrainingDetail>): List<TrainingDetail> {
-    val currentDate = Calendar.getInstance()
-    val currentYear = currentDate.get(Calendar.YEAR)
-
-    return data.filter { trainingDetail ->
-        val trainingDate = Calendar.getInstance()
-        trainingDate.timeInMillis = trainingDetail.trainingDateTime
-
-        trainingDate.get(Calendar.YEAR) == currentYear
-    }
-}
-
