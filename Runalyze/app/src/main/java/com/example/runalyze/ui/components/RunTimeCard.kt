@@ -76,7 +76,7 @@ fun RunTimeCard(
         ) {
             Icon(
                 imageVector = ImageVector.vectorResource(
-                    id = if (!isRunning) R.drawable.ic_pause else R.drawable.ic_play
+                    id = if(isRunning)  R.drawable.ic_pause else R.drawable.ic_play
                 ),
                 contentDescription = "",
                 modifier = Modifier

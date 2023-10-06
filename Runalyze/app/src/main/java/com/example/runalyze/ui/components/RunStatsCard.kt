@@ -49,7 +49,7 @@ fun RunStatsCard(
                 )
                 .fillMaxWidth(),
             durationInMillis = durationInMillis,
-            isRunning = true,
+            isRunning = false,
             onStartPauseButtonClick = onStartPauseButtonClick,
             onFinish = onFinish
         )
