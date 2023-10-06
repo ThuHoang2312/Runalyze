@@ -30,7 +30,6 @@ import com.example.runalyze.ui.components.BottomNavigationMenu
 import com.example.runalyze.ui.screen.Activity
 import com.example.runalyze.ui.screen.AddGoalView
 import com.example.runalyze.ui.screen.Home
-import com.example.runalyze.ui.screen.Profile
 import com.example.runalyze.ui.screen.runningPlan.RunningPlanDetailView
 import com.example.runalyze.ui.screen.runningPlan.RunningPlanListScreen
 import com.example.runalyze.viewmodel.GoalViewModel
@@ -120,7 +119,7 @@ fun Navigation(
             arguments = listOf(navArgument("runningPlanId") { type = NavType.IntType })
         ) { backStackEntry ->
             val planId = backStackEntry.arguments?.getInt("runningPlanId")
-            Log.d("aaaa navigateId", planId.toString())
+            Log.d("RunAlyze", "aaaa navigateId - ${planId.toString()}")
             RunningPlanDetailView(
                 backStackEntry.arguments?.getInt("runningPlanId") ?: 1,
                 runningPlanList,
@@ -137,13 +136,10 @@ fun NavGraphBuilder.bottomNavigation(
     composable(BottomNavItem.Home.route) {
         Home(navController = navController)
     }
-    composable(BottomNavItem.Training.route) {
+    composable(BottomNavItem.Planning.route) {
         RunningPlanListScreen(runningPlanList, navController = navController)
     }
-    composable(BottomNavItem.Activity.route) {
+    composable(BottomNavItem.Statistic.route) {
         Activity()
-    }
-    composable(BottomNavItem.Profile.route) {
-        Profile()
     }
 }

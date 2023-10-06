@@ -18,9 +18,8 @@ import com.example.runalyze.R
 fun BottomNavigationMenu(navController: NavController) {
     val items = listOf(
         BottomNavItem.Home,
-        BottomNavItem.Training,
-        BottomNavItem.Activity,
-        BottomNavItem.Profile
+        BottomNavItem.Planning,
+        BottomNavItem.Statistic,
     )
 
     NavigationBar(contentColor = colorResource(id = R.color.white)) {
