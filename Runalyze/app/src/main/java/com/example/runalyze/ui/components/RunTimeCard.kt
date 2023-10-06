@@ -6,6 +6,10 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Pause
+import androidx.compose.material.icons.outlined.PlayArrow
+import androidx.compose.material.icons.outlined.Save
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -13,11 +17,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.example.runalyze.R
 import com.example.runalyze.utils.RunUtils
 
 @Composable
@@ -53,10 +54,8 @@ fun RunTimeCard(
                     .align(Alignment.CenterVertically)
             ) {
                 Icon(
-                    imageVector = ImageVector.vectorResource(
-                        id = R.drawable.ic_finish
-                    ),
-                    contentDescription = "",
+                    Icons.Outlined.Save,
+                    contentDescription = "Save run",
                     modifier = Modifier
                         .size(16.dp),
                     tint = MaterialTheme.colorScheme.onError
@@ -75,10 +74,8 @@ fun RunTimeCard(
                 .align(Alignment.CenterVertically)
         ) {
             Icon(
-                imageVector = ImageVector.vectorResource(
-                    id = if(isRunning)  R.drawable.ic_pause else R.drawable.ic_play
-                ),
-                contentDescription = "",
+                if(isRunning) Icons.Outlined.Pause else Icons.Outlined.PlayArrow,
+                contentDescription = if(isRunning) "Pause" else "Start",
                 modifier = Modifier
                     .size(16.dp),
                 tint = MaterialTheme.colorScheme.onPrimary

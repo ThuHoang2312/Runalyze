@@ -1,5 +1,6 @@
 package com.example.runalyze.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.runalyze.database.AppDb
@@ -14,6 +15,7 @@ class RunViewModel(
     private val roomDb: AppDb,
     ): ViewModel() {
 
+    private val tag = "RunAlyze"
     val currentRunState = trackingManager.currentRunState
     val runningDurationInMillis = trackingManager.trackingDurationInMs
 
@@ -44,6 +46,7 @@ class RunViewModel(
 
     fun saveRun(run: Run) {
         viewModelScope.launch {
+            Log.d(tag, "Save run ${run}")
             roomDb.runDao.addRun(run)
         }
     }

@@ -112,3 +112,4 @@ fun TextModifiedStringWithPadding(string: String) {
         modifier = Modifier.padding(top = 5.dp, start = 30.dp)
     )
 }
+

@@ -14,10 +14,6 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -31,6 +27,7 @@ import java.math.RoundingMode
 fun RunStatsCard(
     modifier: Modifier,
     durationInMillis: Long = 0L,
+    isRunning: Boolean,
     runState: CurrentRunState,
     onStartPauseButtonClick: () -> Unit,
     onFinish: () -> Unit
@@ -49,7 +46,7 @@ fun RunStatsCard(
                 )
                 .fillMaxWidth(),
             durationInMillis = durationInMillis,
-            isRunning = false,
+            isRunning = isRunning,
             onStartPauseButtonClick = onStartPauseButtonClick,
             onFinish = onFinish
         )
@@ -99,20 +96,19 @@ fun RunStatsCard(
 @Composable
 @Preview(showBackground = true)
 private fun RunStatsCardPreview() {
-    var isRunning by rememberSaveable { mutableStateOf(false) }
+
     RunStatsCard(
         modifier = Modifier,
         durationInMillis = 5400000,
+        isRunning = false,
         runState = CurrentRunState(
                 distanceInMeters = 600,
                 speedInKMH = (6.935 /* m/s */ * 3.6).toBigDecimal()
                     .setScale(2, RoundingMode.HALF_UP)
                     .toFloat(),
-                isTracking = isRunning
+                isTracking = false
             ),
-        onStartPauseButtonClick = {
-            isRunning = !isRunning
-        },
+        onStartPauseButtonClick = {},
         onFinish = {}
     )
 }
