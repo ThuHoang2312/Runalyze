@@ -1,4 +1,4 @@
-package com.example.runalyze.components
+package com.example.runalyze.ui.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column

@@ -1,4 +1,4 @@
-package com.example.runalyze.components
+package com.example.runalyze.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -22,12 +22,13 @@ import com.example.runalyze.utils.RunUtils
 
 @Composable
 fun RunTimeCard(
+    modifier: Modifier,
     durationInMillis: Long,
     isRunning: Boolean,
     onStartPauseButtonClick: () -> Unit,
     onFinish: () -> Unit
 ){
-    Row(modifier = Modifier.fillMaxWidth()) {
+    Row(modifier = modifier.fillMaxWidth()) {
         Column(modifier = Modifier.weight(1f)) {
             Text(
                 text = "Running Time",
@@ -75,7 +76,7 @@ fun RunTimeCard(
         ) {
             Icon(
                 imageVector = ImageVector.vectorResource(
-                    id = if (isRunning) R.drawable.ic_pause else R.drawable.ic_play
+                    id = if (!isRunning) R.drawable.ic_pause else R.drawable.ic_play
                 ),
                 contentDescription = "",
                 modifier = Modifier

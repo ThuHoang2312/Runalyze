@@ -1,4 +1,4 @@
-package com.example.runalyze.componentLibrary
+package com.example.runalyze.ui.componentLibrary
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding

@@ -13,7 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.navigation.NavController
-import com.example.runalyze.components.TopNavigation
+import com.example.runalyze.ui.components.TopNavigation
 import com.example.runalyze.service.RunningPlan
 
 @OptIn(ExperimentalMaterial3Api::class)

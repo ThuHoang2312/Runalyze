@@ -1,4 +1,4 @@
-package com.example.runalyze.components
+package com.example.runalyze.ui.components
 
 import android.annotation.SuppressLint
 import androidx.compose.material3.Icon

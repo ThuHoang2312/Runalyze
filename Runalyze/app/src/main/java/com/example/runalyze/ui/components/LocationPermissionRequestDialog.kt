@@ -1,4 +1,4 @@
-package com.example.runalyze.components
+package com.example.runalyze.ui.components
 
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
