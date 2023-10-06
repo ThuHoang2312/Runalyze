@@ -66,7 +66,7 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.runalyze.components.TopNavigation
+import com.example.runalyze.ui.components.TopNavigation
 import com.example.runalyze.database.Goal
 import com.example.runalyze.viewmodel.GoalViewModel
 

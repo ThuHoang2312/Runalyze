@@ -1,4 +1,4 @@
-package com.example.runalyze.service.location.notification
+package com.example.runalyze.service.notification
 
 import androidx.core.app.NotificationCompat
 

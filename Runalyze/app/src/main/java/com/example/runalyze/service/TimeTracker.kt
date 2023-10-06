@@ -1,15 +1,16 @@
 package com.example.runalyze.service
 
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
-class TimeTracker {
-
-    private var coroutineScope = CoroutineScope(Dispatchers.Main)
+class TimeTracker(
+    private val applicationScope: CoroutineScope,
+    private val defaultDispatcher: CoroutineDispatcher
+) {
 
     private var timeElapsedInMillis = 0L
     private var isRunning = false
@@ -20,7 +21,7 @@ class TimeTracker {
         if (job != null)
             return
         System.currentTimeMillis()
-        this.job = coroutineScope.launch {
+        this.job = applicationScope.launch(defaultDispatcher){
             while (isRunning && isActive) {
                 callback?.invoke(timeElapsedInMillis)
                 delay(1000)
