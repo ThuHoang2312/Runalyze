@@ -48,6 +48,7 @@ object Options {
     )
 }
 
+
 @Composable
 fun Home(navController: NavController) {
     Column(
