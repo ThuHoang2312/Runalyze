@@ -17,7 +17,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -28,7 +27,6 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.runalyze.BottomNavItem
-import com.example.runalyze.RunalyzeApp
 import com.example.runalyze.service.RunningPlan
 import com.example.runalyze.ui.components.BottomNavigationMenu
 import com.example.runalyze.ui.screen.Activity
@@ -39,11 +37,11 @@ import com.example.runalyze.ui.screen.runningPlan.RunningPlanListScreen
 import com.example.runalyze.viewmodel.GoalViewModel
 import com.example.runalyze.viewmodel.RunViewModel
 import com.example.runalyze.viewmodel.RunningPlanViewModel
-import com.example.runalyze.viewmodel.viewModelFactory
 
 @Composable
 fun RunalyzeApp(
     goalViewModel: GoalViewModel,
+    runViewModel: RunViewModel
 ) {
     val scrollState = rememberScrollState()
     val navController = rememberNavController()
@@ -51,6 +49,7 @@ fun RunalyzeApp(
         navHostController = navController,
         scrollState = scrollState,
         goalViewModel = goalViewModel,
+        runViewModel = runViewModel
     )
 }
 
@@ -60,6 +59,7 @@ fun MainScreen(
     navHostController: NavHostController,
     scrollState: ScrollState,
     goalViewModel: GoalViewModel,
+    runViewModel: RunViewModel
 ) {
 
     var showBottomBar by remember { mutableStateOf(true) }
@@ -90,6 +90,7 @@ fun MainScreen(
                 navController = navHostController,
                 scrollState = scrollState,
                 goalViewModel = goalViewModel,
+                runViewModel = runViewModel
             )
         }
     }
@@ -100,17 +101,12 @@ fun Navigation(
     navController: NavHostController,
     scrollState: ScrollState,
     goalViewModel: GoalViewModel,
+    runViewModel: RunViewModel
 ) {
     val runningPlanViewModel  = RunningPlanViewModel()
     runningPlanViewModel.getRunningPlanList()
     val runningPlanList: List<RunningPlan> by runningPlanViewModel.runningPlanList.observeAsState(
         mutableListOf()
-    )
-
-    val runViewModel = viewModel<RunViewModel>(
-        factory = viewModelFactory {
-            RunViewModel(RunalyzeApp.appModule.trackingManager, RunalyzeApp.appModule.runDb )
-        }
     )
 
     NavHost(navController = navController, startDestination = "Home") {
@@ -119,7 +115,7 @@ fun Navigation(
             Home(navController = navController)
         }
         composable("training") {
-            RunScreen(navController = navController, runViewModel)
+            RunScreen(navController = navController, viewModel = runViewModel)
         }
         composable("goal") {
             AddGoalView(goalViewModel, navController)

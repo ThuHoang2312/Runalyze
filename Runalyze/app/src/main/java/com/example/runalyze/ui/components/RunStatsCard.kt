@@ -28,6 +28,7 @@ fun RunStatsCard(
     modifier: Modifier,
     durationInMillis: Long = 0L,
     runState: CurrentRunState,
+    heartRate: Int,
     onStartPauseButtonClick: () -> Unit,
     onFinish: () -> Unit
 ) {
@@ -91,6 +92,11 @@ fun RunStatsCard(
                         color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f),
                     )
             )
+            RunningStatItem(
+                painter = painterResource(id = R.drawable.heart_beat),
+                value = if (heartRate == 0) "Not available" else heartRate.toString(),
+                unit = if (heartRate == 0) "" else "bpm"
+            )
         }
     }
 }
@@ -109,6 +115,7 @@ private fun RunStatsCardPreview() {
                 .toFloat(),
             isTracking = false
         ),
+        heartRate = 0,
         onStartPauseButtonClick = {},
         onFinish = {}
     )

@@ -24,12 +24,16 @@ object RunUtils {
     ).toTypedArray()
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+    val bluetoothPermission = Manifest.permission.BLUETOOTH
+
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     val notificationPermission = Manifest.permission.POST_NOTIFICATIONS
 
     val allPermissions = mutableListOf<String>().apply {
         addAll(locationPermissions)
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
             add(notificationPermission)
+            add(bluetoothPermission)
         }
     }.toTypedArray()
 
@@ -37,7 +41,15 @@ object RunUtils {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             ContextCompat.checkSelfPermission(
                 this,
-                notificationPermission
+                notificationPermission,
+            ) == PackageManager.PERMISSION_GRANTED
+        } else true
+
+    fun Context.hasBluetoothPermission() =
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            ContextCompat.checkSelfPermission(
+                this,
+                bluetoothPermission,
             ) == PackageManager.PERMISSION_GRANTED
         } else true
 

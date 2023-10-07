@@ -20,6 +20,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -69,6 +70,8 @@ fun RunScreen(
     var shouldShowRunningCard by rememberSaveable { mutableStateOf(false) }
     val runState by viewModel.currentRunState.collectAsStateWithLifecycle()
     val runningDurationInMillis by viewModel.runningDurationInMillis.collectAsStateWithLifecycle()
+    val heartRate: Int by viewModel.mBPM.observeAsState(0)
+    val listBPM by viewModel.listBPM.observeAsState(mutableListOf(0))
 
     LaunchedEffect(key1 = Unit) {
         delay(ComposeUtils.slideDownInDuration + 200L)
@@ -100,10 +103,12 @@ fun RunScreen(
                     viewModel.playPauseTracking()
                 },
                 runState = runState,
+                heartRate = heartRate,
                 durationInMillis = runningDurationInMillis,
                 onFinish = {
+                    val averageHeartRate = listBPM.filter { it != 0 }.average()
                     isRunningFinished = true
-                    viewModel.finishRun()
+                    viewModel.finishRun(averageHeartRate)
                     navController.navigateUp()
                 }
             )

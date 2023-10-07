@@ -1,28 +1,34 @@
 package com.example.runalyze
 
+import android.annotation.SuppressLint
 import android.app.Activity
+import android.bluetooth.BluetoothAdapter
+import android.bluetooth.BluetoothManager
+import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.runalyze.service.GattClientCallback
 import com.example.runalyze.ui.RunalyzeApp
 import com.example.runalyze.ui.components.LocationPermissionRequestDialog
 import com.example.runalyze.ui.theme.RunalyzeTheme
@@ -33,27 +39,46 @@ import com.example.runalyze.utils.RunUtils.hasLocationPermission
 import com.example.runalyze.utils.RunUtils.openAppSetting
 import com.example.runalyze.viewmodel.GoalViewModel
 import com.example.runalyze.viewmodel.RunViewModel
-import com.example.runalyze.viewmodel.viewModelFactory
 
 class MainActivity : ComponentActivity() {
-    private val goalViewModel: GoalViewModel by viewModels()
+    private val tag = "RunAlyze Debug"
 
+    private val runViewModel: RunViewModel by viewModels { RunViewModel.Factory  }
+    private val goalViewModel: GoalViewModel by viewModels()
+    private var bluetoothAdapter: BluetoothAdapter? = null
+
+    @SuppressLint("MissingPermission")
+    @RequiresApi(Build.VERSION_CODES.S)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val bluetoothManager = getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
+        bluetoothAdapter = bluetoothManager.adapter
+        // check heart rate sensor and connect
+        if(bluetoothAdapter?.bondedDevices != null) {
+            for (btDev in bluetoothAdapter?.bondedDevices!!) {
+                Log.d(tag, "bluetooth device bonded is: : ${btDev.name}")
+                if (btDev.name.startsWith("Polar")) {
+                    Log.d(tag, "connected to heart rate sensor")
+                    val bluetoothGatt =
+                        btDev.connectGatt(this, false, GattClientCallback(model = runViewModel))
+                    Log.d(tag, "connect Polar is ${bluetoothGatt.connect()}")
+                    break
+                }
+            }
+        }
         /* TODO  add things need to be done here when app is loading */
         installSplashScreen()
 
         setContent {
             RunalyzeTheme {
-
                 PermissionRequester()
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-
-                    RunalyzeApp(  goalViewModel)
+                    RunalyzeApp(  goalViewModel, runViewModel)
                 }
             }
         }
@@ -102,8 +127,10 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    @Deprecated("Deprecated in Java")
+
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        @Suppress("DEPRECATION")
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == LocationUtils.LOCATION_ENABLE_REQUEST_CODE && resultCode != Activity.RESULT_OK) {
             Toast.makeText(

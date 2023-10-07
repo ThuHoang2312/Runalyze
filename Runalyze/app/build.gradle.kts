@@ -54,6 +54,7 @@ android {
 dependencies {
     implementation("androidx.lifecycle:lifecycle-service:2.6.2")
     implementation("androidx.wear.compose:compose-material:1.2.0")
+    implementation("androidx.appcompat:appcompat:1.6.1")
     val lifecycleVersion = "2.6.2"
     val roomVersion = "2.5.2"
     val navVersion = "2.5.3"

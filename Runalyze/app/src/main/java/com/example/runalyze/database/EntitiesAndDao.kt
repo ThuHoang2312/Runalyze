@@ -34,6 +34,7 @@ data class Run(
     val avgSpeedInKMH: Float = 0f,
     val distanceInMeters:Int = 0,
     val durationInMillis: Long = 0L,
+    val avgHeartRate: Double = 0.0
 )
 
 @Dao
