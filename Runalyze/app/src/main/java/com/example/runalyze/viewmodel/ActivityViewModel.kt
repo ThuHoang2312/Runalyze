@@ -5,14 +5,14 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.runalyze.database.AppDb
-import com.example.runalyze.database.TrainingDetail
+import com.example.runalyze.database.Run
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class ActivityViewModel(application: Application) : AndroidViewModel(application) {
-    private val db = AppDb.getInstance(application).trainingDetailDao
-    private val _allTrainings = MutableLiveData<List<TrainingDetail>>()
+    private val db = AppDb.getInstance(application).runDao
+    private val _allTrainings = MutableLiveData<List<Run>>()
     val allTrainings = _allTrainings
     private val _count = MutableLiveData<Int>()
     val count = _count
@@ -24,121 +24,81 @@ class ActivityViewModel(application: Application) : AndroidViewModel(application
     fun addDummyData() {
         viewModelScope.launch {
             db.addTrainingDetail(
-                TrainingDetail(
+                Run(
                     0,
                     1695801268,
                     60,
-                    9.0,
-                    9.0,
-                    155,
-                    null,
-                    null,
-                    3,
-                    null
+                    9000,
+                    9.0F
                 )
             )
             db.addTrainingDetail(
-                TrainingDetail(
+                Run(
                     0,
                     1695887668,
                     20,
-                    4.0,
-                    12.0,
-                    160,
-                    null,
-                    null,
-                    5,
-                    null
+                    4000,
+                    12.0F
                 )
             )
             db.addTrainingDetail(
-                TrainingDetail(
+                Run(
                     0,
                     1695974068,
                     50,
-                    8.0,
-                    9.6,
-                    140,
-                    null,
-                    null,
-                    5,
-                    null
+                    8000,
+                    9.6F
                 )
             )
             db.addTrainingDetail(
-                TrainingDetail(
+                Run(
                     0,
                     1696060468,
                     45,
-                    7.5,
-                    10.0,
-                    145,
-                    null,
-                    null,
-                    3,
-                    null
+                    7500,
+                    10.0F
                 )
             )
             db.addTrainingDetail(
-                TrainingDetail(
+                Run(
                     0,
                     1696146868,
                     30,
-                    5.0,
-                    10.0,
-                    150,
-                    null,
-                    null,
-                    4,
-                    null
+                    5000,
+                    10.0F
                 )
             )
             db.addTrainingDetail(
-                TrainingDetail(
+                Run(
                     0,
                     1696224721,
                     60,
-                    10.0,
-                    10.0,
-                    150,
-                    null,
-                    null,
-                    3,
-                    null
+                    10000,
+                    10.0F
                 )
             )
             db.addTrainingDetail(
-                TrainingDetail(
+                Run(
                     0,
                     1696311121,
                     30,
-                    8.0,
-                    16.0,
-                    160,
-                    null,
-                    null,
-                    4,
-                    null
+                    8000,
+                    16.0F
                 )
             )
             db.addTrainingDetail(
-                TrainingDetail(
+                Run(
                     0,
                     1696397521,
                     45,
-                    8.0,
-                    10.67,
-                    150,
-                    null,
-                    null,
-                    5,
-                    null
+                    8000,
+                    10.67F
                 )
             )
         }
     }
 
-    fun addTrainingDetailLiveData(detail: TrainingDetail) {
+    fun addTrainingDetailLiveData(detail: Run) {
         viewModelScope.launch {
             db.addTrainingDetail(detail)
 
@@ -152,7 +112,7 @@ class ActivityViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
-    fun getAllTrainingDetails() {
+    private fun getAllTrainingDetails() {
         viewModelScope.launch {
             val data = withContext(Dispatchers.IO) {
                 db.getTrainingDetails()

@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -30,9 +29,9 @@ import com.example.runalyze.ui.screen.AddGoalView
 import com.example.runalyze.ui.screen.Home
 import com.example.runalyze.ui.screen.Profile
 import com.example.runalyze.ui.screen.TrainingScreen
-import com.example.runalyze.viewmodel.ActivityViewModel
 import com.example.runalyze.ui.screen.runningPlan.RunningPlanDetailView
 import com.example.runalyze.ui.screen.runningPlan.RunningPlanListScreen
+import com.example.runalyze.viewmodel.ActivityViewModel
 import com.example.runalyze.viewmodel.GoalViewModel
 import com.example.runalyze.viewmodel.RunningPlanViewModel
 

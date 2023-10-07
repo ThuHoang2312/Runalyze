@@ -1,5 +1,6 @@
 package com.example.runalyze.ui.screen
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -31,7 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.runalyze.components.TopNavigation
 import com.example.runalyze.database.Converters
-import com.example.runalyze.database.TrainingDetail
+import com.example.runalyze.database.Run
 import com.example.runalyze.ui.component.BarChart
 import com.example.runalyze.viewmodel.ActivityViewModel
 import java.util.Calendar
@@ -40,7 +41,7 @@ import java.util.Calendar
 @Composable
 fun Activity(viewModel: ActivityViewModel, navController: NavController) {
     val allData by viewModel.allTrainings.observeAsState(emptyList())
-    var filteredData by remember { mutableStateOf(emptyList<TrainingDetail>()) }
+    var filteredData by remember { mutableStateOf(emptyList<Run>()) }
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
 
@@ -71,7 +72,7 @@ fun Activity(viewModel: ActivityViewModel, navController: NavController) {
             ) {
                 TextButton(onClick = {
                     filteredData = allData.filter {
-                        var month = Converters().fromTimestamp(it.trainingDateTime).toString().split("-")[1].toInt()
+                        var month = Converters().fromTimestamp(it.timestamp).toString().split("-")[1].toInt()
                         var currentMonth = Calendar.getInstance().get(Calendar.MONTH)
 
                         month == currentMonth + 1
@@ -81,7 +82,7 @@ fun Activity(viewModel: ActivityViewModel, navController: NavController) {
                 }
                 TextButton(onClick = {
                     filteredData = allData.filter {
-                        var year = Converters().fromTimestamp(it.trainingDateTime).toString().split("-")[0].toInt()
+                        var year = Converters().fromTimestamp(it.timestamp).toString().split("-")[0].toInt()
                         var currentYear = Calendar.getInstance().get(Calendar.YEAR)
 
                         year == currentYear
@@ -90,14 +91,15 @@ fun Activity(viewModel: ActivityViewModel, navController: NavController) {
                     Text(text = "Year")
                 }
             }
-            val inputData = if (filteredData.isEmpty()) allData else filteredData
+            val inputData = filteredData.ifEmpty { allData }
+            Log.d("Runalyze", "Input data: ${inputData}")
             GraphView(allData = inputData, screenWidth = screenWidth)
         }
     }
 }
 
 @Composable
-fun GraphView(allData: List<TrainingDetail>, screenWidth: Dp) {
+fun GraphView(allData: List<Run>, screenWidth: Dp) {
     Text(text = "Distance")
     Box {
         BarChart(data = allData, screenWidth = screenWidth, key = "distance")
@@ -107,10 +109,5 @@ fun GraphView(allData: List<TrainingDetail>, screenWidth: Dp) {
     Box {
         BarChart(data = allData, screenWidth = screenWidth, key = "speed")
     }
-    Spacer(modifier = Modifier.height(32.dp))
-    Text(text = "Heart Rate")
-    Box {
-        BarChart(data = allData, screenWidth = screenWidth, key = "heartRate")
-    }
-    Spacer(modifier = Modifier.height(100.dp))
+    Spacer(modifier = Modifier.height(50.dp))
 }

@@ -20,25 +20,21 @@ data class Goal(
     val reminderTime: String?,
     val targetDistanceInKm: Double,
     val targetSpeedInKmh: Double,
-    val targetHeartRateInBpm: Int
-)
-
-@Entity
-data class TrainingDetail(
-    @PrimaryKey(autoGenerate = true)
-    val trainingDetailId: Long,
+    val targetHeartRateInBpm: Int,
     @TypeConverters(Converters::class)
-    val trainingDateTime: Long,
-    val durationInMinutes: Int,
-    val distance: Double,
-    val averageSpeed: Double,
-    val heartRate: Int?,
-    val elevation: Double?,
-    val caloriesInKcal: Int?,
-    val rating: Int?,
-    val note: String?
+    val createdDate: Long
 )
 
+@Entity(tableName = "run_table")
+data class Run(
+    @PrimaryKey(autoGenerate = true)
+    val runId: Long = 0L,
+    @TypeConverters(Converters::class)
+    val timestamp: Long = 0L,
+    val durationInMinutes: Long = 0L,
+    val distanceInMeters: Int = 0,
+    val averageSpeedInKMH: Float = 0f
+)
 @Dao
 interface GoalDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -46,13 +42,13 @@ interface GoalDao {
 }
 
 @Dao
-interface TrainingDetailDao {
+interface RunDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun addTrainingDetail(detail: TrainingDetail): Long
+    suspend fun addTrainingDetail(detail: Run): Long
 
-    @Query("SELECT COUNT(*) FROM TrainingDetail")
+    @Query("SELECT COUNT(*) FROM run_table")
     suspend fun getTrainingDetailCount(): Int
 
-    @Query("SELECT * FROM TrainingDetail")
-    suspend fun getTrainingDetails(): List<TrainingDetail>
+    @Query("SELECT * FROM run_table")
+    suspend fun getTrainingDetails(): List<Run>
 }
