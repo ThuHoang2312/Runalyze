@@ -1,3 +1,4 @@
+
 import android.app.Activity
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.EnterTransition
@@ -66,7 +67,6 @@ fun RunScreen(
     }
     var isRunningFinished by rememberSaveable { mutableStateOf(false) }
     var shouldShowRunningCard by rememberSaveable { mutableStateOf(false) }
-    var isRunning by rememberSaveable { mutableStateOf(false) }
     val runState by viewModel.currentRunState.collectAsStateWithLifecycle()
     val runningDurationInMillis by viewModel.runningDurationInMillis.collectAsStateWithLifecycle()
 
@@ -97,15 +97,12 @@ fun RunScreen(
                 modifier = Modifier
                     .padding(vertical = 16.dp, horizontal = 24.dp),
                 onStartPauseButtonClick = {
-                    isRunning = !isRunning
                     viewModel.playPauseTracking()
                 },
-                isRunning = isRunning,
                 runState = runState,
                 durationInMillis = runningDurationInMillis,
                 onFinish = {
                     isRunningFinished = true
-                    isRunning = false
                     viewModel.finishRun()
                     navController.navigateUp()
                 }

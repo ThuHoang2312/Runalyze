@@ -15,14 +15,14 @@ import com.example.runalyze.service.location.TrackingService
 import com.example.runalyze.service.notification.NotificationHelper.Companion.TRACKING_NOTIFICATION_ID
 import com.example.runalyze.utils.RunUtils
 
-class DefaultNotificationHelper (private val context: Context): NotificationHelper {
+class DefaultNotificationHelper(private val context: Context) : NotificationHelper {
     companion object {
         private const val TRACKING_NOTIFICATION_CHANNEL_ID = "tracking_notification"
         private const val TRACKING_NOTIFICATION_CHANNEL_NAME = "Run Tracking Status"
     }
 
     private val intentToRunScreen = TaskStackBuilder.create(context).run {
-        addNextIntentWithParentStack(
+        addNextIntent(
             Intent(
                 Intent.ACTION_VIEW,
                 Uri.parse("https://runalyze.example.com/training"),
@@ -30,6 +30,7 @@ class DefaultNotificationHelper (private val context: Context): NotificationHelp
                 MainActivity::class.java
             )
         )
+
         getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)!!
     }
 

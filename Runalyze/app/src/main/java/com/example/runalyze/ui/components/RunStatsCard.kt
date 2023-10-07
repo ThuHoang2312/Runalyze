@@ -27,13 +27,15 @@ import java.math.RoundingMode
 fun RunStatsCard(
     modifier: Modifier,
     durationInMillis: Long = 0L,
-    isRunning: Boolean,
     runState: CurrentRunState,
     onStartPauseButtonClick: () -> Unit,
     onFinish: () -> Unit
-){
+) {
+    val tag = "RunAlyze Debug"
     ElevatedCard(
-        modifier = modifier.fillMaxWidth().padding(vertical = 16.dp, horizontal = 24.dp),
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(vertical = 16.dp, horizontal = 24.dp),
         elevation = CardDefaults.elevatedCardElevation(defaultElevation = 4.dp)
     ) {
         RunTimeCard(
@@ -46,7 +48,7 @@ fun RunStatsCard(
                 )
                 .fillMaxWidth(),
             durationInMillis = durationInMillis,
-            isRunning = isRunning,
+            isRunning = runState.isTracking,
             onStartPauseButtonClick = onStartPauseButtonClick,
             onFinish = onFinish
         )
@@ -58,10 +60,10 @@ fun RunStatsCard(
                 .height(IntrinsicSize.Min)
                 .fillMaxWidth()
                 .padding(horizontal = 8.dp, vertical = 4.dp)
-        ){
+        ) {
             RunningStatItem(
                 painter = painterResource(id = R.drawable.distance),
-                value = (runState.distanceInMeters/1000f).toString() ,
+                value = (runState.distanceInMeters / 1000f).toString(),
                 unit = "km"
             )
             Box(
@@ -100,14 +102,13 @@ private fun RunStatsCardPreview() {
     RunStatsCard(
         modifier = Modifier,
         durationInMillis = 5400000,
-        isRunning = false,
         runState = CurrentRunState(
-                distanceInMeters = 600,
-                speedInKMH = (6.935 /* m/s */ * 3.6).toBigDecimal()
-                    .setScale(2, RoundingMode.HALF_UP)
-                    .toFloat(),
-                isTracking = false
-            ),
+            distanceInMeters = 600,
+            speedInKMH = (6.935 /* m/s */ * 3.6).toBigDecimal()
+                .setScale(2, RoundingMode.HALF_UP)
+                .toFloat(),
+            isTracking = false
+        ),
         onStartPauseButtonClick = {},
         onFinish = {}
     )
