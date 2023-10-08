@@ -58,6 +58,7 @@ class TrackingManager(
         _trackingDurationInMs.update { 0 }
     }
 
+//    adds a new location point to the current run state.
     private fun addPathPoints(location: Location?) = location?.let {
         val pos = LatLng(it.latitude, it.longitude)
         _currentRunState.update { state ->

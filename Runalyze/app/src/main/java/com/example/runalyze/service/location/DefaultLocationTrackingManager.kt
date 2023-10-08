@@ -9,6 +9,7 @@ import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 
 
+// Managing location tracking callbacks.
 interface LocationTrackingManager {
     fun registerCallback(locationCallback: LocationCallback)
 
