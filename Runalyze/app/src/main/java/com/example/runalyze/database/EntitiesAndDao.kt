@@ -31,7 +31,7 @@ data class Run(
     val runId: Long = 0L,
     @TypeConverters(Converters::class)
     val timestamp: Long = 0L,
-    val durationInMinutes: Long = 0L,
+    val durationInMillis: Long = 0L,
     val distanceInMeters: Int = 0,
     val averageSpeedInKMH: Float = 0f
 )
