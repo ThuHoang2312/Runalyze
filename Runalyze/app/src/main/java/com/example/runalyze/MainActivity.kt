@@ -1,10 +1,10 @@
 package com.example.runalyze
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothManager
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
@@ -51,39 +51,48 @@ class MainActivity : ComponentActivity() {
     private val activityViewModel: ActivityViewModel by viewModels()
     private var bluetoothAdapter: BluetoothAdapter? = null
 
+    @SuppressLint("MissingPermission")
     @RequiresApi(Build.VERSION_CODES.S)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //activityViewModel.addDummyData()
 
-        val bluetoothManager = getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
+        val bluetoothManager = getSystemService(BLUETOOTH_SERVICE) as BluetoothManager
         bluetoothAdapter = bluetoothManager.adapter
         // check heart rate sensor and connect
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.BLUETOOTH_CONNECT
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(Manifest.permission.BLUETOOTH_CONNECT),
-                1
-            )
-            return
-        }
-        if (bluetoothAdapter?.bondedDevices != null) {
-            for (btDev in bluetoothAdapter?.bondedDevices!!) {
-                Log.d(tag, "bluetooth device bonded is: : ${btDev.name}")
-                if (btDev.name.startsWith("Polar")) {
-                    Log.d(tag, "connected to heart rate sensor")
-                    val bluetoothGatt =
-                        btDev.connectGatt(this, false, GattClientCallback(model = runViewModel))
-                    Log.d(tag, "connect Polar is ${bluetoothGatt.connect()}")
-                    break
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S){
+            if (ActivityCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.BLUETOOTH_CONNECT
+                ) == PackageManager.PERMISSION_GRANTED){
+                if (bluetoothAdapter?.bondedDevices != null){
+                    for (btDev in bluetoothAdapter?.bondedDevices!!) {
+                        Log.d(tag, "bluetooth device bonded is: : ${btDev.name}")
+                        if (btDev.name.startsWith("Polar")) {
+                            Log.d(tag, "connected to heart rate sensor")
+                            val bluetoothGatt =
+                                btDev.connectGatt(this, false, GattClientCallback(model = runViewModel))
+                            Log.d(tag, "connect Polar is ${bluetoothGatt.connect()}")
+                            break
+                        }
+                    }
+                }
+            }
+        }else {
+            if (bluetoothAdapter?.bondedDevices != null){
+                for (btDev in bluetoothAdapter?.bondedDevices!!) {
+                    Log.d(tag, "bluetooth device bonded is: : ${btDev.name}")
+                    if (btDev.name.startsWith("Polar")) {
+                        Log.d(tag, "connected to heart rate sensor")
+                        val bluetoothGatt =
+                            btDev.connectGatt(this, false, GattClientCallback(model = runViewModel))
+                        Log.d(tag, "connect Polar is ${bluetoothGatt.connect()}")
+                        break
+                    }
                 }
             }
         }
+
 
         /* TODO  add things need to be done here when app is loading */
         installSplashScreen()
