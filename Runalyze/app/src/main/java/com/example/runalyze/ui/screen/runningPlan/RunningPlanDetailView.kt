@@ -29,8 +29,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
-import com.example.runalyze.componentLibrary.RunningPlanItemDetail
-import com.example.runalyze.components.TopNavigation
+import com.example.runalyze.ui.componentLibrary.RunningPlanItemDetail
+import com.example.runalyze.ui.components.TopNavigation
 import com.example.runalyze.service.RunningPlan
 
 @OptIn(ExperimentalMaterial3Api::class)

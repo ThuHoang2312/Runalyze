@@ -1,4 +1,4 @@
-package com.example.runalyze.components
+package com.example.runalyze.ui.components
 
 import android.annotation.SuppressLint
 import androidx.compose.material3.Icon
@@ -18,9 +18,8 @@ import com.example.runalyze.R
 fun BottomNavigationMenu(navController: NavController) {
     val items = listOf(
         BottomNavItem.Home,
-        BottomNavItem.Training,
-        BottomNavItem.Activity,
-        BottomNavItem.Profile
+        BottomNavItem.Planning,
+        BottomNavItem.Statistic,
     )
 
     NavigationBar(contentColor = colorResource(id = R.color.white)) {

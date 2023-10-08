@@ -30,10 +30,10 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.runalyze.components.TopNavigation
 import com.example.runalyze.database.Converters
 import com.example.runalyze.database.Run
-import com.example.runalyze.ui.component.BarChart
+import com.example.runalyze.ui.components.BarChart
+import com.example.runalyze.ui.components.TopNavigation
 import com.example.runalyze.viewmodel.ActivityViewModel
 import java.util.Calendar
 

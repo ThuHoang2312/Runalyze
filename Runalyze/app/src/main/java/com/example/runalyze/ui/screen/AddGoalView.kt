@@ -59,8 +59,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import androidx.navigation.NavController
-import com.example.runalyze.components.TopNavigation
 import com.example.runalyze.database.Goal
+import com.example.runalyze.ui.components.TopNavigation
 import com.example.runalyze.viewmodel.GoalViewModel
 import java.text.SimpleDateFormat
 import java.util.Calendar

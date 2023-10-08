@@ -27,72 +27,80 @@ class ActivityViewModel(application: Application) : AndroidViewModel(application
                 Run(
                     0,
                     1695801268,
-                    60,
+                    9.0F,
                     9000,
-                    9.0F
+                    60 * 60000,
+                    150.0
                 )
             )
             db.addTrainingDetail(
                 Run(
                     0,
                     1695887668,
-                    20,
+                    12.0F,
                     4000,
-                    12.0F
+                    20 * 60000,
+                    157.0
                 )
             )
             db.addTrainingDetail(
                 Run(
                     0,
                     1695974068,
-                    50,
+                    9.6F,
                     8000,
-                    9.6F
+                    50 * 60000,
+                    160.0
                 )
             )
             db.addTrainingDetail(
                 Run(
                     0,
                     1696060468,
-                    45,
+                    10.0F,
                     7500,
-                    10.0F
+                    45 * 60000,
+                    152.0
                 )
             )
             db.addTrainingDetail(
                 Run(
                     0,
                     1696146868,
-                    30,
+                    10.0F,
                     5000,
-                    10.0F
+                    30 * 60000,
+                    145.0
                 )
             )
             db.addTrainingDetail(
                 Run(
                     0,
                     1696224721,
-                    60,
+                    10.0F,
                     10000,
-                    10.0F
+                    60 * 60000,
+                    158.0
                 )
             )
             db.addTrainingDetail(
                 Run(
                     0,
                     1696311121,
-                    30,
+                    16.0F,
                     8000,
-                    16.0F
+                    30 * 60000,
+                    164.0
                 )
             )
             db.addTrainingDetail(
                 Run(
                     0,
                     1696397521,
-                    45,
+                    10.67F,
                     8000,
-                    10.67F
+                    45 * 60000,
+                    160.0
                 )
             )
         }

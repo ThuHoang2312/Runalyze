@@ -1,4 +1,4 @@
-package com.example.runalyze.ui.component
+package com.example.runalyze.ui.components
 
 import android.graphics.Paint
 import android.util.Log
@@ -33,7 +33,7 @@ fun BarChart(data: List<Run>, key: String, screenWidth: Dp) {
     data.map {
         var graphFilter: Float = when (key) {
             "distance" -> it.distanceInMeters / 1000.0F
-            else -> it.averageSpeedInKMH
+            else -> it.avgSpeedInKMH
         }
         maxValue = maxOf(graphFilter, maxValue)
     }
@@ -72,7 +72,7 @@ fun BarChart(data: List<Run>, key: String, screenWidth: Dp) {
         data.forEachIndexed { index, trainingDetail ->
             var graphFilter: Float = when (key) {
                 "distance" -> trainingDetail.distanceInMeters / 1000.0F
-                else -> trainingDetail.averageSpeedInKMH
+                else -> trainingDetail.avgSpeedInKMH
             }
             val barHeight = (graphFilter.div(maxValue)).times(maxBarHeight)
             val x = (index + 0.75) * (barWidth + barSpacing)

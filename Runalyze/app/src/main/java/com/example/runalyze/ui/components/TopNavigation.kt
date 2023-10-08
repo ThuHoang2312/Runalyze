@@ -1,4 +1,4 @@
-package com.example.runalyze.components
+package com.example.runalyze.ui.components
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack

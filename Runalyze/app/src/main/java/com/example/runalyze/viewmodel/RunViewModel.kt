@@ -1,0 +1,81 @@
+package com.example.runalyze.viewmodel
+
+import android.util.Log
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.CreationExtras
+import com.example.runalyze.RunalyzeApp
+import com.example.runalyze.database.AppDb
+import com.example.runalyze.database.Run
+import com.example.runalyze.service.location.TrackingManager
+import kotlinx.coroutines.launch
+import java.math.RoundingMode
+import java.util.Date
+
+class RunViewModel(
+    private val trackingManager: TrackingManager,
+    private val roomDb: AppDb,
+    ): ViewModel() {
+
+    private val tag = "RunAlyze Debug"
+    val currentRunState = trackingManager.currentRunState
+    val runningDurationInMillis = trackingManager.trackingDurationInMs
+    // Heart rate
+    val mBPM = MutableLiveData(0)
+    val highmBPM = MutableLiveData(0)
+    val lowmBPM = MutableLiveData(300)
+    val listBPM = MutableLiveData(mutableListOf<Int>())
+
+    fun playPauseTracking(){
+        if(currentRunState.value.isTracking){
+            trackingManager.pauseTracking()
+        }else {
+            trackingManager.startResumeTracking()
+        }
+    }
+
+    fun finishRun(averageHeartRate: Double){
+        trackingManager.pauseTracking()
+        saveRun(
+            Run(
+                avgSpeedInKMH = currentRunState.value.distanceInMeters
+                    .toBigDecimal()
+                    .multiply(3600.toBigDecimal())
+                    .divide(runningDurationInMillis.value.toBigDecimal(), 2, RoundingMode.HALF_UP)
+                    .toFloat(),
+                distanceInMeters = currentRunState.value.distanceInMeters,
+                durationInMillis = runningDurationInMillis.value,
+                timestamp = Date().time,
+                avgHeartRate = if (!averageHeartRate.isNaN()) averageHeartRate else 0.0
+            )
+        )
+        trackingManager.stop()
+    }
+
+    fun saveRun(run: Run) {
+        viewModelScope.launch {
+            Log.d(tag, "Save run ${run}")
+            roomDb.runDao.addRun(run)
+        }
+    }
+
+    // Define ViewModel factory in a companion object
+    companion object {
+        val Factory: ViewModelProvider.Factory = object : ViewModelProvider.Factory {
+            @Suppress("UNCHECKED_CAST")
+            override fun <T : ViewModel> create(
+                modelClass: Class<T>,
+                extras: CreationExtras
+            ): T {
+                return RunViewModel(
+                   RunalyzeApp.appModule.trackingManager,
+                    RunalyzeApp.appModule.runDb
+                ) as T
+            }
+        }
+    }
+
+}
+

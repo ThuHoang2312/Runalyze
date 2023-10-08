@@ -1,6 +1,8 @@
 package com.example.runalyze.database
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Entity
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -28,13 +30,15 @@ data class Goal(
 @Entity(tableName = "run_table")
 data class Run(
     @PrimaryKey(autoGenerate = true)
-    val runId: Long = 0L,
+    val runId: Int = 0,
     @TypeConverters(Converters::class)
     val timestamp: Long = 0L,
+    val avgSpeedInKMH: Float = 0f,
+    val distanceInMeters:Int = 0,
     val durationInMillis: Long = 0L,
-    val distanceInMeters: Int = 0,
-    val averageSpeedInKMH: Float = 0f
+    val avgHeartRate: Double = 0.0
 )
+
 @Dao
 interface GoalDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -51,4 +55,13 @@ interface RunDao {
 
     @Query("SELECT * FROM run_table")
     suspend fun getTrainingDetails(): List<Run>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun addRun(run: Run)
+
+    @Delete
+    suspend fun deleteRun(run: Run)
+
+    @Query("SELECT * FROM run_table ORDER BY timestamp DESC")
+    fun getAllRunsSortedByDate(): LiveData<List<Run>>
 }

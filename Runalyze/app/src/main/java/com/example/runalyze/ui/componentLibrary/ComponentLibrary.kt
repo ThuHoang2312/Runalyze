@@ -1,4 +1,4 @@
-package com.example.runalyze.componentLibrary
+package com.example.runalyze.ui.componentLibrary
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
@@ -112,3 +112,4 @@ fun TextModifiedStringWithPadding(string: String) {
         modifier = Modifier.padding(top = 5.dp, start = 30.dp)
     )
 }
+
