@@ -20,7 +20,7 @@ class DefaultLocationTrackingManager(
     private val fusedLocationProviderClient: FusedLocationProviderClient,
     private val context: Context,
     private val locationRequest: LocationRequest
-    ): LocationTrackingManager {
+) : LocationTrackingManager {
 
     override fun registerCallback(locationCallback: LocationCallback) {
         if (context.hasLocationPermission()) {

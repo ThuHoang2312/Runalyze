@@ -12,5 +12,4 @@ interface NotificationHelper {
     companion object {
         const val TRACKING_NOTIFICATION_ID = 3
     }
-
 }

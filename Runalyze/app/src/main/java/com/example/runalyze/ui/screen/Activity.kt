@@ -38,7 +38,7 @@ import com.example.runalyze.database.Converters
 import com.example.runalyze.database.Goal
 import com.example.runalyze.database.Run
 import com.example.runalyze.ui.components.BarChart
-import com.example.runalyze.ui.components.TopNavigation
+import com.example.runalyze.ui.componentLibrary.TopNavigation
 import com.example.runalyze.viewmodel.ActivityViewModel
 import java.util.Calendar
 import kotlin.math.round
@@ -86,8 +86,8 @@ fun Activity(viewModel: ActivityViewModel, navController: NavController) {
                     onClick = {
                         displayedView = "summary"
                         filteredData = summarizedData.filter {
-                            var day = Converters().fromTimestamp(it.timestamp).toString().split("-")
-                            var today = Calendar.getInstance()
+                            val day = Converters().fromTimestamp(it.timestamp).toString().split("-")
+                            val today = Calendar.getInstance()
 
                             day[2].toInt() == today.get(Calendar.DAY_OF_MONTH) &&
                                     day[1].toInt() == today.get(Calendar.MONTH) + 1 &&
@@ -100,9 +100,9 @@ fun Activity(viewModel: ActivityViewModel, navController: NavController) {
                 TextButton(onClick = {
                     displayedView = "graph"
                     filteredData = summarizedData.filter {
-                        var month = Converters().fromTimestamp(it.timestamp).toString()
+                        val month = Converters().fromTimestamp(it.timestamp).toString()
                             .split("-")[1].toInt()
-                        var currentMonth = Calendar.getInstance().get(Calendar.MONTH)
+                        val currentMonth = Calendar.getInstance().get(Calendar.MONTH)
 
                         month == currentMonth + 1
                     }
@@ -112,9 +112,9 @@ fun Activity(viewModel: ActivityViewModel, navController: NavController) {
                 TextButton(onClick = {
                     displayedView = "graph"
                     filteredData = summarizedData.filter {
-                        var year = Converters().fromTimestamp(it.timestamp).toString()
+                        val year = Converters().fromTimestamp(it.timestamp).toString()
                             .split("-")[0].toInt()
-                        var currentYear = Calendar.getInstance().get(Calendar.YEAR)
+                        val currentYear = Calendar.getInstance().get(Calendar.YEAR)
 
                         year == currentYear
                     }
@@ -132,8 +132,8 @@ fun Activity(viewModel: ActivityViewModel, navController: NavController) {
                 Log.d("Runalyze", "Goal: $goal")
                 displayedView = "summary"
                 filteredData = summarizedData.filter {
-                    var day = Converters().fromTimestamp(it.timestamp).toString().split("-")
-                    var today = Calendar.getInstance()
+                    val day = Converters().fromTimestamp(it.timestamp).toString().split("-")
+                    val today = Calendar.getInstance()
 
                     day[2].toInt() == today.get(Calendar.DAY_OF_MONTH) &&
                             day[1].toInt() == today.get(Calendar.MONTH) + 1 &&

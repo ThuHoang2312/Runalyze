@@ -1,4 +1,4 @@
-package com.example.runalyze.ui.components
+package com.example.runalyze.ui.componentLibrary
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -34,10 +34,11 @@ fun TopNavigation(navController: NavController, text: String) {
                 IconButton(onClick = { navController.navigateUp() }) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                        contentDescription = "Localized description"
+                        contentDescription = "Return button"
                     )
                 }
             }
         }
 
-    )}
+    )
+}

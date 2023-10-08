@@ -27,7 +27,7 @@ interface AppModule {
 
 class AppModuleImplement(
     private val appContext: Context
-): AppModule {
+) : AppModule {
 
     override val fusedLocationProviderClient: FusedLocationProviderClient by lazy {
         LocationServices.getFusedLocationProviderClient(appContext)

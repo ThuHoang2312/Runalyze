@@ -30,22 +30,19 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.runalyze.ui.componentLibrary.RunningPlanItemDetail
-import com.example.runalyze.ui.components.TopNavigation
+import com.example.runalyze.ui.componentLibrary.TopNavigation
 import com.example.runalyze.service.RunningPlan
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 // View for detail in running plan detail
-fun RunningPlanDetailView(
+fun RunningPlanDetailScreen(
     planId: Int,
     runningPlanList: List<RunningPlan>,
     navController: NavController
 ) {
-    Log.d("aaaa list", runningPlanList.toString())
-    Log.d("aaaa id", planId.toString())
     if (runningPlanList.isNotEmpty()) {
         val runningPlan = runningPlanList.elementAt(planId)
-        Log.d("aaaa", runningPlan.toString())
         Surface(
             modifier = Modifier.fillMaxSize(),
             color = MaterialTheme.colorScheme.background
@@ -76,9 +73,11 @@ fun RunningPlanDetailView(
                             .fillMaxWidth()
                             .height(300.dp)
                     )
-                    Column(modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(10.dp)) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(10.dp)
+                    ) {
                         RunningPlanItemDetail(
                             Icons.Filled.CalendarMonth,
                             "Duration",

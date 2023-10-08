@@ -54,7 +54,7 @@ fun LocationPermissionRequestDialog(
                     contentColor = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             ) {
-               Text(
+                Text(
                     text = "Deny",
                     style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.SemiBold),
                 )

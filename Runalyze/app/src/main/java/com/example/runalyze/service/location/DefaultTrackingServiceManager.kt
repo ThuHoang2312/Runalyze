@@ -10,7 +10,7 @@ interface TrackingServiceManager {
     fun stopService()
 }
 
-class DefaultTrackingServiceManager(private val context: Context): TrackingServiceManager {
+class DefaultTrackingServiceManager(private val context: Context) : TrackingServiceManager {
     override fun startService() {
         Intent(context, TrackingService::class.java).apply {
             action = TrackingService.ACTION_START_SERVICE

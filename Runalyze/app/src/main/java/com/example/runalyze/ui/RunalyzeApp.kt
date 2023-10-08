@@ -32,7 +32,7 @@ import com.example.runalyze.ui.components.BottomNavigationMenu
 import com.example.runalyze.ui.screen.Activity
 import com.example.runalyze.ui.screen.AddGoalView
 import com.example.runalyze.ui.screen.Home
-import com.example.runalyze.ui.screen.runningPlan.RunningPlanDetailView
+import com.example.runalyze.ui.screen.runningPlan.RunningPlanDetailScreen
 import com.example.runalyze.ui.screen.runningPlan.RunningPlanListScreen
 import com.example.runalyze.viewmodel.ActivityViewModel
 import com.example.runalyze.viewmodel.GoalViewModel
@@ -78,8 +78,8 @@ fun MainScreen(
 
     Scaffold(
         bottomBar = {
-            if(showBottomBar)
-            BottomNavigationMenu(navController = navHostController)
+            if (showBottomBar)
+                BottomNavigationMenu(navController = navHostController)
         }
     )
     { innerPadding ->
@@ -112,7 +112,7 @@ fun Navigation(
     activityViewModel: ActivityViewModel,
     runViewModel: RunViewModel
 ) {
-    val runningPlanViewModel  = RunningPlanViewModel()
+    val runningPlanViewModel = RunningPlanViewModel()
     runningPlanViewModel.getRunningPlanList()
     val runningPlanList: List<RunningPlan> by runningPlanViewModel.runningPlanList.observeAsState(
         mutableListOf()
@@ -138,8 +138,7 @@ fun Navigation(
             arguments = listOf(navArgument("runningPlanId") { type = NavType.IntType })
         ) { backStackEntry ->
             val planId = backStackEntry.arguments?.getInt("runningPlanId")
-            Log.d("RunAlyze", "aaaa navigateId - ${planId.toString()}")
-            RunningPlanDetailView(
+            RunningPlanDetailScreen(
                 backStackEntry.arguments?.getInt("runningPlanId") ?: 1,
                 runningPlanList,
                 navController

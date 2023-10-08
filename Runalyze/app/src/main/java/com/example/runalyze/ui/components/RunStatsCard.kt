@@ -32,7 +32,6 @@ fun RunStatsCard(
     onStartPauseButtonClick: () -> Unit,
     onFinish: () -> Unit
 ) {
-    val tag = "RunAlyze Debug"
     ElevatedCard(
         modifier = modifier
             .fillMaxWidth()

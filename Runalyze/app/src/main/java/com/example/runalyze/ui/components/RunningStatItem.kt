@@ -24,7 +24,7 @@ fun RunningStatItem(
     painter: Painter,
     value: String,
     unit: String
-){
+) {
     Row(modifier = Modifier.padding(4.dp)) {
         Image(
             painter = painter,
@@ -55,6 +55,6 @@ fun RunningStatItem(
 
 @Preview(showBackground = true)
 @Composable
-fun RunningStatItemPreview(){
-    RunningStatItem(painter = painterResource(id = R.drawable.testing), value = "6", unit = "km" )
+fun RunningStatItemPreview() {
+    RunningStatItem(painter = painterResource(id = R.drawable.testing), value = "6", unit = "km")
 }
