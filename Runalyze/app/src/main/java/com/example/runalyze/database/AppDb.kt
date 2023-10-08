@@ -8,7 +8,7 @@ import androidx.room.TypeConverters
 
 @Database(
     entities = [Goal::class, Run::class],
-    version = 8,
+    version = 11,
     exportSchema = false
 )
 @TypeConverters(Converters::class)
@@ -29,7 +29,8 @@ abstract class AppDb: RoomDatabase() {
                         context,
                         AppDb::class.java,
                         "app_database")
-                        .fallbackToDestructiveMigration().build()
+                        .fallbackToDestructiveMigration()
+                        .build()
                     INSTANCE = instance
                 }
 

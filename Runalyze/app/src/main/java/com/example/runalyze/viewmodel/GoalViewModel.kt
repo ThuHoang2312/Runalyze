@@ -8,11 +8,11 @@ import com.example.runalyze.database.Goal
 import kotlinx.coroutines.launch
 
 class GoalViewModel(application: Application): AndroidViewModel(application) {
-    private val db = AppDb.getInstance(application)
+    private val db = AppDb.getInstance(application).goalDao
 
     fun addGoalLiveData(goal: Goal) {
         viewModelScope.launch {
-            db.goalDao.addGoal(goal)
+            db.addGoal(goal)
         }
     }
 }

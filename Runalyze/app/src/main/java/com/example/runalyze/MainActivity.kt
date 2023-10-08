@@ -39,6 +39,7 @@ import com.example.runalyze.utils.RunUtils
 import com.example.runalyze.utils.RunUtils.hasAllPermission
 import com.example.runalyze.utils.RunUtils.hasLocationPermission
 import com.example.runalyze.utils.RunUtils.openAppSetting
+import com.example.runalyze.viewmodel.ActivityViewModel
 import com.example.runalyze.viewmodel.GoalViewModel
 import com.example.runalyze.viewmodel.RunViewModel
 
@@ -47,11 +48,13 @@ class MainActivity : ComponentActivity() {
 
     private val runViewModel: RunViewModel by viewModels { RunViewModel.Factory  }
     private val goalViewModel: GoalViewModel by viewModels()
+    private val activityViewModel: ActivityViewModel by viewModels()
     private var bluetoothAdapter: BluetoothAdapter? = null
 
     @RequiresApi(Build.VERSION_CODES.S)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        //activityViewModel.addDummyData()
 
         val bluetoothManager = getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
         bluetoothAdapter = bluetoothManager.adapter
@@ -90,7 +93,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    RunalyzeApp(  goalViewModel, runViewModel)
+                    RunalyzeApp(goalViewModel, activityViewModel, runViewModel)
                 }
             }
         }

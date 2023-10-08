@@ -34,21 +34,28 @@ import com.example.runalyze.ui.screen.AddGoalView
 import com.example.runalyze.ui.screen.Home
 import com.example.runalyze.ui.screen.runningPlan.RunningPlanDetailView
 import com.example.runalyze.ui.screen.runningPlan.RunningPlanListScreen
+import com.example.runalyze.viewmodel.ActivityViewModel
 import com.example.runalyze.viewmodel.GoalViewModel
 import com.example.runalyze.viewmodel.RunViewModel
 import com.example.runalyze.viewmodel.RunningPlanViewModel
 
 @Composable
+
 fun RunalyzeApp(
     goalViewModel: GoalViewModel,
+    activityViewModel: ActivityViewModel,
     runViewModel: RunViewModel
 ) {
     val scrollState = rememberScrollState()
     val navController = rememberNavController()
+
+    //activityViewModel.addDummyData()
+
     MainScreen(
         navHostController = navController,
         scrollState = scrollState,
         goalViewModel = goalViewModel,
+        activityViewModel = activityViewModel,
         runViewModel = runViewModel
     )
 }
@@ -59,9 +66,9 @@ fun MainScreen(
     navHostController: NavHostController,
     scrollState: ScrollState,
     goalViewModel: GoalViewModel,
+    activityViewModel: ActivityViewModel,
     runViewModel: RunViewModel
 ) {
-
     var showBottomBar by remember { mutableStateOf(true) }
     val navBackStackEntry by navHostController.currentBackStackEntryAsState()
     showBottomBar = when (navBackStackEntry?.destination?.route) {
@@ -90,6 +97,7 @@ fun MainScreen(
                 navController = navHostController,
                 scrollState = scrollState,
                 goalViewModel = goalViewModel,
+                activityViewModel = activityViewModel,
                 runViewModel = runViewModel
             )
         }
@@ -101,6 +109,7 @@ fun Navigation(
     navController: NavHostController,
     scrollState: ScrollState,
     goalViewModel: GoalViewModel,
+    activityViewModel: ActivityViewModel,
     runViewModel: RunViewModel
 ) {
     val runningPlanViewModel  = RunningPlanViewModel()
@@ -110,7 +119,7 @@ fun Navigation(
     )
 
     NavHost(navController = navController, startDestination = "Home") {
-        bottomNavigation(runningPlanList, navController = navController)
+        bottomNavigation(navController = navController, activityViewModel, runningPlanList)
         composable("home") {
             Home(navController = navController)
         }
@@ -121,6 +130,7 @@ fun Navigation(
             AddGoalView(goalViewModel, navController)
         }
         composable("plan") {
+
             RunningPlanListScreen(runningPlanList, navController = navController)
         }
         composable(
@@ -139,8 +149,9 @@ fun Navigation(
 }
 
 fun NavGraphBuilder.bottomNavigation(
-    runningPlanList: List<RunningPlan>,
-    navController: NavController
+    navController: NavController,
+    activityViewModel: ActivityViewModel,
+    runningPlanList: List<RunningPlan>
 ) {
     composable(BottomNavItem.Home.route) {
         Home(navController = navController)
@@ -149,6 +160,6 @@ fun NavGraphBuilder.bottomNavigation(
         RunningPlanListScreen(runningPlanList, navController = navController)
     }
     composable(BottomNavItem.Statistic.route) {
-        Activity()
+        Activity(activityViewModel, navController)
     }
 }

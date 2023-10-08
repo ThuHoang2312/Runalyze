@@ -23,13 +23,15 @@ data class Goal(
     val targetDistanceInKm: Double,
     val targetSpeedInKmh: Double,
     val targetHeartRateInBpm: Int,
-    val isActive: Boolean
+    @TypeConverters(Converters::class)
+    val createdDate: Long
 )
 
 @Entity(tableName = "run_table")
 data class Run(
     @PrimaryKey(autoGenerate = true)
     val runId: Int = 0,
+    @TypeConverters(Converters::class)
     val timestamp: Long = 0L,
     val avgSpeedInKMH: Float = 0f,
     val distanceInMeters:Int = 0,
@@ -41,10 +43,19 @@ data class Run(
 interface GoalDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addGoal(goal: Goal): Long
+
+    @Query("SELECT * FROM Goal ORDER BY createdDate DESC LIMIT 1")
+    suspend fun getLatestGoal(): Goal?
 }
 
 @Dao
 interface RunDao {
+    @Query("SELECT COUNT(*) FROM run_table")
+    suspend fun getTrainingDetailCount(): Int
+
+    @Query("SELECT * FROM run_table")
+    suspend fun getTrainingDetails(): List<Run>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addRun(run: Run)
 
