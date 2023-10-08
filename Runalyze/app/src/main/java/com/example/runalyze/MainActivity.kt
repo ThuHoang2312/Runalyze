@@ -46,7 +46,7 @@ import com.example.runalyze.viewmodel.RunViewModel
 class MainActivity : ComponentActivity() {
     private val tag = "RunAlyze Debug"
 
-    private val runViewModel: RunViewModel by viewModels { RunViewModel.Factory  }
+    private val runViewModel: RunViewModel by viewModels { RunViewModel.Factory }
     private val goalViewModel: GoalViewModel by viewModels()
     private val activityViewModel: ActivityViewModel by viewModels()
     private var bluetoothAdapter: BluetoothAdapter? = null
@@ -59,35 +59,40 @@ class MainActivity : ComponentActivity() {
         val bluetoothManager = getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
         bluetoothAdapter = bluetoothManager.adapter
         // check heart rate sensor and connect
-
-        if (ActivityCompat.checkSelfPermission(
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && ActivityCompat.checkSelfPermission(
                 this,
                 Manifest.permission.BLUETOOTH_CONNECT
-            ) == PackageManager.PERMISSION_GRANTED
+            ) != PackageManager.PERMISSION_GRANTED
         ) {
-            if(bluetoothAdapter?.bondedDevices != null) {
-                for (btDev in bluetoothAdapter?.bondedDevices!!) {
-                    Log.d(tag, "bluetooth device bonded is: : ${btDev.name}")
-                    if (btDev.name.startsWith("Polar")) {
-                        Log.d(tag, "connected to heart rate sensor")
-                        val bluetoothGatt =
-                            btDev.connectGatt(this, false, GattClientCallback(model = runViewModel))
-                        Log.d(tag, "connect Polar is ${bluetoothGatt.connect()}")
-                        break
-                    }
+
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.BLUETOOTH_CONNECT),
+                1
+            )
+            return
+        }
+        if (bluetoothAdapter?.bondedDevices != null) {
+            for (btDev in bluetoothAdapter?.bondedDevices!!) {
+                Log.d(tag, "bluetooth device bonded is: : ${btDev.name}")
+                if (btDev.name.startsWith("Polar")) {
+                    Log.d(tag, "connected to heart rate sensor")
+                    val bluetoothGatt =
+                        btDev.connectGatt(this, false, GattClientCallback(model = runViewModel))
+                    Log.d(tag, "connect Polar is ${bluetoothGatt.connect()}")
+                    break
                 }
             }
-        } else {
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.BLUETOOTH_CONNECT),1)
         }
-
 
         /* TODO  add things need to be done here when app is loading */
         installSplashScreen()
 
         setContent {
             RunalyzeTheme {
+
                 PermissionRequester()
+
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
@@ -139,10 +144,8 @@ class MainActivity : ComponentActivity() {
                     true
                 else -> permissionLauncher.launch(RunUtils.allPermissions)
             }
-            Log.d(tag, "ALL PERMISSIONS: ${RunUtils.allPermissions.toString()}")
         }
     }
-
 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
