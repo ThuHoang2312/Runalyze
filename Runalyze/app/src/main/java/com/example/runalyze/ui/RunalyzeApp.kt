@@ -77,6 +77,7 @@ fun MainScreen(
 ) {
     var showBottomBar by remember { mutableStateOf(true) }
     val navBackStackEntry by navHostController.currentBackStackEntryAsState()
+    // Set conditon for showing bottom bar
     showBottomBar = when (navBackStackEntry?.destination?.route) {
         Destination.CurrentRun.route -> false
         else -> true
