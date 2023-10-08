@@ -23,36 +23,34 @@ object RunUtils {
         Manifest.permission.ACCESS_COARSE_LOCATION
     ).toTypedArray()
 
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+    @RequiresApi(Build.VERSION_CODES.S)
     val bluetoothPermission = Manifest.permission.BLUETOOTH
 
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+    @RequiresApi(Build.VERSION_CODES.S)
     val notificationPermission = Manifest.permission.POST_NOTIFICATIONS
 
     val allPermissions = mutableListOf<String>().apply {
         addAll(locationPermissions)
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.S){
             add(notificationPermission)
             add(bluetoothPermission)
         }
     }.toTypedArray()
 
     fun Context.hasNotificationPermission() =
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             ContextCompat.checkSelfPermission(
                 this,
                 notificationPermission,
             ) == PackageManager.PERMISSION_GRANTED
-        } else true
+        } else false
 
+    @RequiresApi(Build.VERSION_CODES.S)
     fun Context.hasBluetoothPermission() =
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             ContextCompat.checkSelfPermission(
                 this,
                 bluetoothPermission,
             ) == PackageManager.PERMISSION_GRANTED
-        } else true
-
 
     fun Context.hasLocationPermission() =
         locationPermissions.all {

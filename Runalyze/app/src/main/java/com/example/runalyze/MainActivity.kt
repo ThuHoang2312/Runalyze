@@ -1,11 +1,12 @@
 package com.example.runalyze
 
-import android.annotation.SuppressLint
+import android.Manifest
 import android.app.Activity
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothManager
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -27,17 +28,18 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.core.app.ActivityCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.example.runalyze.service.GattClientCallback
 import com.example.runalyze.ui.RunalyzeApp
 import com.example.runalyze.ui.components.LocationPermissionRequestDialog
 import com.example.runalyze.ui.theme.RunalyzeTheme
-import com.example.runalyze.viewmodel.ActivityViewModel
 import com.example.runalyze.utils.LocationUtils
 import com.example.runalyze.utils.RunUtils
 import com.example.runalyze.utils.RunUtils.hasAllPermission
 import com.example.runalyze.utils.RunUtils.hasLocationPermission
 import com.example.runalyze.utils.RunUtils.openAppSetting
+import com.example.runalyze.viewmodel.ActivityViewModel
 import com.example.runalyze.viewmodel.GoalViewModel
 import com.example.runalyze.viewmodel.RunViewModel
 
@@ -49,7 +51,6 @@ class MainActivity : ComponentActivity() {
     private val activityViewModel: ActivityViewModel by viewModels()
     private var bluetoothAdapter: BluetoothAdapter? = null
 
-    @SuppressLint("MissingPermission")
     @RequiresApi(Build.VERSION_CODES.S)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,18 +59,29 @@ class MainActivity : ComponentActivity() {
         val bluetoothManager = getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
         bluetoothAdapter = bluetoothManager.adapter
         // check heart rate sensor and connect
-        if(bluetoothAdapter?.bondedDevices != null) {
-            for (btDev in bluetoothAdapter?.bondedDevices!!) {
-                Log.d(tag, "bluetooth device bonded is: : ${btDev.name}")
-                if (btDev.name.startsWith("Polar")) {
-                    Log.d(tag, "connected to heart rate sensor")
-                    val bluetoothGatt =
-                        btDev.connectGatt(this, false, GattClientCallback(model = runViewModel))
-                    Log.d(tag, "connect Polar is ${bluetoothGatt.connect()}")
-                    break
+
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.BLUETOOTH_CONNECT
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            if(bluetoothAdapter?.bondedDevices != null) {
+                for (btDev in bluetoothAdapter?.bondedDevices!!) {
+                    Log.d(tag, "bluetooth device bonded is: : ${btDev.name}")
+                    if (btDev.name.startsWith("Polar")) {
+                        Log.d(tag, "connected to heart rate sensor")
+                        val bluetoothGatt =
+                            btDev.connectGatt(this, false, GattClientCallback(model = runViewModel))
+                        Log.d(tag, "connect Polar is ${bluetoothGatt.connect()}")
+                        break
+                    }
                 }
             }
+        } else {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.BLUETOOTH_CONNECT),1)
         }
+
+
         /* TODO  add things need to be done here when app is loading */
         installSplashScreen()
 
@@ -88,6 +100,7 @@ class MainActivity : ComponentActivity() {
 
     }
 
+    @RequiresApi(Build.VERSION_CODES.S)
     @Composable
     private fun PermissionRequester() {
         var showPermissionDeclinedRationale by rememberSaveable { mutableStateOf(false) }
@@ -124,9 +137,9 @@ class MainActivity : ComponentActivity() {
                 hasAllPermission() -> return@LaunchedEffect
                 RunUtils.locationPermissions.any { shouldShowRequestPermissionRationale(it) } -> showRationale =
                     true
-
                 else -> permissionLauncher.launch(RunUtils.allPermissions)
             }
+            Log.d(tag, "ALL PERMISSIONS: ${RunUtils.allPermissions.toString()}")
         }
     }
 

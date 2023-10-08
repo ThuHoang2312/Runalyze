@@ -21,6 +21,7 @@ class DefaultNotificationHelper(private val context: Context) : NotificationHelp
         private const val TRACKING_NOTIFICATION_CHANNEL_NAME = "Run Tracking Status"
     }
 
+
     private val intentToRunScreen = TaskStackBuilder.create(context).run {
         addNextIntent(
             Intent(

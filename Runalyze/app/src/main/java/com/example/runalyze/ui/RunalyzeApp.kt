@@ -60,7 +60,7 @@ fun RunalyzeApp(
     )
 }
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "SuspiciousIndentation")
 @Composable
 fun MainScreen(
     navHostController: NavHostController,
