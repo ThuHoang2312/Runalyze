@@ -219,8 +219,7 @@ fun AddGoalView(viewModel: GoalViewModel, navController: NavController) {
                         if (it.toDoubleOrNull() != null) {
                             targetDistance = it
                         }
-                    },
-                    placeholder = { Text("11.5") }
+                    }
                 )
             }
 
@@ -242,8 +241,7 @@ fun AddGoalView(viewModel: GoalViewModel, navController: NavController) {
                         if (it.toDoubleOrNull() != null) {
                             targetSpeed = it
                         }
-                    },
-                    placeholder = { Text("7.5") }
+                    }
                 )
             }
 
@@ -265,8 +263,7 @@ fun AddGoalView(viewModel: GoalViewModel, navController: NavController) {
                         if (it.toIntOrNull() != null) {
                             targetHeartRate = it
                         }
-                    },
-                    placeholder = { Text("150") }
+                    }
                 )
             }
 
@@ -298,7 +295,9 @@ fun AddGoalView(viewModel: GoalViewModel, navController: NavController) {
                             )
                         )
                         navController.navigate("Home")
-                    }) {
+                    },
+                    enabled = targetDistance != "" && targetSpeed != "" && targetHeartRate != ""
+                ) {
                     Text(text = "Save and exit to home screen")
                 }
             }

@@ -2,18 +2,16 @@ package com.example.runalyze.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import com.example.runalyze.database.AppDb
 import com.example.runalyze.database.Goal
 import com.example.runalyze.database.Run
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class ActivityViewModel(application: Application) : AndroidViewModel(application) {
     private val db = AppDb.getInstance(application)
-    private val _allTrainings = MutableLiveData<List<Run>>()
+    /*private val _allTrainings = MutableLiveData<List<Run>>()
     val allTrainings = _allTrainings
     private val _count = MutableLiveData<Int>()
     val count = _count
@@ -21,9 +19,10 @@ class ActivityViewModel(application: Application) : AndroidViewModel(application
     val newestGoal = _newestGoal
 
     init {
+        Log.d("Runalyze", "activity created")
         getAllTrainingDetails()
         getNewestGoal()
-    }
+    }*/
 
     fun addDummyData() {
         viewModelScope.launch {
@@ -147,19 +146,7 @@ class ActivityViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
-    fun getAllTrainingDetails() {
-        viewModelScope.launch {
-            val data = withContext(Dispatchers.IO) {
-                db.runDao.getTrainingDetails()
-            }
-            _allTrainings.value = data
-        }
-    }
+    fun getAllTrainingDetails(): LiveData<List<Run>> = db.runDao.getTrainingDetails()
 
-    fun getNewestGoal() {
-        viewModelScope.launch {
-            val goal = db.goalDao.getLatestGoal()
-            _newestGoal.value = goal
-        }
-    }
+    fun getNewestGoal(): LiveData<Goal?> = db.goalDao.getLatestGoal()
 }

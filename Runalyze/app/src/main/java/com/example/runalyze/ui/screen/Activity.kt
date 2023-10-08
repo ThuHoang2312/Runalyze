@@ -46,7 +46,9 @@ import kotlin.math.round
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Activity(viewModel: ActivityViewModel, navController: NavController) {
-    val allData by viewModel.allTrainings.observeAsState(emptyList())
+    //val allData by viewModel.allTrainings.observeAsState(emptyList())
+    val allData = viewModel.getAllTrainingDetails().observeAsState(listOf())
+    val goal = viewModel.getNewestGoal().observeAsState(null)
     var summarizedData by remember { mutableStateOf(emptyList<Run>()) }
     var filteredData by remember { mutableStateOf(emptyList<Run>()) }
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
@@ -54,7 +56,7 @@ fun Activity(viewModel: ActivityViewModel, navController: NavController) {
     var displayedView by remember {
         mutableStateOf("summary")
     }
-    val goal by viewModel.newestGoal.observeAsState(initial = null)
+    //val goal by viewModel.newestGoal.observeAsState(initial = null)
 
     viewModel.getAllTrainingDetails()
     Scaffold(
@@ -123,8 +125,9 @@ fun Activity(viewModel: ActivityViewModel, navController: NavController) {
                 }
             }
 
-            summarizedData = prepareRunSummary(allData)
-
+            if (allData != null) {
+                summarizedData = prepareRunSummary(allData.value)
+            }
             if (displayedView == "graph") {
                 Log.d("Runalyze", "Input data: $summarizedData")
                 GraphView(allData = filteredData, screenWidth = screenWidth)
@@ -139,7 +142,7 @@ fun Activity(viewModel: ActivityViewModel, navController: NavController) {
                             day[1].toInt() == today.get(Calendar.MONTH) + 1 &&
                             day[0].toInt() == today.get(Calendar.YEAR)
                 }
-                SummaryView(filteredData, goal)
+                SummaryView(filteredData, goal.value)
             }
         }
     }
