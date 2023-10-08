@@ -43,13 +43,13 @@ data class Run(
 interface GoalDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addGoal(goal: Goal): Long
+
+    @Query("SELECT * FROM Goal ORDER BY createdDate DESC LIMIT 1")
+    suspend fun getLatestGoal(): Goal?
 }
 
 @Dao
 interface RunDao {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun addTrainingDetail(detail: Run): Long
-
     @Query("SELECT COUNT(*) FROM run_table")
     suspend fun getTrainingDetailCount(): Int
 

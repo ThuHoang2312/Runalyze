@@ -33,6 +33,7 @@ fun BarChart(data: List<Run>, key: String, screenWidth: Dp) {
     data.map {
         var graphFilter: Float = when (key) {
             "distance" -> it.distanceInMeters / 1000.0F
+            "average heart rate" -> it.avgHeartRate.toFloat()
             else -> it.avgSpeedInKMH
         }
         maxValue = maxOf(graphFilter, maxValue)
@@ -72,6 +73,7 @@ fun BarChart(data: List<Run>, key: String, screenWidth: Dp) {
         data.forEachIndexed { index, trainingDetail ->
             var graphFilter: Float = when (key) {
                 "distance" -> trainingDetail.distanceInMeters / 1000.0F
+                "average heart rate" -> trainingDetail.avgHeartRate.toFloat()
                 else -> trainingDetail.avgSpeedInKMH
             }
             val barHeight = (graphFilter.div(maxValue)).times(maxBarHeight)

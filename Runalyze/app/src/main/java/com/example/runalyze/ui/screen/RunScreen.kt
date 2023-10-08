@@ -109,7 +109,7 @@ fun RunScreen(
                     val averageHeartRate = listBPM.filter { it != 0 }.average()
                     isRunningFinished = true
                     viewModel.finishRun(averageHeartRate)
-                    navController.navigateUp()
+                    navController.navigate("activity")
                 }
             )
         }

@@ -7,9 +7,9 @@ import java.sql.Date
 class Converters {
     @TypeConverter
     fun fromTimestamp(value: Long?): Date? {
-        Log.d("Runalyze", "Time stamp to Date: ${value} - ${value?.let { Date(it * 1000) }}")
+        Log.d("Runalyze", "Time stamp to Date: ${value} - ${value?.let { Date(it / 1000 * 1000) }}")
         return value?.let {
-            Date(it * 1000)
+            Date(it / 1000 * 1000)
         }
     }
 
