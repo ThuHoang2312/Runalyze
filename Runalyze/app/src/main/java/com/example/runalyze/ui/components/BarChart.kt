@@ -83,7 +83,7 @@ fun BarChart(data: List<Run>, key: String, screenWidth: Dp) {
 
             drawRect(
                 //color = ratingColor,
-                color = Color(255, 59,48),
+                color = Color(255, 59, 48),
                 topLeft = Offset(x.toFloat(), y),
                 size = Size(barWidth, barHeight),
             )

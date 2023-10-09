@@ -28,7 +28,7 @@ fun RunTimeCard(
     isRunning: Boolean,
     onStartPauseButtonClick: () -> Unit,
     onFinish: () -> Unit
-){
+) {
     Row(modifier = modifier.fillMaxWidth()) {
         Column(modifier = Modifier.weight(1f)) {
             Text(
@@ -74,8 +74,8 @@ fun RunTimeCard(
                 .align(Alignment.CenterVertically)
         ) {
             Icon(
-                if(isRunning) Icons.Outlined.Pause else Icons.Outlined.PlayArrow,
-                contentDescription = if(isRunning) "Pause" else "Start",
+                if (isRunning) Icons.Outlined.Pause else Icons.Outlined.PlayArrow,
+                contentDescription = if (isRunning) "Pause" else "Start",
                 modifier = Modifier
                     .size(16.dp),
                 tint = MaterialTheme.colorScheme.onPrimary

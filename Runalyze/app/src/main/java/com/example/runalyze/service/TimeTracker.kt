@@ -21,7 +21,7 @@ class TimeTracker(
         if (job != null)
             return
         System.currentTimeMillis()
-        this.job = applicationScope.launch(defaultDispatcher){
+        this.job = applicationScope.launch(defaultDispatcher) {
             while (isRunning && isActive) {
                 callback?.invoke(timeElapsedInMillis)
                 delay(1000)

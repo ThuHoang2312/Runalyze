@@ -1,4 +1,3 @@
-
 import android.app.Activity
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.EnterTransition
@@ -40,6 +39,7 @@ import com.example.runalyze.service.location.models.PathPoint
 import com.example.runalyze.ui.components.RunStatsCard
 import com.example.runalyze.ui.theme.md_theme_light_primary
 import com.example.runalyze.utils.ComposeUtils
+import com.example.runalyze.utils.Destination
 import com.example.runalyze.utils.LocationUtils
 import com.example.runalyze.utils.RunUtils.firstLocationPoint
 import com.example.runalyze.utils.RunUtils.lastLocationPoint
@@ -109,7 +109,7 @@ fun RunScreen(
                     val averageHeartRate = listBPM.filter { it != 0 }.average()
                     isRunningFinished = true
                     viewModel.finishRun(averageHeartRate)
-                    navController.navigate("activity")
+                    navController.navigate(Destination.RunResultDisplay.route)
                 }
             )
         }
@@ -216,14 +216,14 @@ private fun DrawPathPoints(
             color = md_theme_light_primary
         )
 
-    val infiniteTransition = rememberInfiniteTransition()
+    val infiniteTransition = rememberInfiniteTransition(label = "")
     val lastMarkerPointColor by infiniteTransition.animateColor(
         initialValue = md_theme_light_primary,
         targetValue = md_theme_light_primary.copy(alpha = 0.8f),
         animationSpec = infiniteRepeatable(
             tween(1000),
             repeatMode = RepeatMode.Reverse
-        )
+        ), label = ""
     )
 
     Marker(

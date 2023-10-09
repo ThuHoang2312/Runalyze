@@ -8,7 +8,7 @@ import java.util.*
 
 
 class GattClientCallback(val model: RunViewModel) : BluetoothGattCallback() {
-    private val tag = "RunAlyze Debug"
+    private val tag = "Runalyze Debug"
     private var index = 0
     private var index2 = 0
 
@@ -41,8 +41,10 @@ class GattClientCallback(val model: RunViewModel) : BluetoothGattCallback() {
             if (gattService.uuid == UUID.fromString("0000180d-0000-1000-8000-00805f9b34fb")) {
                 Log.d(tag, "BINGO!!!")
                 for (gattCharacteristic in gattService.characteristics)
-                    Log.d("DBG",
-                        "Characteristic ${gattCharacteristic.uuid} and name is ${gattCharacteristic.describeContents()} and ${gattCharacteristic.properties}")
+                    Log.d(
+                        "DBG",
+                        "Characteristic ${gattCharacteristic.uuid} and name is ${gattCharacteristic.describeContents()} and ${gattCharacteristic.properties}"
+                    )
                 /* setup the system for the notification messages */
                 val characteristic =
                     gatt.getService(UUID.fromString("0000180d-0000-1000-8000-00805f9b34fb"))
@@ -52,8 +54,10 @@ class GattClientCallback(val model: RunViewModel) : BluetoothGattCallback() {
                     // then enable them on the server
                     Log.d(tag, "onServicesDiscovered: start to write notification")
                     for (des in characteristic.descriptors)
-                        Log.d(tag,
-                            "onServicesDiscovered: description is ${des.uuid} permission${des.permissions} value ${des.value} ")
+                        Log.d(
+                            tag,
+                            "onServicesDiscovered: description is ${des.uuid} permission${des.permissions} value ${des.value} "
+                        )
                     Log.d(tag, "onServicesDiscovered: finish des")
                     val descriptor =
                         characteristic.getDescriptor(UUID.fromString("00002902-0000-1000-8000-00805f9b34fb"))
@@ -70,8 +74,10 @@ class GattClientCallback(val model: RunViewModel) : BluetoothGattCallback() {
         status: Int,
     ) {
         super.onDescriptorWrite(gatt, descriptor, status)
-        Log.d(tag,
-            "onDescriptorWrite status is $status and descriptor is ${descriptor.value}  ${descriptor.permissions}")
+        Log.d(
+            tag,
+            "onDescriptorWrite status is $status and descriptor is ${descriptor.value}  ${descriptor.permissions}"
+        )
     }
 
     override fun onCharacteristicChanged(

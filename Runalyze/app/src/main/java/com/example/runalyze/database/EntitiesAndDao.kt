@@ -15,9 +15,9 @@ data class Goal(
     @PrimaryKey(autoGenerate = true)
     val goalId: Long,
     @TypeConverters(Converters::class)
-    val startDate:Long?,
+    val startDate: Long?,
     @TypeConverters(Converters::class)
-    val endDate:Long?,
+    val endDate: Long?,
     val repeatedDays: String,
     val reminderTime: String?,
     val targetDistanceInKm: Double,
@@ -34,7 +34,7 @@ data class Run(
     @TypeConverters(Converters::class)
     val timestamp: Long = 0L,
     val avgSpeedInKMH: Float = 0f,
-    val distanceInMeters:Int = 0,
+    val distanceInMeters: Int = 0,
     val durationInMillis: Long = 0L,
     val avgHeartRate: Double = 0.0
 )

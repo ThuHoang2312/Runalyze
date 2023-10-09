@@ -32,7 +32,6 @@ fun RunStatsCard(
     onStartPauseButtonClick: () -> Unit,
     onFinish: () -> Unit
 ) {
-    val tag = "RunAlyze Debug"
     ElevatedCard(
         modifier = modifier
             .fillMaxWidth()
@@ -82,6 +81,7 @@ fun RunStatsCard(
                 value = runState.speedInKMH.toString(),
                 unit = "km/h"
             )
+            if(heartRate != 0){
             Box(
                 modifier = Modifier
                     .width(1.dp)
@@ -92,11 +92,13 @@ fun RunStatsCard(
                         color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f),
                     )
             )
-            RunningStatItem(
-                painter = painterResource(id = R.drawable.heart_beat),
-                value = if (heartRate == 0) "Not available" else heartRate.toString(),
-                unit = if (heartRate == 0) "" else "bpm"
-            )
+                RunningStatItem(
+                    painter = painterResource(id = R.drawable.heart_beat),
+                    value = heartRate.toString(),
+                    unit = "bpm"
+                )
+            }
+
         }
     }
 }
@@ -115,7 +117,7 @@ private fun RunStatsCardPreview() {
                 .toFloat(),
             isTracking = false
         ),
-        heartRate = 0,
+        heartRate = 70,
         onStartPauseButtonClick = {},
         onFinish = {}
     )

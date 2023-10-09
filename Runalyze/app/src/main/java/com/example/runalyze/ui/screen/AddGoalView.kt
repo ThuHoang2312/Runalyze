@@ -62,7 +62,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import androidx.navigation.NavController
 import com.example.runalyze.database.Goal
-import com.example.runalyze.ui.components.TopNavigation
+import com.example.runalyze.ui.componentLibrary.TopNavigation
 import com.example.runalyze.viewmodel.GoalViewModel
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -77,7 +77,7 @@ fun AddGoalView(
     viewModel: GoalViewModel,
     navController: NavController
 ) {
-    var openDateRangePickerDialog = remember { mutableStateOf(false) }
+    val openDateRangePickerDialog = remember { mutableStateOf(false) }
     val dateRangePickerState = rememberDateRangePickerState()
     val formattedStartDate = dateRangePickerState.selectedStartDateMillis?.let {
         val date = Date(it)
@@ -90,7 +90,7 @@ fun AddGoalView(
         dateFormat.format(date)
     } ?: null
     var openTimePickerDialog by remember { mutableStateOf(false) }
-    var timePickerState = rememberTimePickerState()
+    val timePickerState = rememberTimePickerState()
     val isReminderTimeSet = remember { mutableStateOf(false) }
     var targetDistance by rememberSaveable { mutableStateOf("") }
     var targetSpeed by rememberSaveable { mutableStateOf("") }
@@ -110,7 +110,6 @@ fun AddGoalView(
             TopNavigation(
                 text = "Set a goal",
                 navController = navController,
-//                scrollBehavior = scrollBehavior
             )
         }
     ) { values ->
@@ -118,7 +117,8 @@ fun AddGoalView(
             modifier = Modifier
                 .verticalScroll(rememberScrollState())
                 .padding(values)
-                .padding(16.dp),
+                .padding(16.dp)
+                .verticalScroll(rememberScrollState())
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,

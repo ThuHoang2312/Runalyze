@@ -12,7 +12,7 @@ import androidx.room.TypeConverters
     exportSchema = false
 )
 @TypeConverters(Converters::class)
-abstract class AppDb: RoomDatabase() {
+abstract class AppDb : RoomDatabase() {
     abstract val goalDao: GoalDao
     abstract val runDao: RunDao
 
@@ -28,7 +28,8 @@ abstract class AppDb: RoomDatabase() {
                     instance = Room.databaseBuilder(
                         context,
                         AppDb::class.java,
-                        "app_database")
+                        "app_database"
+                    )
                         .fallbackToDestructiveMigration()
                         .build()
                     INSTANCE = instance

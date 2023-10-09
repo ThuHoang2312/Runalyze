@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import java.math.RoundingMode
 
-class TrackingManager (
+class TrackingManager(
     private val locationTrackingManager: LocationTrackingManager,
     private val timeTracker: TimeTracker,
     private val trackingServiceManager: TrackingServiceManager
@@ -42,7 +42,10 @@ class TrackingManager (
             if (isTracking) {
                 result.locations.forEach { location ->
                     addPathPoints(location)
-                    Log.d("RunAlyze","New LocationPoint : ${location.latitude}, ${location.longitude}")
+                    Log.d(
+                        "RunAlyze",
+                        "New LocationPoint : ${location.latitude}, ${location.longitude}"
+                    )
                 }
             }
         }
@@ -55,6 +58,7 @@ class TrackingManager (
         _trackingDurationInMs.update { 0 }
     }
 
+//    adds a new location point to the current run state.
     private fun addPathPoints(location: Location?) = location?.let {
         val pos = LatLng(it.latitude, it.longitude)
         _currentRunState.update { state ->

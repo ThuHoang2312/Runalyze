@@ -3,9 +3,7 @@
 
     <style name="Theme.Runalyze.Starting" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">#FFF</item>
-        <!--TODO-->
-<!--        Change to app's logo-->
-        <item name="windowSplashScreenAnimatedIcon">@drawable/amu_bubble_mask</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/logo</item>
         <item name="postSplashScreenTheme">@style/Theme.Runalyze</item>
     </style>
 

@@ -9,6 +9,7 @@ import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 
 
+// Managing location tracking callbacks.
 interface LocationTrackingManager {
     fun registerCallback(locationCallback: LocationCallback)
 
@@ -20,7 +21,7 @@ class DefaultLocationTrackingManager(
     private val fusedLocationProviderClient: FusedLocationProviderClient,
     private val context: Context,
     private val locationRequest: LocationRequest
-    ): LocationTrackingManager {
+) : LocationTrackingManager {
 
     override fun registerCallback(locationCallback: LocationCallback) {
         if (context.hasLocationPermission()) {
