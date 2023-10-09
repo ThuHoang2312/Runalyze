@@ -56,5 +56,5 @@ fun RunningStatItem(
 @Preview(showBackground = true)
 @Composable
 fun RunningStatItemPreview() {
-    RunningStatItem(painter = painterResource(id = R.drawable.runalyze_logo), value = "6", unit = "km")
+    RunningStatItem(painter = painterResource(id = R.drawable.logo), value = "6", unit = "km")
 }
