@@ -13,7 +13,9 @@ data class RunningPlan(
     val duration: String,
     val frequency: String,
     val level: String,
-    val heartRate: Int
+    val targetDistance: Double,
+    val targetSpeed: Double,
+    val targetHeartRate: Int
 )
 
 object GetRunningPlanApi {

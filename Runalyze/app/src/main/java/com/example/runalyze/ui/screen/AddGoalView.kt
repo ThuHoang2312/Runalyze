@@ -94,15 +94,21 @@ fun AddGoalView(
     var openTimePickerDialog by remember { mutableStateOf(false) }
     val timePickerState = rememberTimePickerState()
     val isReminderTimeSet = remember { mutableStateOf(false) }
-    var targetDistance by rememberSaveable { mutableStateOf(plan?.duration.toString() ?: "") }
-    var targetSpeed by rememberSaveable { mutableStateOf(plan?.duration.toString() ?: "") }
-    var targetHeartRate by rememberSaveable { mutableStateOf(plan?.duration.toString() ?: "") }
+    var targetDistance by rememberSaveable { mutableStateOf("") }
+    var targetSpeed by rememberSaveable { mutableStateOf("") }
+    var targetHeartRate by rememberSaveable { mutableStateOf("") }
     val formatter = remember { SimpleDateFormat("HH:mm", Locale.getDefault()) }
     var formattedTime = remember { mutableStateOf("") }
     val daysOfWeek = listOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")
     val selectedDays =
         remember { mutableStateListOf<Boolean>(false, false, false, false, false, false, false) }
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+
+    if (plan != null) {
+        targetDistance = plan.targetDistance.toString()
+        targetSpeed = plan.targetSpeed.toString()
+        targetHeartRate = plan.targetHeartRate.toString()
+    }
 
     Scaffold(
         modifier = Modifier

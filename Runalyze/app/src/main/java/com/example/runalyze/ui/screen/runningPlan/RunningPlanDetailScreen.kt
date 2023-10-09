@@ -111,7 +111,10 @@ fun RunningPlanDetailScreen(
                         Button(onClick = {
                             navController.navigate("goal?runningPlanId=$planId")
                         }) {
-                            Text(text = stringResource(id = R.string.set_goal_from), fontWeight = FontWeight.SemiBold)
+                            Text(
+                                text = stringResource(id = R.string.set_goal_from),
+                                fontWeight = FontWeight.SemiBold
+                            )
                         }
                     }
                 }
@@ -120,5 +123,4 @@ fun RunningPlanDetailScreen(
     } else {
         Text(text = stringResource(id = R.string.loading))
     }
-
 }
