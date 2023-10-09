@@ -2,7 +2,7 @@ package com.example.runalyze.ui
 
 import RunScreen
 import android.annotation.SuppressLint
-import android.util.Log
+import android.net.Uri
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
@@ -34,6 +35,7 @@ import com.example.runalyze.ui.screen.AddGoalView
 import com.example.runalyze.ui.screen.Home
 import com.example.runalyze.ui.screen.runningPlan.RunningPlanDetailScreen
 import com.example.runalyze.ui.screen.runningPlan.RunningPlanListScreen
+import com.example.runalyze.utils.Destination
 import com.example.runalyze.viewmodel.ActivityViewModel
 import com.example.runalyze.viewmodel.GoalViewModel
 import com.example.runalyze.viewmodel.RunViewModel
@@ -44,13 +46,17 @@ import com.example.runalyze.viewmodel.RunningPlanViewModel
 fun RunalyzeApp(
     goalViewModel: GoalViewModel,
     activityViewModel: ActivityViewModel,
-    runViewModel: RunViewModel
+    runViewModel: RunViewModel,
+    data: Uri?
 ) {
     val scrollState = rememberScrollState()
     val navController = rememberNavController()
 
     //activityViewModel.addDummyData()
 
+    LaunchedEffect(key1 = true){
+        if(data != null) Destination.navigateToRunScreen(navController)
+    }
     MainScreen(
         navHostController = navController,
         scrollState = scrollState,
@@ -71,8 +77,9 @@ fun MainScreen(
 ) {
     var showBottomBar by remember { mutableStateOf(true) }
     val navBackStackEntry by navHostController.currentBackStackEntryAsState()
+    // Set conditon for showing bottom bar
     showBottomBar = when (navBackStackEntry?.destination?.route) {
-        "training" -> false
+        Destination.CurrentRun.route -> false
         else -> true
     }
 
@@ -95,7 +102,6 @@ fun MainScreen(
         ) {
             Navigation(
                 navController = navHostController,
-                scrollState = scrollState,
                 goalViewModel = goalViewModel,
                 activityViewModel = activityViewModel,
                 runViewModel = runViewModel
@@ -107,7 +113,6 @@ fun MainScreen(
 @Composable
 fun Navigation(
     navController: NavHostController,
-    scrollState: ScrollState,
     goalViewModel: GoalViewModel,
     activityViewModel: ActivityViewModel,
     runViewModel: RunViewModel
@@ -118,18 +123,18 @@ fun Navigation(
         mutableListOf()
     )
 
-    NavHost(navController = navController, startDestination = "Home") {
+    NavHost(navController = navController, startDestination = BottomNavItem.Home.route) {
         bottomNavigation(navController = navController, activityViewModel, runningPlanList)
-        composable("home") {
+        composable(BottomNavItem.Home.route) {
             Home(navController = navController)
         }
-        composable("training") {
+        composable(Destination.CurrentRun.route) {
             RunScreen(navController = navController, viewModel = runViewModel)
         }
-        composable("goal") {
+        composable(Destination.AddGoal.route) {
             AddGoalView(goalViewModel, navController)
         }
-        composable("plan") {
+        composable(BottomNavItem.Planning.route) {
 
             RunningPlanListScreen(runningPlanList, navController = navController)
         }

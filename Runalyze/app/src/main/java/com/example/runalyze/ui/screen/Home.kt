@@ -21,7 +21,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.runalyze.BottomNavItem
 import com.example.runalyze.R
+import com.example.runalyze.utils.Destination
 
 
 data class HomeOption(
@@ -32,18 +34,18 @@ data class HomeOption(
 )
 
 object Options {
-    val optionList = listOf<HomeOption>(
+    val optionList = listOf(
         HomeOption(
-            id = 1, image = R.drawable.running_red, text = "Start a quick run", route = "training"
+            id = 1, image = R.drawable.running_red, text = "Start a quick run", route = Destination.CurrentRun.route
         ),
         HomeOption(
             id = 2,
             image = R.drawable.running_blue,
             text = "Running plan recommendation",
-            route = "plan"
+            route = BottomNavItem.Planning.route
         ),
         HomeOption(
-            id = 3, image = R.drawable.running_dark, text = "Set a goal", route = "goal"
+            id = 3, image = R.drawable.running_dark, text = "Set a goal", route = Destination.AddGoal.route
         )
     )
 }
@@ -97,7 +99,7 @@ fun HomePreview() {
             id = 1,
             image = R.drawable.running_red,
             text = "Start a quick run",
-            route = "training"
+            route = Destination.CurrentRun.route
         ), navController = rememberNavController()
     )
 }

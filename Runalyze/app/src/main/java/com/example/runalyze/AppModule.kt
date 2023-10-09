@@ -16,6 +16,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 
+// dependencies container
 interface AppModule {
     val fusedLocationProviderClient: FusedLocationProviderClient
     val defaultLocationTrackingManager: LocationTrackingManager

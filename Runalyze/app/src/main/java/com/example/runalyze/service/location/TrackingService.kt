@@ -52,7 +52,6 @@ class TrackingService : LifecycleService() {
     override fun onDestroy() {
         super.onDestroy()
         notificationHelper.removeTrackingNotification()
-
         job?.cancel()
         job = null
     }
