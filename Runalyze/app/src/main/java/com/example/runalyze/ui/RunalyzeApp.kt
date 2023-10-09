@@ -151,7 +151,7 @@ fun Navigation(
             )
         }
         composable(Destination.RunResultDisplay.route){
-            RunResult(navController)
+            RunResult(navController, viewModel = runViewModel)
         }
     }
 }

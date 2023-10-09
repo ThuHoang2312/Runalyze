@@ -17,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.runalyze.R
@@ -35,7 +36,7 @@ fun RunStatsCard(
     ElevatedCard(
         modifier = modifier
             .fillMaxWidth()
-            .padding(vertical = 16.dp, horizontal = 24.dp),
+            .padding(vertical = 10.dp, horizontal = 24.dp),
         elevation = CardDefaults.elevatedCardElevation(defaultElevation = 4.dp)
     ) {
         RunTimeCard(
@@ -55,8 +56,8 @@ fun RunStatsCard(
         Row(
             horizontalArrangement = Arrangement.SpaceAround,
             modifier = Modifier
-                .padding(horizontal = 20.dp)
-                .padding(bottom = 20.dp)
+                .padding(horizontal = 10.dp)
+                .padding(bottom = 10.dp)
                 .height(IntrinsicSize.Min)
                 .fillMaxWidth()
                 .padding(horizontal = 8.dp, vertical = 4.dp)
@@ -64,13 +65,13 @@ fun RunStatsCard(
             RunningStatItem(
                 painter = painterResource(id = R.drawable.distance),
                 value = (runState.distanceInMeters / 1000f).toString(),
-                unit = "km"
+                unit = stringResource(id = R.string.distance_unit)
             )
             Box(
                 modifier = Modifier
                     .width(1.dp)
                     .fillMaxHeight()
-                    .padding(vertical = 8.dp)
+                    .padding(vertical = 5.dp)
                     .align(Alignment.CenterVertically)
                     .background(
                         color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f),
@@ -79,14 +80,14 @@ fun RunStatsCard(
             RunningStatItem(
                 painter = painterResource(id = R.drawable.speed),
                 value = runState.speedInKMH.toString(),
-                unit = "km/h"
+                unit = stringResource(id = R.string.speed_unit)
             )
             if(heartRate != 0){
             Box(
                 modifier = Modifier
                     .width(1.dp)
                     .fillMaxHeight()
-                    .padding(vertical = 8.dp)
+                    .padding(vertical = 5.dp)
                     .align(Alignment.CenterVertically)
                     .background(
                         color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f),
@@ -95,7 +96,7 @@ fun RunStatsCard(
                 RunningStatItem(
                     painter = painterResource(id = R.drawable.heart_beat),
                     value = heartRate.toString(),
-                    unit = "bpm"
+                    unit = stringResource(id = R.string.heart_rate_unit)
                 )
             }
 
