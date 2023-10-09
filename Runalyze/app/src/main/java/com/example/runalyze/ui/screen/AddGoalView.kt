@@ -62,6 +62,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import androidx.navigation.NavController
 import com.example.runalyze.database.Goal
+import com.example.runalyze.service.RunningPlan
 import com.example.runalyze.ui.componentLibrary.TopNavigation
 import com.example.runalyze.viewmodel.GoalViewModel
 import java.text.SimpleDateFormat
@@ -74,6 +75,7 @@ import java.util.Locale
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun AddGoalView(
+    plan: RunningPlan?,
     viewModel: GoalViewModel,
     navController: NavController
 ) {
@@ -92,9 +94,9 @@ fun AddGoalView(
     var openTimePickerDialog by remember { mutableStateOf(false) }
     val timePickerState = rememberTimePickerState()
     val isReminderTimeSet = remember { mutableStateOf(false) }
-    var targetDistance by rememberSaveable { mutableStateOf("") }
-    var targetSpeed by rememberSaveable { mutableStateOf("") }
-    var targetHeartRate by rememberSaveable { mutableStateOf("") }
+    var targetDistance by rememberSaveable { mutableStateOf(plan?.duration.toString() ?: "") }
+    var targetSpeed by rememberSaveable { mutableStateOf(plan?.duration.toString() ?: "") }
+    var targetHeartRate by rememberSaveable { mutableStateOf(plan?.duration.toString() ?: "") }
     val formatter = remember { SimpleDateFormat("HH:mm", Locale.getDefault()) }
     var formattedTime = remember { mutableStateOf("") }
     val daysOfWeek = listOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")
@@ -115,7 +117,6 @@ fun AddGoalView(
     ) { values ->
         Column(
             modifier = Modifier
-                .verticalScroll(rememberScrollState())
                 .padding(values)
                 .padding(16.dp)
                 .verticalScroll(rememberScrollState())

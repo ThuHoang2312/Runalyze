@@ -132,10 +132,15 @@ fun Navigation(
         composable(Destination.CurrentRun.route) {
             RunScreen(navController = navController, viewModel = runViewModel)
         }
-        composable(Destination.AddGoal.route) {
-            AddGoalView(goalViewModel, navController)
+        composable(
+            route = "goal?runningPlanId={runningPlanId}",
+            arguments = listOf(navArgument("runningPlanId") { defaultValue = -1 })
+        ) {backStackEntry ->
+            val id = backStackEntry.arguments?.getInt("runningPlanId") ?: 0
+            val plan = runningPlanList.find { it.planId == id }
+            AddGoalView(plan, goalViewModel, navController)
         }
-        composable("plan") {
+        composable(BottomNavItem.Planning.route) {
             RunningPlanListScreen(runningPlanList, navController = navController)
         }
         composable(
