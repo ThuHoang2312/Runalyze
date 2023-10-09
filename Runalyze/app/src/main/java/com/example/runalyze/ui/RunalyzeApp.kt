@@ -78,8 +78,8 @@ fun MainScreen(
 
     Scaffold(
         bottomBar = {
-            if(showBottomBar)
-            BottomNavigationMenu(navController = navHostController)
+            if (showBottomBar)
+                BottomNavigationMenu(navController = navHostController)
         }
     )
     { innerPadding ->
@@ -112,7 +112,7 @@ fun Navigation(
     activityViewModel: ActivityViewModel,
     runViewModel: RunViewModel
 ) {
-    val runningPlanViewModel  = RunningPlanViewModel()
+    val runningPlanViewModel = RunningPlanViewModel()
     runningPlanViewModel.getRunningPlanList()
     val runningPlanList: List<RunningPlan> by runningPlanViewModel.runningPlanList.observeAsState(
         mutableListOf()
@@ -130,7 +130,6 @@ fun Navigation(
             AddGoalView(goalViewModel, navController)
         }
         composable("plan") {
-
             RunningPlanListScreen(runningPlanList, navController = navController)
         }
         composable(

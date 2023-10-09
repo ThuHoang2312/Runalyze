@@ -46,7 +46,6 @@ import kotlin.math.round
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Activity(viewModel: ActivityViewModel, navController: NavController) {
-    //val allData by viewModel.allTrainings.observeAsState(emptyList())
     val allData = viewModel.getAllTrainingDetails().observeAsState(listOf())
     val goal = viewModel.getNewestGoal().observeAsState(null)
     var summarizedData by remember { mutableStateOf(emptyList<Run>()) }

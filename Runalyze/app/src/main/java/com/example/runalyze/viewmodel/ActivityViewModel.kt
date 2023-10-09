@@ -146,7 +146,7 @@ class ActivityViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
-    fun getAllTrainingDetails(): LiveData<List<Run>> = db.runDao.getTrainingDetails()
+    fun getAllTrainingDetails(): LiveData<List<Run>> = db.runDao.getAllRunsSortedByDate()
 
     fun getNewestGoal(): LiveData<Goal?> = db.goalDao.getLatestGoal()
 }

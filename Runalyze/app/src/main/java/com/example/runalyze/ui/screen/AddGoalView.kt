@@ -19,8 +19,10 @@ import androidx.compose.foundation.layout.requiredWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.AlertDialog
@@ -71,7 +73,10 @@ import java.util.Locale
 @OptIn(ExperimentalMaterial3Api::class)
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun AddGoalView(viewModel: GoalViewModel, navController: NavController) {
+fun AddGoalView(
+    viewModel: GoalViewModel,
+    navController: NavController
+) {
     var openDateRangePickerDialog = remember { mutableStateOf(false) }
     val dateRangePickerState = rememberDateRangePickerState()
     val formattedStartDate = dateRangePickerState.selectedStartDateMillis?.let {
@@ -111,6 +116,7 @@ fun AddGoalView(viewModel: GoalViewModel, navController: NavController) {
     ) { values ->
         Column(
             modifier = Modifier
+                .verticalScroll(rememberScrollState())
                 .padding(values)
                 .padding(16.dp),
         ) {

@@ -29,9 +29,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import com.example.runalyze.service.RunningPlan
 import com.example.runalyze.ui.componentLibrary.RunningPlanItemDetail
 import com.example.runalyze.ui.components.TopNavigation
-import com.example.runalyze.service.RunningPlan
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -109,7 +109,7 @@ fun RunningPlanDetailView(
                             .padding(10.dp)
                     ) {
                         Button(onClick = {
-                            navController.navigate("goal")
+                            navController.navigate("goal?planId=$planId")
                         }) {
                             Text(text = "Set goal with this plan", fontWeight = FontWeight.SemiBold)
                         }
