@@ -112,7 +112,10 @@ fun RunningPlanDetailScreen(
                         Button(onClick = {
                             navController.navigate(Destination.AddGoal.route)
                         }) {
-                            Text(text = stringResource(id = R.string.set_goal_from), fontWeight = FontWeight.SemiBold)
+                            Text(
+                                text = stringResource(id = R.string.set_goal_from),
+                                fontWeight = FontWeight.SemiBold
+                            )
                         }
                     }
                 }
@@ -121,5 +124,4 @@ fun RunningPlanDetailScreen(
     } else {
         Text(text = stringResource(id = R.string.loading))
     }
-
 }
