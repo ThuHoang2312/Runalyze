@@ -33,7 +33,6 @@ import com.example.runalyze.R
 import com.example.runalyze.service.RunningPlan
 import com.example.runalyze.ui.componentLibrary.RunningPlanItemDetail
 import com.example.runalyze.ui.componentLibrary.TopNavigation
-import com.example.runalyze.utils.Destination
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -110,7 +109,7 @@ fun RunningPlanDetailScreen(
                             .padding(10.dp)
                     ) {
                         Button(onClick = {
-                            navController.navigate(Destination.AddGoal.route)
+                            navController.navigate("goal?runningPlanId=$planId")
                         }) {
                             Text(
                                 text = stringResource(id = R.string.set_goal_from),

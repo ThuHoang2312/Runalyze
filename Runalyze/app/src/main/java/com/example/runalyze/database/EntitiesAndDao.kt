@@ -45,16 +45,13 @@ interface GoalDao {
     suspend fun addGoal(goal: Goal): Long
 
     @Query("SELECT * FROM Goal ORDER BY createdDate DESC LIMIT 1")
-    suspend fun getLatestGoal(): Goal?
+    fun getLatestGoal(): LiveData<Goal?>
 }
 
 @Dao
 interface RunDao {
     @Query("SELECT COUNT(*) FROM run_table")
     suspend fun getTrainingDetailCount(): Int
-
-    @Query("SELECT * FROM run_table")
-    suspend fun getTrainingDetails(): List<Run>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addRun(run: Run)

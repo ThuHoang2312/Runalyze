@@ -62,6 +62,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import androidx.navigation.NavController
 import com.example.runalyze.database.Goal
+import com.example.runalyze.service.RunningPlan
 import com.example.runalyze.ui.componentLibrary.TopNavigation
 import com.example.runalyze.viewmodel.GoalViewModel
 import java.text.SimpleDateFormat
@@ -73,7 +74,11 @@ import java.util.Locale
 @OptIn(ExperimentalMaterial3Api::class)
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun AddGoalView(viewModel: GoalViewModel, navController: NavController) {
+fun AddGoalView(
+    plan: RunningPlan?,
+    viewModel: GoalViewModel,
+    navController: NavController
+) {
     val openDateRangePickerDialog = remember { mutableStateOf(false) }
     val dateRangePickerState = rememberDateRangePickerState()
     val formattedStartDate = dateRangePickerState.selectedStartDateMillis?.let {
@@ -98,6 +103,12 @@ fun AddGoalView(viewModel: GoalViewModel, navController: NavController) {
     val selectedDays =
         remember { mutableStateListOf<Boolean>(false, false, false, false, false, false, false) }
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+
+    if (plan != null) {
+        targetDistance = plan.targetDistance.toString()
+        targetSpeed = plan.targetSpeed.toString()
+        targetHeartRate = plan.targetHeartRate.toString()
+    }
 
     Scaffold(
         modifier = Modifier
@@ -221,8 +232,7 @@ fun AddGoalView(viewModel: GoalViewModel, navController: NavController) {
                         if (it.toDoubleOrNull() != null) {
                             targetDistance = it
                         }
-                    },
-                    placeholder = { Text("11.5") }
+                    }
                 )
             }
 
@@ -244,8 +254,7 @@ fun AddGoalView(viewModel: GoalViewModel, navController: NavController) {
                         if (it.toDoubleOrNull() != null) {
                             targetSpeed = it
                         }
-                    },
-                    placeholder = { Text("7.5") }
+                    }
                 )
             }
 
@@ -267,8 +276,7 @@ fun AddGoalView(viewModel: GoalViewModel, navController: NavController) {
                         if (it.toIntOrNull() != null) {
                             targetHeartRate = it
                         }
-                    },
-                    placeholder = { Text("150") }
+                    }
                 )
             }
 
@@ -300,7 +308,9 @@ fun AddGoalView(viewModel: GoalViewModel, navController: NavController) {
                             )
                         )
                         navController.navigate("Home")
-                    }) {
+                    },
+                    enabled = targetDistance != "" && targetSpeed != "" && targetHeartRate != ""
+                ) {
                     Text(text = "Save and exit to home screen")
                 }
             }

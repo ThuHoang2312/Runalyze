@@ -56,7 +56,7 @@ class MainActivity : ComponentActivity() {
     @RequiresApi(Build.VERSION_CODES.S)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //activityViewModel.addDummyData()
+
         val data: Uri? = intent?.data
         Log.d(tag, "DATA FOR INTENT: ${data}")
 

@@ -14,7 +14,7 @@ sealed class Destination(val route: String) {
             }
         )
     }
-    object AddGoal: Destination("Goal")
+    object AddGoal: Destination("goal?runningPlanId=")
 
     object RunResultDisplay: Destination("run_result"){
         fun navigateToHome(navController: NavController) {
