@@ -1,6 +1,7 @@
 package com.example.runalyze.ui.componentLibrary
 
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
@@ -38,5 +39,28 @@ fun TextModifiedWithPaddingStart(
         modifier = Modifier.padding(start = paddingStart.dp)
     )
 }
+
+@Composable
+fun RunStats(text: String, value: String, unit: String){
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(5.dp)
+    ) {
+        Text(
+            text = text,
+            modifier = Modifier.padding(5.dp)
+        )
+        Text(
+            text = value,
+            modifier = Modifier.padding(5.dp)
+        )
+        Text(
+            text = unit,
+            modifier = Modifier.padding(5.dp))
+    }
+}
+
+
 
 

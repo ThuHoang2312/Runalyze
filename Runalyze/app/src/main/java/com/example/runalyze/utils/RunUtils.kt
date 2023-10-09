@@ -140,4 +140,9 @@ object RunUtils {
         SimpleDateFormat("MMMM dd, yyyy", Locale.getDefault())
             .format(this)
 
+    fun getRunTimeInHours(time: Long): Double {
+        val millisecondsInHour = 3600000.0
+        return time / millisecondsInHour
+    }
+
 }

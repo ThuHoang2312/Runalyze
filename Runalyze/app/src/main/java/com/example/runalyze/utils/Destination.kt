@@ -2,6 +2,7 @@ package com.example.runalyze.utils
 
 import androidx.navigation.NavController
 import androidx.navigation.navDeepLink
+import com.example.runalyze.BottomNavItem
 
 // Navigation destination
 sealed class Destination(val route: String) {
@@ -13,10 +14,27 @@ sealed class Destination(val route: String) {
             }
         )
     }
-    object AddGoal: Destination("Goal"){
+    object AddGoal: Destination("Goal")
 
+    object RunResultDisplay: Destination("run_result"){
+        fun navigateToHome(navController: NavController) {
+            navController.navigate(BottomNavItem.Home.route) {
+                popUpTo(route) {
+                    inclusive = true
+                }
+                launchSingleTop = true
+            }
+        }
+
+        fun navigateToGraph(navController: NavController){
+            navController.navigate(BottomNavItem.Statistic.route) {
+                popUpTo(route) {
+                    inclusive = true
+                }
+                launchSingleTop = true
+            }
+        }
     }
-
 
     //navigation
     companion object {

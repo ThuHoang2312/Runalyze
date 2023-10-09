@@ -33,6 +33,7 @@ import com.example.runalyze.ui.components.BottomNavigationMenu
 import com.example.runalyze.ui.screen.Activity
 import com.example.runalyze.ui.screen.AddGoalView
 import com.example.runalyze.ui.screen.Home
+import com.example.runalyze.ui.screen.RunResult
 import com.example.runalyze.ui.screen.runningPlan.RunningPlanDetailScreen
 import com.example.runalyze.ui.screen.runningPlan.RunningPlanListScreen
 import com.example.runalyze.utils.Destination
@@ -148,6 +149,9 @@ fun Navigation(
                 runningPlanList,
                 navController
             )
+        }
+        composable(Destination.RunResultDisplay.route){
+            RunResult(navController)
         }
     }
 }
