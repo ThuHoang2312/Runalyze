@@ -39,6 +39,7 @@ import com.example.runalyze.service.location.models.PathPoint
 import com.example.runalyze.ui.components.RunStatsCard
 import com.example.runalyze.ui.theme.md_theme_light_primary
 import com.example.runalyze.utils.ComposeUtils
+import com.example.runalyze.utils.Destination
 import com.example.runalyze.utils.LocationUtils
 import com.example.runalyze.utils.RunUtils.firstLocationPoint
 import com.example.runalyze.utils.RunUtils.lastLocationPoint
@@ -108,7 +109,7 @@ fun RunScreen(
                     val averageHeartRate = listBPM.filter { it != 0 }.average()
                     isRunningFinished = true
                     viewModel.finishRun(averageHeartRate)
-                    navController.navigate("activity")
+                    navController.navigate(Destination.RunResultDisplay.route)
                 }
             )
         }

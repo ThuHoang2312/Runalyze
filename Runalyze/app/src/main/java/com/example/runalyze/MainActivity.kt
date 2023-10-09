@@ -6,6 +6,7 @@ import android.app.Activity
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothManager
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -37,7 +38,6 @@ import com.example.runalyze.ui.theme.RunalyzeTheme
 import com.example.runalyze.utils.LocationUtils
 import com.example.runalyze.utils.RunUtils
 import com.example.runalyze.utils.RunUtils.hasAllPermission
-import com.example.runalyze.utils.RunUtils.hasBluetoothPermission
 import com.example.runalyze.utils.RunUtils.hasLocationPermission
 import com.example.runalyze.utils.RunUtils.openAppSetting
 import com.example.runalyze.viewmodel.ActivityViewModel
@@ -64,16 +64,22 @@ class MainActivity : ComponentActivity() {
         bluetoothAdapter = bluetoothManager.adapter
         // check heart rate sensor and connect
         // If version sdk is equal and bigger than 31, check for bluetooth permission
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && hasBluetoothPermission()) {
-            if (bluetoothAdapter?.bondedDevices != null) {
-                for (btDev in bluetoothAdapter?.bondedDevices!!) {
-                    Log.d(tag, "bluetooth device bonded is: : ${btDev.name}")
-                    if (btDev.name.startsWith("Polar")) {
-                        Log.d(tag, "connected to heart rate sensor")
-                        val bluetoothGatt =
-                            btDev.connectGatt(this, false, GattClientCallback(model = runViewModel))
-                        Log.d(tag, "connect Polar is ${bluetoothGatt.connect()}")
-                        break
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S ) {
+            if(ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_GRANTED){
+                if (bluetoothAdapter?.bondedDevices != null) {
+                    for (btDev in bluetoothAdapter?.bondedDevices!!) {
+                        Log.d(tag, "bluetooth device bonded is: : ${btDev.name}")
+                        if (btDev.name.startsWith("Polar")) {
+                            Log.d(tag, "connected to heart rate sensor")
+                            val bluetoothGatt =
+                                btDev.connectGatt(
+                                    this,
+                                    false,
+                                    GattClientCallback(model = runViewModel)
+                                )
+                            Log.d(tag, "connect Polar is ${bluetoothGatt.connect()}")
+                            break
+                        }
                     }
                 }
             }else {
