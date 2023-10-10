@@ -1,6 +1,7 @@
 package com.example.runalyze.ui.screen
 
 import android.util.Log
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,6 +13,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
@@ -40,16 +42,18 @@ import com.example.runalyze.database.Converters
 import com.example.runalyze.database.Goal
 import com.example.runalyze.database.Run
 import com.example.runalyze.ui.componentLibrary.ScreenHeader
-import com.example.runalyze.ui.componentLibrary.TopNavigation
 import com.example.runalyze.ui.components.BarChart
 import com.example.runalyze.viewmodel.ActivityViewModel
+import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Date
+import java.util.Locale
 import kotlin.math.round
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Activity(viewModel: ActivityViewModel, navController: NavController) {
-    val allData = viewModel.getAllTrainingDetails().observeAsState(listOf())
+    val allData by viewModel.allTrainings.observeAsState(emptyList())
     val goal = viewModel.getNewestGoal().observeAsState(null)
     var summarizedData by remember { mutableStateOf(emptyList<Run>()) }
     var filteredData by remember { mutableStateOf(emptyList<Run>()) }
@@ -58,9 +62,8 @@ fun Activity(viewModel: ActivityViewModel, navController: NavController) {
     var displayedView by remember {
         mutableStateOf("summary")
     }
-    //val goal by viewModel.newestGoal.observeAsState(initial = null)
+    var selectedButton by remember { mutableStateOf(1) }
 
-    viewModel.getAllTrainingDetails()
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
@@ -86,46 +89,84 @@ fun Activity(viewModel: ActivityViewModel, navController: NavController) {
                 TextButton(
                     onClick = {
                         displayedView = "summary"
+                        selectedButton = 1
                         filteredData = summarizedData.filter {
                             val day = Converters().fromTimestamp(it.timestamp).toString().split("-")
                             val today = Calendar.getInstance()
-
+                            Log.d("Runalyze", "today: ${day}- ${today}")
                             day[2].toInt() == today.get(Calendar.DAY_OF_MONTH) &&
                                     day[1].toInt() == today.get(Calendar.MONTH) + 1 &&
                                     day[0].toInt() == today.get(Calendar.YEAR)
                         }
-                    }
+                    },
+                    modifier = Modifier
+                        .background(
+                            if (selectedButton == 1) Color(255, 59, 48) else Color.White,
+                            shape = RoundedCornerShape(16.dp)
+                        )
                 ) {
-                    Text(text = "Today")
+                    Text(
+                        text = "Today",
+                        color = if (selectedButton == 1) Color.White else Color(255, 59, 48),
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Bold
+                    )
                 }
-                TextButton(onClick = {
-                    displayedView = "graph"
-                    filteredData = summarizedData.filter {
-                        val month = Converters().fromTimestamp(it.timestamp).toString()
-                            .split("-")[1].toInt()
-                        val currentMonth = Calendar.getInstance().get(Calendar.MONTH)
+                TextButton(
+                    onClick = {
+                        displayedView = "graph"
+                        selectedButton = 2
+                        filteredData = summarizedData.filter {
+                            val month = Converters().fromTimestamp(it.timestamp).toString()
+                                .split("-")[1].toInt()
+                            val currentMonth = Calendar.getInstance().get(Calendar.MONTH)
 
-                        month == currentMonth + 1
-                    }
-                }) {
-                    Text(text = "Month")
+                            month == currentMonth + 1
+                        }
+                    },
+                    modifier = Modifier
+                        .background(
+                            if (selectedButton == 2) Color(255, 59, 48) else Color.White,
+                            shape = RoundedCornerShape(16.dp)
+                        )
+                ) {
+                    Text(
+                        text = "Month",
+                        color = if (selectedButton == 2) Color.White else Color(255, 59, 48),
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Bold
+                    )
                 }
-                TextButton(onClick = {
-                    displayedView = "graph"
-                    filteredData = summarizedData.filter {
-                        val year = Converters().fromTimestamp(it.timestamp).toString()
-                            .split("-")[0].toInt()
-                        val currentYear = Calendar.getInstance().get(Calendar.YEAR)
+                TextButton(
+                    onClick = {
+                        displayedView = "graph"
+                        selectedButton = 3
+                        filteredData = summarizedData.filter {
+                            val year = Converters().fromTimestamp(it.timestamp).toString()
+                                .split("-")[0].toInt()
+                            val currentYear = Calendar.getInstance().get(Calendar.YEAR)
 
-                        year == currentYear
-                    }
-                }) {
-                    Text(text = "Year")
+                            year == currentYear
+                        }
+                    },
+                    modifier = Modifier
+                        .background(
+                            if (selectedButton == 3) Color(255, 59, 48) else Color.White,
+                            shape = RoundedCornerShape(16.dp)
+                        )
+                ) {
+                    Text(
+                        text = "Year",
+                        color = if (selectedButton == 3) Color.White else Color(255, 59, 48),
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Bold 
+                    )
                 }
             }
 
             if (allData != null) {
-                summarizedData = prepareRunSummary(allData.value)
+                summarizedData = prepareRunSummary(allData)
+                Log.d("Runalyze", "SummarizedData: ${summarizedData}")
             }
             if (displayedView == "graph") {
                 Log.d("Runalyze", "Input data: $summarizedData")
@@ -148,39 +189,54 @@ fun Activity(viewModel: ActivityViewModel, navController: NavController) {
 }
 
 fun prepareRunSummary(data: List<Run>): List<Run> {
-    val groupedRuns = data.groupBy { Converters().fromTimestamp(it.timestamp) }
-    val summarizedRuns = groupedRuns.map { (day, runs) ->
+    val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+    val groupedRuns = mutableMapOf<String, MutableList<Run>>()
+
+    for (run in data) {
+        val dateString = sdf.format(Date(run.timestamp))
+        if (!groupedRuns.containsKey(dateString)) {
+            groupedRuns[dateString] = mutableListOf()
+        }
+        groupedRuns[dateString]?.add(run)
+    }
+
+    val summarizedRuns = mutableListOf<Run>()
+
+    for ((dateString, runs) in groupedRuns) {
         val totalDistance: Int = runs.sumOf { it.distanceInMeters }
         val totalDuration: Long = runs.sumOf { it.durationInMillis }
         val avgSpeed: Double = runs.sumOf { it.avgSpeedInKMH.toDouble() } / runs.size
         val avgHeartRate: Double = runs.sumOf { it.avgHeartRate } / runs.size
 
-        Run(
-            0,
-            timestamp = Converters().dateToTimestamp(day) ?: 0,
-            avgSpeedInKMH = avgSpeed.toFloat(),
-            distanceInMeters = totalDistance,
-            durationInMillis = totalDuration,
-            avgHeartRate = avgHeartRate
+        summarizedRuns.add(
+            Run(
+                0,
+                timestamp = sdf.parse(dateString)?.time ?: 0,
+                avgSpeedInKMH = avgSpeed.toFloat(),
+                distanceInMeters = totalDistance,
+                durationInMillis = totalDuration,
+                avgHeartRate = avgHeartRate
+            )
         )
     }
 
+    Log.d("Runalyze", "SummarizedData: ${groupedRuns}")
     return summarizedRuns
 }
 
 @Composable
 fun GraphView(allData: List<Run>, screenWidth: Dp) {
-    Text(text = "Distance")
+    Text(text = "Distance (Km)", fontWeight = FontWeight.Bold, fontSize = 16.sp)
     Box {
         BarChart(data = allData, screenWidth = screenWidth, key = "distance")
     }
     Spacer(modifier = Modifier.height(32.dp))
-    Text(text = "Average Speed")
+    Text(text = "Average Speed (Km/h)", fontWeight = FontWeight.Bold, fontSize = 16.sp)
     Box {
         BarChart(data = allData, screenWidth = screenWidth, key = "speed")
     }
     Spacer(modifier = Modifier.height(32.dp))
-    Text(text = "Average Heart Rate")
+    Text(text = "Average Heart Rate (bpm)", fontWeight = FontWeight.Bold, fontSize = 16.sp)
     Box {
         BarChart(data = allData, screenWidth = screenWidth, key = "average heart rate")
     }
@@ -256,6 +312,7 @@ fun CurrentGoalView(data: Goal?) {
 
 @Composable
 fun TrainingSummary(run: Run, goal: Goal?) {
+    Log.d("Runalyze", "Summary view: $run")
     Column {
         Text(text = "Progress", fontWeight = FontWeight.Bold, fontSize = 16.sp)
         Spacer(modifier = Modifier.height(16.dp))
