@@ -40,7 +40,7 @@ class DefaultNotificationHelper(private val context: Context) : NotificationHelp
             context,
             TRACKING_NOTIFICATION_CHANNEL_ID
         )
-            .setSmallIcon(R.drawable.logo)
+            .setSmallIcon(R.drawable.runalyze_logo_large)
             .setAutoCancel(false)
             .setOngoing(true)
             .setContentTitle("Running Time")
