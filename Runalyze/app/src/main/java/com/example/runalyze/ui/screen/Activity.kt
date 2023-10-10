@@ -29,14 +29,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.runalyze.R
 import com.example.runalyze.database.Converters
 import com.example.runalyze.database.Goal
 import com.example.runalyze.database.Run
+import com.example.runalyze.ui.componentLibrary.ScreenHeader
 import com.example.runalyze.ui.componentLibrary.TopNavigation
 import com.example.runalyze.ui.components.BarChart
 import com.example.runalyze.viewmodel.ActivityViewModel
@@ -63,10 +66,7 @@ fun Activity(viewModel: ActivityViewModel, navController: NavController) {
             .fillMaxSize()
             .nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
-            TopNavigation(
-                text = "Activity",
-                navController = navController
-            )
+            ScreenHeader(stringResource(id = R.string.activity_header))
         }
     ) { values ->
         Column(

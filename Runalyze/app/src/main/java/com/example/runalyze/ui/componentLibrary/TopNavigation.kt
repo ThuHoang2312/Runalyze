@@ -10,6 +10,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.navigation.NavController
 
@@ -33,7 +34,8 @@ fun TopNavigation(navController: NavController, text: String) {
                 IconButton(onClick = { navController.navigateUp() }) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.ArrowBackIos,
-                        contentDescription = "Return button"
+                        contentDescription = "Return button",
+                        tint = MaterialTheme.colorScheme.primary
                     )
                 }
             }
