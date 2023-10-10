@@ -3,6 +3,7 @@ package com.example.runalyze.ui.components
 import android.graphics.Paint
 import android.util.Log
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -29,6 +30,11 @@ import kotlin.math.roundToInt
 fun BarChart(data: List<Run>, key: String, screenWidth: Dp) {
     Log.d("Runalyze", "Data for bar chart: $data")
     var maxValue by remember { mutableFloatStateOf(0.0F) }
+    val textColor = if (isSystemInDarkTheme()) {
+        Color.White // Use white text color for dark mode
+    } else {
+        Color.Black // Use black text color for light mode
+    }
 
     data.map {
         var graphFilter: Float = when (key) {
@@ -64,7 +70,7 @@ fun BarChart(data: List<Run>, key: String, screenWidth: Dp) {
                     maxLabelWidth.toFloat(),
                     yLabelPosition,
                     Paint().apply {
-                        color = Color.Black.hashCode()
+                        color = textColor.hashCode()
                         textSize = 16.dp.toPx()
                     }
                 )
@@ -100,7 +106,7 @@ fun BarChart(data: List<Run>, key: String, screenWidth: Dp) {
                     ((x - textWidth / 2).toFloat()),
                     size.height + 16.dp.toPx(),
                     Paint().apply {
-                        color = Color.Black.hashCode()
+                        color = textColor.hashCode()
                         textSize = 16.dp.toPx()
                     }
                 )
