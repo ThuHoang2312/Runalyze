@@ -141,8 +141,8 @@ object RunUtils {
             .format(this)
 
     fun getRunTimeInHours(time: Long): Double {
-        val millisecondsInHour = 3600000.0
-        return time / millisecondsInHour
+        val millisecondsInMinute = 60000.0
+        return time / millisecondsInMinute
     }
 
 }

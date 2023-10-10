@@ -10,6 +10,7 @@ import com.example.runalyze.RunalyzeApp
 import com.example.runalyze.database.AppDb
 import com.example.runalyze.database.Run
 import com.example.runalyze.service.location.TrackingManager
+import com.example.runalyze.service.location.models.CurrentRunResult
 import kotlinx.coroutines.launch
 import java.math.RoundingMode
 import java.util.Date
@@ -27,7 +28,7 @@ class RunViewModel(
     val highmBPM = MutableLiveData(0)
     val lowmBPM = MutableLiveData(300)
     val listBPM = MutableLiveData(mutableListOf<Int>())
-
+    var currentRunResult: CurrentRunResult? = null
     fun playPauseTracking(){
         if(currentRunState.value.isTracking){
             trackingManager.pauseTracking()
@@ -38,6 +39,12 @@ class RunViewModel(
 
     fun finishRun(averageHeartRate: Double){
         trackingManager.pauseTracking()
+        currentRunResult = CurrentRunResult(
+            distanceInMeters = currentRunState.value.distanceInMeters,
+            timeInMillis = runningDurationInMillis.value,
+            avgHeartRate = if (!averageHeartRate.isNaN()) averageHeartRate else 0.0,
+            speedInKMH = currentRunState.value.speedInKMH
+        )
         saveRun(
             Run(
                 avgSpeedInKMH = currentRunState.value.distanceInMeters
