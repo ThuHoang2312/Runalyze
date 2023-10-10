@@ -16,4 +16,8 @@
     <string name="stats_button">Overview</string>
     <string name="home_button">Go to Home</string>
     <string name="congrats">Congratulations!!!</string>
+    <string name="duration">Duration :</string>
+    <string name="duration_unit">minutes</string>
+    <string name="heart_rate">Average heart rate :</string>
+    <string name="heart_rate_unit">bpm</string>
 </resources>

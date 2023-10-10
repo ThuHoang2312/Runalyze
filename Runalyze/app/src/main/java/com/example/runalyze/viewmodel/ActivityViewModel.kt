@@ -11,18 +11,7 @@ import kotlinx.coroutines.launch
 
 class ActivityViewModel(application: Application) : AndroidViewModel(application) {
     private val db = AppDb.getInstance(application)
-    /*private val _allTrainings = MutableLiveData<List<Run>>()
-    val allTrainings = _allTrainings
-    private val _count = MutableLiveData<Int>()
-    val count = _count
-    private val _newestGoal = MutableLiveData<Goal?>()
-    val newestGoal = _newestGoal
-
-    init {
-        Log.d("Runalyze", "activity created")
-        getAllTrainingDetails()
-        getNewestGoal()
-    }*/
+    val allTrainings: LiveData<List<Run>> = db.runDao.getTrainingDetails()
 
     fun addDummyData() {
         viewModelScope.launch {
@@ -142,11 +131,11 @@ class ActivityViewModel(application: Application) : AndroidViewModel(application
     fun addTrainingDetailLiveData(detail: Run) {
         viewModelScope.launch {
             db.runDao.addRun(detail)
-
         }
     }
 
-    fun getAllTrainingDetails(): LiveData<List<Run>> = db.runDao.getAllRunsSortedByDate()
-
     fun getNewestGoal(): LiveData<Goal?> = db.goalDao.getLatestGoal()
 }
+
+
+

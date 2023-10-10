@@ -6,3 +6,10 @@ data class CurrentRunState(
     val isTracking: Boolean = false,
     val pathPoints: List<PathPoint> = emptyList()
 )
+
+data class CurrentRunResult (
+    val distanceInMeters: Int,
+    val timeInMillis: Long,
+    val avgHeartRate: Double,
+    val speedInKMH: Float
+)

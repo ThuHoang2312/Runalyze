@@ -50,8 +50,8 @@ interface GoalDao {
 
 @Dao
 interface RunDao {
-    @Query("SELECT COUNT(*) FROM run_table")
-    suspend fun getTrainingDetailCount(): Int
+    @Query("SELECT * FROM run_table")
+    fun getTrainingDetails(): LiveData<List<Run>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addRun(run: Run)

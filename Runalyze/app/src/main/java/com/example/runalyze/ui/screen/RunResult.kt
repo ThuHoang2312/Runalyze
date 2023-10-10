@@ -1,5 +1,6 @@
 package com.example.runalyze.ui.screen
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -20,17 +21,17 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.runalyze.R
 import com.example.runalyze.ui.componentLibrary.RunStats
 import com.example.runalyze.utils.Destination
+import com.example.runalyze.viewmodel.RunViewModel
 
+@SuppressLint("StateFlowValueCalledInComposition")
 @Composable
-fun RunResult(navController: NavController){
+fun RunResult(navController: NavController, viewModel: RunViewModel) {
 
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -49,10 +50,11 @@ fun RunResult(navController: NavController){
             Text(
                 text = stringResource(id = R.string.congrats),
                 fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(5.dp),
+                modifier = Modifier.padding(vertical = 10.dp, horizontal = 24.dp),
                 fontSize = 25.sp,
                 color = MaterialTheme.colorScheme.primary
             )
+
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -60,16 +62,34 @@ fun RunResult(navController: NavController){
             ) {
                 RunStats(
                     text = stringResource(id = R.string.distance),
-                    value = "2",
+                    value = String.format(
+                        "%.2f",
+                        (viewModel.currentRunResult?.distanceInMeters?.div(1000f))
+                    ),
                     unit = stringResource(id = R.string.distance_unit)
                 )
                 RunStats(
                     text = stringResource(id = R.string.avgSpeed),
-                    value = "3.5",
+                    value = (viewModel.currentRunResult?.speedInKMH).toString(),
                     unit = stringResource(id = R.string.speed_unit)
                 )
-
+                RunStats(
+                    text = stringResource(id = R.string.duration),
+                    value = String.format(
+                        "%.2f",
+                        viewModel.currentRunResult?.timeInMillis?.div(60000.0)),
+                    unit = stringResource(id = R.string.duration_unit)
+                )
+                RunStats(
+                    text = stringResource(id = R.string.heart_rate),
+                    value = String.format(
+                        "%.2f",
+                        (viewModel.currentRunResult?.avgHeartRate)),
+                    unit = stringResource(id = R.string.heart_rate_unit)
+                )
             }
+
+
             Row(
                 modifier = Modifier
                     .fillMaxSize()
@@ -78,29 +98,32 @@ fun RunResult(navController: NavController){
             ) {
                 Button(
                     modifier = Modifier.weight(1f),
-                    onClick = { Destination.RunResultDisplay.navigateToHome(navController)
+                    onClick = {
+                        Destination.RunResultDisplay.navigateToHome(navController)
                     }
                 ) {
-                    Text(text = stringResource(id = R.string.home_button), fontWeight = FontWeight.SemiBold)
+                    Text(
+                        text = stringResource(id = R.string.home_button),
+                        fontWeight = FontWeight.SemiBold
+                    )
                 }
                 Spacer(modifier = Modifier.width(16.dp))
                 Button(
                     modifier = Modifier.weight(1f),
-                    onClick = { Destination.RunResultDisplay.navigateToGraph(navController)
+                    onClick = {
+                        Destination.RunResultDisplay.navigateToGraph(navController)
                     }
                 ) {
-                    Text(text = stringResource(id = R.string.stats_button), fontWeight = FontWeight.SemiBold)
+                    Text(
+                        text = stringResource(id = R.string.stats_button),
+                        fontWeight = FontWeight.SemiBold
+                    )
                 }
             }
         }
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun RunResultPreview(){
-    val navController = rememberNavController()
-    RunResult(navController = navController)
-}
+
 
 

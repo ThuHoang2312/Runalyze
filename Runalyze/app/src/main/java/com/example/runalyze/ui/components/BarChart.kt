@@ -32,10 +32,11 @@ fun BarChart(data: List<Run>, key: String, screenWidth: Dp) {
 
     data.map {
         var graphFilter: Float = when (key) {
-            "distance" -> it.distanceInMeters / 1000.0F
+            "distance" -> it.distanceInMeters.div(1000).toFloat()
             "average heart rate" -> it.avgHeartRate.toFloat()
             else -> it.avgSpeedInKMH
         }
+        Log.d("Runalyze", "graphFilter: $graphFilter")
         maxValue = maxOf(graphFilter, maxValue)
     }
 

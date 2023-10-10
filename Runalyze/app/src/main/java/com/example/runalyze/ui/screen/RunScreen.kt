@@ -35,6 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.runalyze.R
+import com.example.runalyze.service.location.models.CurrentRunResult
 import com.example.runalyze.service.location.models.PathPoint
 import com.example.runalyze.ui.components.RunStatsCard
 import com.example.runalyze.ui.theme.md_theme_light_primary
@@ -63,6 +64,7 @@ fun RunScreen(
     viewModel: RunViewModel
 ) {
     val context = LocalContext.current
+    var currentRunResult: CurrentRunResult
     LaunchedEffect(key1 = true) {
         LocationUtils.checkAndRequestLocationSetting(context as Activity)
     }
@@ -109,6 +111,12 @@ fun RunScreen(
                     val averageHeartRate = listBPM.filter { it != 0 }.average()
                     isRunningFinished = true
                     viewModel.finishRun(averageHeartRate)
+                    currentRunResult = CurrentRunResult(
+                        avgHeartRate = averageHeartRate,
+                        distanceInMeters = runState.distanceInMeters,
+                        timeInMillis = runningDurationInMillis,
+                        speedInKMH = runState.speedInKMH
+                        )
                     navController.navigate(Destination.RunResultDisplay.route)
                 }
             )
