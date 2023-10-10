@@ -31,14 +31,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.runalyze.R
 import com.example.runalyze.database.Converters
 import com.example.runalyze.database.Goal
 import com.example.runalyze.database.Run
+import com.example.runalyze.ui.componentLibrary.ScreenHeader
 import com.example.runalyze.ui.components.BarChart
 import com.example.runalyze.viewmodel.ActivityViewModel
 import java.text.SimpleDateFormat
@@ -66,7 +69,7 @@ fun Activity(viewModel: ActivityViewModel, navController: NavController) {
             .fillMaxSize()
             .nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
-            Text("Activity")
+            ScreenHeader(stringResource(id = R.string.activity_header))
         }
     ) { values ->
         Column(
@@ -105,7 +108,7 @@ fun Activity(viewModel: ActivityViewModel, navController: NavController) {
                     Text(
                         text = "Today",
                         color = if (selectedButton == 1) Color.White else Color(255, 59, 48),
-                        fontSize = 20.sp,
+                        fontSize = 16.sp,
                         fontWeight = FontWeight.Bold
                     )
                 }
@@ -130,7 +133,7 @@ fun Activity(viewModel: ActivityViewModel, navController: NavController) {
                     Text(
                         text = "Month",
                         color = if (selectedButton == 2) Color.White else Color(255, 59, 48),
-                        fontSize = 20.sp,
+                        fontSize = 16.sp,
                         fontWeight = FontWeight.Bold
                     )
                 }
@@ -155,7 +158,7 @@ fun Activity(viewModel: ActivityViewModel, navController: NavController) {
                     Text(
                         text = "Year",
                         color = if (selectedButton == 3) Color.White else Color(255, 59, 48),
-                        fontSize = 20.sp,            
+                        fontSize = 16.sp,
                         fontWeight = FontWeight.Bold 
                     )
                 }
@@ -223,17 +226,17 @@ fun prepareRunSummary(data: List<Run>): List<Run> {
 
 @Composable
 fun GraphView(allData: List<Run>, screenWidth: Dp) {
-    Text(text = "Distance (Km)", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+    Text(text = "Distance (Km)", fontWeight = FontWeight.Bold, fontSize = 16.sp)
     Box {
         BarChart(data = allData, screenWidth = screenWidth, key = "distance")
     }
     Spacer(modifier = Modifier.height(32.dp))
-    Text(text = "Average Speed (Km/h)", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+    Text(text = "Average Speed (Km/h)", fontWeight = FontWeight.Bold, fontSize = 16.sp)
     Box {
         BarChart(data = allData, screenWidth = screenWidth, key = "speed")
     }
     Spacer(modifier = Modifier.height(32.dp))
-    Text(text = "Average Heart Rate (bpm)", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+    Text(text = "Average Heart Rate (bpm)", fontWeight = FontWeight.Bold, fontSize = 16.sp)
     Box {
         BarChart(data = allData, screenWidth = screenWidth, key = "average heart rate")
     }
@@ -260,7 +263,7 @@ fun CurrentGoalView(data: Goal?) {
         Text(text = "No goal is recorded")
     } else {
         Column {
-            Text(text = "Target", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+            Text(text = "Target", fontWeight = FontWeight.Bold, fontSize = 16.sp)
             Spacer(modifier = Modifier.height(16.dp))
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -311,7 +314,7 @@ fun CurrentGoalView(data: Goal?) {
 fun TrainingSummary(run: Run, goal: Goal?) {
     Log.d("Runalyze", "Summary view: $run")
     Column {
-        Text(text = "Progress", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+        Text(text = "Progress", fontWeight = FontWeight.Bold, fontSize = 16.sp)
         Spacer(modifier = Modifier.height(16.dp))
         Row(
             verticalAlignment = Alignment.CenterVertically,

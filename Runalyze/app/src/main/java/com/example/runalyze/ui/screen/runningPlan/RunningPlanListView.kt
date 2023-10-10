@@ -63,7 +63,6 @@ fun RunningPlanListItem(runningPlan: RunningPlan, navController: NavController) 
             .padding(8.dp)
             .clickable {
             navController.navigate("runningPlanDetail/${planId}")
-                Log.d("aaaa id click", planId.toString())
         }
     ) {
         Row(
