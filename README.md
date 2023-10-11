@@ -29,7 +29,7 @@ Welcome to Runalyze, your perfect companion for all your running adventures! Whe
   <img src="https://github.com/ThuHoang2312/Runalyze/assets/89455223/8f16c105-5dbf-4a55-b4e3-941af411c748" width="250" height="556">
 </p> 
 
-## Video demo: [video]
+## Video demo: [Runalyze demo video](https://youtu.be/QQatgiBlvIk)
 
 ## Installation
 1. Clone Runalyze repo to local:
@@ -38,7 +38,7 @@ $ git clone https://github.com/ThuHoang2312/Runalyze.git
 ```
 2. Open the project in Android Studio
 3. Retrieve API keys for Google Maps:
-- Set up Cloud Console with [instructions] (https://developers.google.com/maps/documentation/maps-static/cloud-setup): enable "Map SDK for Android" and "YouTube Data API v3"
+- Set up Cloud Console with [instructions](https://developers.google.com/maps/documentation/maps-static/cloud-setup): enable "Map SDK for Android"
 
 - Get API key with [instructions](https://developers.google.com/maps/documentation/maps-static/get-api-key)
 
