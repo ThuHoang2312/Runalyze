@@ -5,7 +5,7 @@ Welcome to Runalyze, your perfect companion for all your running adventures! Whe
 <ul>
   <li> GPS Tracking: Runalyze uses GPS technology to track your runs, providing real-time data on distance, pace, and more. 
   <li> Data Insights: Dive deep into your running stats with insightful analytics. Track your progress over time, monitor your performance trends, and identify areas for improvement. Graphs are provided for you to track your process more easily.
-  <li> Goal Setting: Set specific running goals and milestones to keep yourself motivated. Whether it's running a certain distance or achieving a target time, RunMate helps you stay focused.
+  <li> Goal Setting: Set specific running goals and milestones to keep yourself motivated. Whether it's running a certain distance or achieving a target time, Runalyze helps you stay focused.
   <li> Recommended Plans: A list of prefix plans for you to choose from.
   <li> Health Tracking: Connect your fitness wearables and monitor your heart rate during your runs. Stay on top of your overall health and fitness progress.
 </ul>
