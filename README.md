@@ -35,7 +35,7 @@ Welcome to Runalyze, your perfect companion for all your running adventures! Whe
 ## Installation
 1. Clone Runalyze repo to local:
 ```
-$ git clone 
+$ git clone https://github.com/ThuHoang2312/Runalyze.git
 ```
 2. Open the project in Android Studio
 3. Retrieve API keys for Google Maps:
