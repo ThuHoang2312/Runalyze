@@ -19,10 +19,9 @@ Welcome to Runalyze, your perfect companion for all your running adventures! Whe
 
 <p align="center">
   <img src="https://github.com/ThuHoang2312/Runalyze/assets/89455223/f99c9e2f-5259-4818-b728-d7c216ddeeab" width="250" height="556">
-  <img src="https://github.com/ThuHoang2312/Runalyze/assets/89455223/f093110d-ceff-44d9-b2a8-95a9c9d0836b" width="250" height="556">
+  <img src="https://github.com/ThuHoang2312/Runalyze/assets/89455223/683585f0-d401-4fc9-afef-8f2cb5894c95" width="250" height="556">
   <img src="https://github.com/ThuHoang2312/Runalyze/assets/89455223/81f2d1d2-7202-4631-a84f-6ca9a772e2bf" width="250" height="556">
 </p>
-
 
 <p align="center"> 
   <img src="https://github.com/ThuHoang2312/Runalyze/assets/89455223/a6be64d5-e205-4ee3-bc5c-aad5ab2097b3" width="250" height="556">
