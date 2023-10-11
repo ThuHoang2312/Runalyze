@@ -10,31 +10,25 @@ Welcome to Runalyze, your perfect companion for all your running adventures! Whe
   <li> Health Tracking: Connect your fitness wearables and monitor your heart rate during your runs. Stay on top of your overall health and fitness progress.
 </ul>
   
-## A sneak peek of Plantpolia
+## A sneak peek of Runalyze
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/89455223/224158894-b1b62226-1a59-41ba-beab-05f264a075b9.PNG" width="250">
-  <img src="https://user-images.githubusercontent.com/89455223/224158991-8a0bb59d-302f-4a50-9878-85bdc022f259.PNG" width="250">
-  <img src="https://user-images.githubusercontent.com/89455223/224159275-2890f73a-be2a-43b7-a8b1-bde36bfe1cfe.PNG" width="250">
+  <img src="https://github.com/ThuHoang2312/Runalyze/assets/89455223/6c60c600-b633-4a05-a0d3-e04e39348592" width="250" height="556">
+  <img src="https://github.com/ThuHoang2312/Runalyze/assets/89455223/1e84f367-8aa0-462e-8540-51b653d2a2f3" width="250" height="556">
+  <img src="https://github.com/ThuHoang2312/Runalyze/assets/89455223/2f48b56e-82a9-499d-ad6b-7d605a306766" width="250" height="556">
 </p> 
 
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/89455223/224159684-258288bd-1260-4340-b343-23307322687c.PNG" width="250">
-  <img src="https://user-images.githubusercontent.com/89455223/224159782-4279c2ee-541b-4444-83a1-16339ed3570e.PNG" width="250">
-  <img src="https://user-images.githubusercontent.com/89455223/224159851-6829f0b5-b4cc-469f-aa90-95fd8fd64082.PNG" width="250">
-</p> 
-
-<p align="center"> 
-  <img src="https://user-images.githubusercontent.com/89455223/224160007-d2c14136-586d-4494-881f-997a68e38c4c.PNG" width="250">
-  <img src="https://user-images.githubusercontent.com/89455223/224160163-c6e1a4eb-34f2-484d-b0b0-e3304a145190.PNG" width="250">
-  <img src="https://user-images.githubusercontent.com/89455223/224160234-b7af53f6-c676-439d-aed7-6fe104d52b6f.PNG" width="250">
-</p> 
-
-<p align="center">
-  <img src="https://user-images.githubusercontent.com/89455223/224161681-bccabc93-c342-4e36-8eed-00079690886e.PNG" width="250">
-  <img src="https://user-images.githubusercontent.com/89455223/224161631-28485a60-7e9c-48f6-8fd8-512f68b13d7a.PNG" width="250">
-  <img src="https://user-images.githubusercontent.com/89455223/224161658-5d7290c5-f0e7-4c53-9417-1d6ef8fd6d3b.PNG" width="250">
+  <img src="https://github.com/ThuHoang2312/Runalyze/assets/89455223/f99c9e2f-5259-4818-b728-d7c216ddeeab" width="250" height="556">
+  <img src="https://github.com/ThuHoang2312/Runalyze/assets/89455223/f093110d-ceff-44d9-b2a8-95a9c9d0836b" width="250" height="556">
+  <img src="https://github.com/ThuHoang2312/Runalyze/assets/89455223/81f2d1d2-7202-4631-a84f-6ca9a772e2bf" width="250" height="556">
 </p>
 
+
+<p align="center"> 
+  <img src="https://github.com/ThuHoang2312/Runalyze/assets/89455223/a6be64d5-e205-4ee3-bc5c-aad5ab2097b3" width="250" height="556">
+  <img src="https://github.com/ThuHoang2312/Runalyze/assets/89455223/287a89c2-6193-495e-b1c7-fc0b9672afdf" width="250" height="556">
+  <img src="https://github.com/ThuHoang2312/Runalyze/assets/89455223/8f16c105-5dbf-4a55-b4e3-941af411c748" width="250" height="556">
+</p> 
 
 ## Video demo: [video]
 
