@@ -39,7 +39,7 @@ $ git clone https://github.com/ThuHoang2312/Runalyze.git
 ```
 2. Open the project in Android Studio
 3. Retrieve API keys for Google Maps:
-- Set up Cloud Console with [instructions (https://developers.google.com/maps/documentation/maps-static/cloud-setup): enable "Map SDK for Android" and "YouTube Data API v3"
+- Set up Cloud Console with [instructions] (https://developers.google.com/maps/documentation/maps-static/cloud-setup): enable "Map SDK for Android" and "YouTube Data API v3"
 
 - Get API key with [instructions](https://developers.google.com/maps/documentation/maps-static/get-api-key)
 
