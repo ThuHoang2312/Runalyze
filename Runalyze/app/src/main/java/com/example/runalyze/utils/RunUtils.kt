@@ -11,12 +11,11 @@ import android.provider.Settings
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import com.example.runalyze.service.location.models.PathPoint
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 import java.util.concurrent.TimeUnit
 import kotlin.math.roundToInt
 
+// object contains a variety of utility functions for managing permissions,
+// formatting time, and other tasks related to running and tracking
 object RunUtils {
     val locationPermissions = listOf(
         Manifest.permission.ACCESS_FINE_LOCATION,
@@ -75,6 +74,7 @@ object RunUtils {
         ).also(::startActivity)
     }
 
+    // Function to format time in hours, minutes, and seconds
     fun getFormattedStopwatchTime(ms: Long, includeMillis: Boolean = false): String {
         var milliseconds = ms
         val hrs = TimeUnit.MILLISECONDS.toHours(ms)
@@ -98,6 +98,7 @@ object RunUtils {
         }
     }
 
+    // Calculates the distance between two location points.
     fun getDistanceBetweenPathPoints(
         pathPoint1: PathPoint,
         pathPoint2: PathPoint
@@ -115,16 +116,7 @@ object RunUtils {
         } else 0
     }
 
-    fun calculateDistanceCovered(pathPoints: List<PathPoint>): Int {
-        var distance = 0
-        pathPoints.forEachIndexed { i, pathPoint ->
-            if (i == pathPoints.size - 1)
-                return@forEachIndexed
-            distance += getDistanceBetweenPathPoints(pathPoint, pathPoints[i + 1])
-        }
-        return distance
-    }
-
+    // Function to find the last point in a list of location points.
     fun List<PathPoint>.lastLocationPoint(): PathPoint.LocationPoint? {
         for (i in lastIndex downTo 0)
             if (get(i) is PathPoint.LocationPoint)
@@ -132,14 +124,12 @@ object RunUtils {
         return null
     }
 
+   // Function to find the first point in a list of location points.
     fun List<PathPoint>.firstLocationPoint() =
         find { it is PathPoint.LocationPoint } as? PathPoint.LocationPoint
 
 
-    fun Date.getDisplayDate(): String =
-        SimpleDateFormat("MMMM dd, yyyy", Locale.getDefault())
-            .format(this)
-
+    // Convert time from milliseconds to hours.
     fun getRunTimeInHours(time: Long): Double {
         val millisecondsInMinute = 60000.0
         return time / millisecondsInMinute

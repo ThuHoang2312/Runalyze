@@ -26,6 +26,7 @@ interface AppModule {
     val notificationHelper: NotificationHelper
 }
 
+// Implementation
 class AppModuleImplement(
     private val appContext: Context
 ) : AppModule {

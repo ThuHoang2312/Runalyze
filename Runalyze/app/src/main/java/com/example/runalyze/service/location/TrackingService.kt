@@ -9,6 +9,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 
+// Foreground service responsible for managing tracking-related functionalities
 class TrackingService : LifecycleService() {
 
     companion object {

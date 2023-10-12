@@ -2,16 +2,13 @@ package com.example.runalyze
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothManager
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
@@ -35,7 +32,6 @@ import com.example.runalyze.service.GattClientCallback
 import com.example.runalyze.ui.RunalyzeApp
 import com.example.runalyze.ui.components.LocationPermissionRequestDialog
 import com.example.runalyze.ui.theme.RunalyzeTheme
-import com.example.runalyze.utils.LocationUtils
 import com.example.runalyze.utils.RunUtils
 import com.example.runalyze.utils.RunUtils.hasAllPermission
 import com.example.runalyze.utils.RunUtils.hasLocationPermission
@@ -57,8 +53,8 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // Check if there is intent
         val data: Uri? = intent?.data
-        Log.d(tag, "DATA FOR INTENT: $data")
 
         val bluetoothManager = getSystemService(BLUETOOTH_SERVICE) as BluetoothManager
         bluetoothAdapter = bluetoothManager.adapter
@@ -70,6 +66,7 @@ class MainActivity : ComponentActivity() {
                     Manifest.permission.BLUETOOTH_CONNECT
                 ) == PackageManager.PERMISSION_GRANTED
             ) {
+                // If there is a device connect
                 if (bluetoothAdapter?.bondedDevices != null) {
                     for (btDev in bluetoothAdapter?.bondedDevices!!) {
                         Log.d(tag, "bluetooth device bonded is: : ${btDev.name}")
@@ -86,12 +83,6 @@ class MainActivity : ComponentActivity() {
                         }
                     }
                 }
-            } else {
-                ActivityCompat.requestPermissions(
-                    this,
-                    arrayOf(Manifest.permission.BLUETOOTH_CONNECT),
-                    1
-                )
             }
 
         } else {
@@ -109,12 +100,11 @@ class MainActivity : ComponentActivity() {
             }
         }
 
-        /* TODO  add things need to be done here when app is loading */
         installSplashScreen()
 
         setContent {
             RunalyzeTheme {
-                // Request permission for location, notification & bluetooth if need
+                // Call the permission request
                 PermissionRequester()
                 // A surface container using the 'background' color from the theme
                 Surface(
@@ -128,6 +118,8 @@ class MainActivity : ComponentActivity() {
 
     }
 
+    // The function checks for granted and declined permissions, displays permission rationale dialogs when necessary,
+    // and launches permission requests when permissions are missing
     @RequiresApi(Build.VERSION_CODES.S)
     @Composable
     private fun PermissionRequester() {
@@ -168,18 +160,6 @@ class MainActivity : ComponentActivity() {
 
                 else -> permissionLauncher.launch(RunUtils.allPermissions)
             }
-        }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        @Suppress("DEPRECATION")
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == LocationUtils.LOCATION_ENABLE_REQUEST_CODE && resultCode != Activity.RESULT_OK) {
-            Toast.makeText(
-                this,
-                "Please enable GPS to get running statistics.",
-                Toast.LENGTH_LONG
-            ).show()
         }
     }
 }

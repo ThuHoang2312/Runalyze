@@ -58,18 +58,22 @@ import com.google.maps.android.compose.rememberCameraPositionState
 import com.google.maps.android.compose.rememberMarkerState
 import kotlinx.coroutines.delay
 
+// Displaying a user interface for tracking a run on a map
 @Composable
 fun RunScreen(
     navController: NavController,
     viewModel: RunViewModel
 ) {
     val context = LocalContext.current
-    var currentRunResult: CurrentRunResult
+    var currentRunResult: CurrentRunResult? = null
+
     LaunchedEffect(key1 = true) {
+        // check permission
         LocationUtils.checkAndRequestLocationSetting(context as Activity)
     }
     var isRunningFinished by rememberSaveable { mutableStateOf(false) }
     var shouldShowRunningCard by rememberSaveable { mutableStateOf(false) }
+    // Collects and observes the current run state, running duration, heart rate, and list of heart rate data points from viewModel.
     val runState by viewModel.currentRunState.collectAsStateWithLifecycle()
     val runningDurationInMillis by viewModel.runningDurationInMillis.collectAsStateWithLifecycle()
     val heartRate: Int by viewModel.mBPM.observeAsState(0)
@@ -80,6 +84,7 @@ fun RunScreen(
         shouldShowRunningCard = true
     }
 
+    // Containing a map (GoogleMap) showing the running path ,a top bar, and the running statistics card.
     Box(modifier = Modifier.fillMaxSize()) {
         Map(
             pathPoints = runState.pathPoints,
@@ -123,6 +128,8 @@ fun RunScreen(
         }
     }
 }
+
+// handles the display of the map, including managing camera position,
 
 @Composable
 private fun BoxScope.Map(
@@ -171,6 +178,7 @@ private fun BoxScope.Map(
     }
 }
 
+// showing a loading progress bar while the map is loading.
 @Composable
 private fun BoxScope.ShowMapLoadingProgressBar(
     isMapLoaded: Boolean = false
@@ -190,6 +198,7 @@ private fun BoxScope.ShowMapLoadingProgressBar(
     }
 }
 
+//drawing the path based on path points using polylines and markers
 @Composable
 @GoogleMapComposable
 private fun DrawPathPoints(

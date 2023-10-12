@@ -16,12 +16,14 @@ import com.example.runalyze.service.notification.NotificationHelper.Companion.TR
 import com.example.runalyze.utils.Destination
 import com.example.runalyze.utils.RunUtils
 
+// An implementation of the NotificationHelper interface
 class DefaultNotificationHelper(private val context: Context) : NotificationHelper {
     companion object {
         private const val TRACKING_NOTIFICATION_CHANNEL_ID = "tracking_notification"
         private const val TRACKING_NOTIFICATION_CHANNEL_NAME = "Runalyze Tracking Status"
     }
 
+    // An intent opens the MainActivity when the notification is tapped.
     private val intentToRunScreen = TaskStackBuilder.create(context).run {
         addNextIntent(
             Intent(
@@ -34,7 +36,8 @@ class DefaultNotificationHelper(private val context: Context) : NotificationHelp
         getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)!!
     }
 
-
+    // Provides a basic NotificationCompat.Builder with settings like the small icon, auto-cancel behavior,
+    // ongoing status, content title, and initial content text. It also sets the content intent to the intentToRunScreen.
     override val baseNotificationBuilder
         get() = NotificationCompat.Builder(
             context,
@@ -51,6 +54,8 @@ class DefaultNotificationHelper(private val context: Context) : NotificationHelp
         context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
     }
 
+    // updating the tracking notification. It takes the elapsed time (durationInMillis)
+    // and a flag (isTracking) to determine whether tracking is active.
     override fun updateTrackingNotification(durationInMillis: Long, isTracking: Boolean) {
         val notification = baseNotificationBuilder
             .setContentText(RunUtils.getFormattedStopwatchTime(durationInMillis))
@@ -61,6 +66,8 @@ class DefaultNotificationHelper(private val context: Context) : NotificationHelp
         notificationManager.notify(TRACKING_NOTIFICATION_ID, notification)
     }
 
+    //  generates a notification action based on whether tracking is active or not.
+    //  It creates a "Pause" or "Resume" action button, along with the associated PendingIntent to perform the corresponding tracking action.
     private fun getTrackingNotificationAction(isTracking: Boolean): NotificationCompat.Action {
         return NotificationCompat.Action(
             if (isTracking) R.drawable.ic_pause else R.drawable.ic_play,
@@ -80,10 +87,12 @@ class DefaultNotificationHelper(private val context: Context) : NotificationHelp
         )
     }
 
+    // Cancels the tracking notification, removing it from the notification tray.
     override fun removeTrackingNotification() {
         notificationManager.cancel(TRACKING_NOTIFICATION_ID)
     }
 
+    // create the notification channel for tracking notifications.
     override fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O)
             return

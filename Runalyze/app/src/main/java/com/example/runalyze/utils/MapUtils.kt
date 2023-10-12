@@ -7,6 +7,7 @@ import androidx.core.content.ContextCompat
 import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 
+// Convert a vector drawable resource into a BitmapDescriptor suitable for use in Google Maps
 fun bitmapDescriptorFromVector(
     context: Context,
     vectorResId: Int,

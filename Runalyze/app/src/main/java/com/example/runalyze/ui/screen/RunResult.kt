@@ -27,11 +27,14 @@ import androidx.navigation.NavController
 import com.example.runalyze.R
 import com.example.runalyze.ui.componentLibrary.RunStats
 import com.example.runalyze.utils.Destination
+import com.example.runalyze.utils.RunUtils
 import com.example.runalyze.viewmodel.RunViewModel
 
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun RunResult(navController: NavController, viewModel: RunViewModel) {
+    val durationInMinutes = viewModel.currentRunResult?.timeInMillis?.div(60000.0)
+
 
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -73,20 +76,20 @@ fun RunResult(navController: NavController, viewModel: RunViewModel) {
                     value = (viewModel.currentRunResult?.speedInKMH).toString(),
                     unit = stringResource(id = R.string.speed_unit)
                 )
-                RunStats(
-                    text = stringResource(id = R.string.duration),
-                    value = String.format(
-                        "%.2f",
-                        viewModel.currentRunResult?.timeInMillis?.div(60000.0)
-                    ),
-                    unit = stringResource(id = R.string.duration_unit)
-                )
+                if (durationInMinutes != null) {
+                    RunStats(
+                        text = stringResource(id = R.string.duration),
+                        value = if (durationInMinutes <= 60) {
+                            String.format("%.2f", durationInMinutes)
+                        } else
+                            String.format("%.2f", RunUtils.getRunTimeInHours(viewModel.currentRunResult?.timeInMillis!!)),
+                        unit = stringResource(id = R.string.duration_unit)
+                    )
+                }
                 RunStats(
                     text = stringResource(id = R.string.heart_rate),
-                    value = String.format(
-                        "%.2f",
-                        (viewModel.currentRunResult?.avgHeartRate)
-                    ),
+                    value = if (viewModel.currentRunResult?.avgHeartRate == 0.0) "Not available" else
+                        String.format("%.2f", (viewModel.currentRunResult?.avgHeartRate)),
                     unit = stringResource(id = R.string.heart_rate_unit)
                 )
             }

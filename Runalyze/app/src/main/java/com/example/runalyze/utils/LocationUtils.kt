@@ -9,6 +9,7 @@ import com.google.android.gms.location.LocationSettingsRequest
 import com.google.android.gms.location.Priority
 import com.google.android.gms.location.SettingsClient
 
+//  Object provides utility functions related to location and location settings.
 object LocationUtils {
     private const val LOCATION_UPDATE_INTERVAL = 5000L
 

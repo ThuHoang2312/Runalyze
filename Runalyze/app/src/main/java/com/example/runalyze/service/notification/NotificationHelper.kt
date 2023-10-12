@@ -2,6 +2,7 @@ package com.example.runalyze.service.notification
 
 import androidx.core.app.NotificationCompat
 
+// An abstraction layer for working with notifications
 interface NotificationHelper {
     val baseNotificationBuilder: NotificationCompat.Builder
 

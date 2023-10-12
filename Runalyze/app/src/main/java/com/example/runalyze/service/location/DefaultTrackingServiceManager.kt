@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 
+// Provides methods to start and stop a tracking service
 interface TrackingServiceManager {
     fun startService()
     fun stopService()

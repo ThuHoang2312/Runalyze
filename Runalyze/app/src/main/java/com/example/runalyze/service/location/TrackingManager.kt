@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import java.math.RoundingMode
 
+// Responsible for managing tracking-related functionalities, including tracking the user's location and updating the current run state
 class TrackingManager(
     private val locationTrackingManager: LocationTrackingManager,
     private val timeTracker: TimeTracker,
@@ -58,7 +59,7 @@ class TrackingManager(
         _trackingDurationInMs.update { 0 }
     }
 
-//    adds a new location point to the current run state.
+//    add a new location point to the current run state.
     private fun addPathPoints(location: Location?) = location?.let {
         val pos = LatLng(it.latitude, it.longitude)
         _currentRunState.update { state ->

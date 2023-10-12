@@ -6,6 +6,7 @@ import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.QueryStats
 import androidx.compose.ui.graphics.vector.ImageVector
 
+//Represents different navigation items for a bottom navigation bar
 sealed class BottomNavItem(val route: String, val icon: ImageVector, val title: String) {
     object Home : BottomNavItem("home", icon = Icons.Outlined.Home, title = "Home")
     object Planning :

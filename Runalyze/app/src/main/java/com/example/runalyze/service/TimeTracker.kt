@@ -7,6 +7,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
+// Represents a timer utility that tracks elapsed time in milliseconds.
 class TimeTracker(
     private val applicationScope: CoroutineScope,
     private val defaultDispatcher: CoroutineDispatcher
@@ -17,6 +18,7 @@ class TimeTracker(
     private var callback: ((timeInMillis: Long) -> Unit)? = null
     private var job: Job? = null
 
+    // initiates the timer.
     private fun start() {
         if (job != null)
             return

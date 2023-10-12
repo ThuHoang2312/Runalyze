@@ -64,7 +64,7 @@ fun RunStatsCard(
         ) {
             RunningStatItem(
                 painter = painterResource(id = R.drawable.distance),
-                value = (runState.distanceInMeters / 1000f).toString(),
+                value = String.format("%.2f",(runState.distanceInMeters / 1000f)),
                 unit = stringResource(id = R.string.distance_unit)
             )
             Box(
@@ -79,7 +79,7 @@ fun RunStatsCard(
             )
             RunningStatItem(
                 painter = painterResource(id = R.drawable.speed),
-                value = runState.speedInKMH.toString(),
+                value = String.format("%.2f",runState.speedInKMH),
                 unit = stringResource(id = R.string.speed_unit)
             )
             if (heartRate != 0) {

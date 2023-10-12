@@ -15,6 +15,7 @@ import kotlinx.coroutines.launch
 import java.math.RoundingMode
 import java.util.Date
 
+// Responsible for managing data related to tracking run feature in the app.
 class RunViewModel(
     private val trackingManager: TrackingManager,
     private val roomDb: AppDb,
@@ -30,6 +31,8 @@ class RunViewModel(
     val lowmBPM = MutableLiveData(300)
     val listBPM = MutableLiveData(mutableListOf<Int>())
     var currentRunResult: CurrentRunResult? = null
+
+    // Function toggles between starting or pausing the tracking session based on the current state.
     fun playPauseTracking() {
         if (currentRunState.value.isTracking) {
             trackingManager.pauseTracking()
@@ -38,6 +41,7 @@ class RunViewModel(
         }
     }
 
+    //  Function finalizes the running session, saves the relevant data, and stops tracking.
     fun finishRun(averageHeartRate: Double) {
         trackingManager.pauseTracking()
         currentRunResult = CurrentRunResult(
@@ -62,6 +66,7 @@ class RunViewModel(
         trackingManager.stop()
     }
 
+    // Save the run into database
     private fun saveRun(run: Run) {
         viewModelScope.launch {
             Log.d(tag, "Save run $run")
@@ -84,6 +89,5 @@ class RunViewModel(
             }
         }
     }
-
 }
 
