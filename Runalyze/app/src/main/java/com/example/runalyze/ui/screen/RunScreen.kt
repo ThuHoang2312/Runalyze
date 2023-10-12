@@ -116,7 +116,7 @@ fun RunScreen(
                         distanceInMeters = runState.distanceInMeters,
                         timeInMillis = runningDurationInMillis,
                         speedInKMH = runState.speedInKMH
-                        )
+                    )
                     navController.navigate(Destination.RunResultDisplay.route)
                 }
             )

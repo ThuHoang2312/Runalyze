@@ -31,7 +31,7 @@ object RunUtils {
 
     val allPermissions = mutableListOf<String>().apply {
         addAll(locationPermissions)
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.S){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             add(notificationPermission)
             add(bluetoothPermission)
         }
@@ -47,10 +47,10 @@ object RunUtils {
 
     @RequiresApi(Build.VERSION_CODES.S)
     fun Context.hasBluetoothPermission() =
-            ContextCompat.checkSelfPermission(
-                this,
-                bluetoothPermission,
-            ) == PackageManager.PERMISSION_GRANTED
+        ContextCompat.checkSelfPermission(
+            this,
+            bluetoothPermission,
+        ) == PackageManager.PERMISSION_GRANTED
 
     fun Context.hasLocationPermission() =
         locationPermissions.all {

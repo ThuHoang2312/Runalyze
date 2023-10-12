@@ -1,9 +1,7 @@
 package com.example.runalyze.ui.screen
 
 import android.annotation.SuppressLint
-import android.os.Build
 import android.util.Log
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -72,7 +70,6 @@ import java.util.Locale
 
 @SuppressLint("RememberReturnType", "UnrememberedMutableState")
 @OptIn(ExperimentalMaterial3Api::class)
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun AddGoalView(
     plan: RunningPlan?,
@@ -85,12 +82,12 @@ fun AddGoalView(
         val date = Date(it)
         val dateFormat = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
         dateFormat.format(date)
-    } ?: null
+    }
     val formattedEndDate = dateRangePickerState.selectedEndDateMillis?.let {
         val date = Date(it)
         val dateFormat = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
         dateFormat.format(date)
-    } ?: null
+    }
     var openTimePickerDialog by remember { mutableStateOf(false) }
     val timePickerState = rememberTimePickerState()
     val isReminderTimeSet = remember { mutableStateOf(false) }
@@ -98,10 +95,10 @@ fun AddGoalView(
     var targetSpeed by rememberSaveable { mutableStateOf("") }
     var targetHeartRate by rememberSaveable { mutableStateOf("") }
     val formatter = remember { SimpleDateFormat("HH:mm", Locale.getDefault()) }
-    var formattedTime = remember { mutableStateOf("") }
+    val formattedTime = remember { mutableStateOf("") }
     val daysOfWeek = listOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")
     val selectedDays =
-        remember { mutableStateListOf<Boolean>(false, false, false, false, false, false, false) }
+        remember { mutableStateListOf(false, false, false, false, false, false, false) }
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
 
     if (plan != null) {
@@ -465,7 +462,7 @@ fun TimePickerDialog(
                             onSaveClick()
                             onDismissRequest()
                         },
-                        enabled = state.minute != null
+                        enabled = true
                     ) {
                         Text("Save")
                     }

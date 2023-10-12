@@ -14,9 +14,10 @@ sealed class Destination(val route: String) {
             }
         )
     }
-    object AddGoal: Destination("goal?runningPlanId=")
 
-    object RunResultDisplay: Destination("run_result"){
+    object AddGoal : Destination("goal?runningPlanId=")
+
+    object RunResultDisplay : Destination("run_result") {
         fun navigateToHome(navController: NavController) {
             navController.navigate(BottomNavItem.Home.route) {
                 popUpTo(route) {
@@ -26,7 +27,7 @@ sealed class Destination(val route: String) {
             }
         }
 
-        fun navigateToGraph(navController: NavController){
+        fun navigateToGraph(navController: NavController) {
             navController.navigate(BottomNavItem.Statistic.route) {
                 popUpTo(route) {
                     inclusive = true
@@ -42,5 +43,4 @@ sealed class Destination(val route: String) {
             navController.navigate(CurrentRun.route)
         }
     }
-
 }

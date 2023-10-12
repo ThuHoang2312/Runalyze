@@ -28,7 +28,6 @@ import kotlin.math.roundToInt
 
 @Composable
 fun BarChart(data: List<Run>, key: String, screenWidth: Dp) {
-    Log.d("Runalyze", "Data for bar chart: $data")
     var maxValue by remember { mutableFloatStateOf(0.0F) }
     val textColor = if (isSystemInDarkTheme()) {
         Color.White // Use white text color for dark mode
@@ -37,12 +36,11 @@ fun BarChart(data: List<Run>, key: String, screenWidth: Dp) {
     }
 
     data.map {
-        var graphFilter: Float = when (key) {
+        val graphFilter: Float = when (key) {
             "distance" -> it.distanceInMeters.div(1000).toFloat()
             "average heart rate" -> it.avgHeartRate.toFloat()
             else -> it.avgSpeedInKMH
         }
-        Log.d("Runalyze", "graphFilter: $graphFilter")
         maxValue = maxOf(graphFilter, maxValue)
     }
 
@@ -54,7 +52,7 @@ fun BarChart(data: List<Run>, key: String, screenWidth: Dp) {
     ) {
         val barSpacing = 2.dp.toPx()
         val barCount = data.size
-        val maxLabelWidth = with(density) { (maxValue.toString().length) }
+        val maxLabelWidth = (maxValue.toString().length)
         val barWidth =
             (screenWidth.toPx() - maxLabelWidth - (barSpacing * (barCount + 1))) / (barCount + 1)
         val maxBarHeight = size.height - 32.dp.toPx()
@@ -78,7 +76,7 @@ fun BarChart(data: List<Run>, key: String, screenWidth: Dp) {
         }
 
         data.forEachIndexed { index, trainingDetail ->
-            var graphFilter: Float = when (key) {
+            val graphFilter: Float = when (key) {
                 "distance" -> trainingDetail.distanceInMeters / 1000.0F
                 "average heart rate" -> trainingDetail.avgHeartRate.toFloat()
                 else -> trainingDetail.avgSpeedInKMH
@@ -86,10 +84,8 @@ fun BarChart(data: List<Run>, key: String, screenWidth: Dp) {
             val barHeight = (graphFilter.div(maxValue)).times(maxBarHeight)
             val x = (index + 0.75) * (barWidth + barSpacing)
             val y = size.height - barHeight
-            //val ratingColor = getRatingColor(rating = trainingDetail.rating ?: 0)
 
             drawRect(
-                //color = ratingColor,
                 color = Color(255, 59, 48),
                 topLeft = Offset(x.toFloat(), y),
                 size = Size(barWidth, barHeight),
@@ -98,7 +94,7 @@ fun BarChart(data: List<Run>, key: String, screenWidth: Dp) {
             val dateFormatter = SimpleDateFormat("dd/MM", Locale.getDefault())
             val dateTime =
                 dateFormatter.format(Converters().fromTimestamp(trainingDetail.timestamp))
-            val textWidth = with(density) { dateTime.length * 2.dp.toPx() }
+            val textWidth = dateTime.length * 2.dp.toPx()
 
             drawIntoCanvas { canvas ->
                 canvas.nativeCanvas.drawText(
@@ -115,15 +111,4 @@ fun BarChart(data: List<Run>, key: String, screenWidth: Dp) {
     }
 }
 
-fun getRatingColor(rating: Int): Color {
-    val ratingColorMap = mapOf(
-        1 to Color.Red,
-        2 to Color.Yellow,
-        3 to Color.Blue,
-        4 to Color.Cyan,
-        5 to Color.Green
-    )
-
-    return ratingColorMap[rating] ?: Color.Gray
-}
 

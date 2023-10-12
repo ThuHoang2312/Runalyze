@@ -13,12 +13,12 @@ class WebServiceRepository() {
     suspend fun getRunningPlan() = call.runningPlanList()
 }
 
-class RunningPlanViewModel: ViewModel() {
+class RunningPlanViewModel : ViewModel() {
     private val repository: WebServiceRepository = WebServiceRepository()
 
     val runningPlanList = MutableLiveData<List<RunningPlan>>()
     fun getRunningPlanList() {
-        viewModelScope.launch (Dispatchers.IO){
+        viewModelScope.launch(Dispatchers.IO) {
             val list = repository.getRunningPlan()
             runningPlanList.postValue(list)
         }

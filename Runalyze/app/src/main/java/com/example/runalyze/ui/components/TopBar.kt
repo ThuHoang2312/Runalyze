@@ -31,7 +31,7 @@ fun TopBar(
         ) {
             Icon(
                 Icons.AutoMirrored.Filled.ArrowBackIos,
-                "Return button",
+                "Return",
                 Modifier
                     .size(32.dp)
                     .align(Alignment.CenterVertically)

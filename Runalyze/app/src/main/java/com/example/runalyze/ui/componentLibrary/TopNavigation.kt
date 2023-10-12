@@ -34,7 +34,7 @@ fun TopNavigation(navController: NavController, text: String) {
                 IconButton(onClick = { navController.navigateUp() }) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.ArrowBackIos,
-                        contentDescription = "Return button",
+                        contentDescription = "Return",
                         tint = MaterialTheme.colorScheme.primary
                     )
                 }

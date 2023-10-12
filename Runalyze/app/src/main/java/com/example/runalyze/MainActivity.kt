@@ -45,7 +45,7 @@ import com.example.runalyze.viewmodel.GoalViewModel
 import com.example.runalyze.viewmodel.RunViewModel
 
 class MainActivity : ComponentActivity() {
-    private val tag = "RunAlyze Debug"
+    private val tag = "Runalyze Debug"
 
     private val runViewModel: RunViewModel by viewModels { RunViewModel.Factory }
     private val goalViewModel: GoalViewModel by viewModels()
@@ -58,14 +58,18 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         val data: Uri? = intent?.data
-        Log.d(tag, "DATA FOR INTENT: ${data}")
+        Log.d(tag, "DATA FOR INTENT: $data")
 
         val bluetoothManager = getSystemService(BLUETOOTH_SERVICE) as BluetoothManager
         bluetoothAdapter = bluetoothManager.adapter
         // check heart rate sensor and connect
         // If version sdk is equal and bigger than 31, check for bluetooth permission
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S ) {
-            if(ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_GRANTED){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            if (ActivityCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.BLUETOOTH_CONNECT
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
                 if (bluetoothAdapter?.bondedDevices != null) {
                     for (btDev in bluetoothAdapter?.bondedDevices!!) {
                         Log.d(tag, "bluetooth device bonded is: : ${btDev.name}")
@@ -82,8 +86,12 @@ class MainActivity : ComponentActivity() {
                         }
                     }
                 }
-            }else {
-                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.BLUETOOTH_CONNECT),1)
+            } else {
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(Manifest.permission.BLUETOOTH_CONNECT),
+                    1
+                )
             }
 
         } else {

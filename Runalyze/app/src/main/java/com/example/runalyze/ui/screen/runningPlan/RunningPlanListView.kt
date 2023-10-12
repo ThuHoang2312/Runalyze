@@ -62,8 +62,8 @@ fun RunningPlanListItem(runningPlan: RunningPlan, navController: NavController) 
             .fillMaxWidth()
             .padding(8.dp)
             .clickable {
-            navController.navigate("runningPlanDetail/${planId}")
-        }
+                navController.navigate("runningPlanDetail/${planId}")
+            }
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),

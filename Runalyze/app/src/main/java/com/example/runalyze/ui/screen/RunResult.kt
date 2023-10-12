@@ -77,14 +77,16 @@ fun RunResult(navController: NavController, viewModel: RunViewModel) {
                     text = stringResource(id = R.string.duration),
                     value = String.format(
                         "%.2f",
-                        viewModel.currentRunResult?.timeInMillis?.div(60000.0)),
+                        viewModel.currentRunResult?.timeInMillis?.div(60000.0)
+                    ),
                     unit = stringResource(id = R.string.duration_unit)
                 )
                 RunStats(
                     text = stringResource(id = R.string.heart_rate),
                     value = String.format(
                         "%.2f",
-                        (viewModel.currentRunResult?.avgHeartRate)),
+                        (viewModel.currentRunResult?.avgHeartRate)
+                    ),
                     unit = stringResource(id = R.string.heart_rate_unit)
                 )
             }

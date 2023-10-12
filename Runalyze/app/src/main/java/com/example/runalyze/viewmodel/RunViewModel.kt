@@ -18,26 +18,27 @@ import java.util.Date
 class RunViewModel(
     private val trackingManager: TrackingManager,
     private val roomDb: AppDb,
-    ): ViewModel() {
+) : ViewModel() {
 
-    private val tag = "RunAlyze Debug"
+    private val tag = "Runalyze Debug"
     val currentRunState = trackingManager.currentRunState
     val runningDurationInMillis = trackingManager.trackingDurationInMs
+
     // Heart rate
     val mBPM = MutableLiveData(0)
     val highmBPM = MutableLiveData(0)
     val lowmBPM = MutableLiveData(300)
     val listBPM = MutableLiveData(mutableListOf<Int>())
     var currentRunResult: CurrentRunResult? = null
-    fun playPauseTracking(){
-        if(currentRunState.value.isTracking){
+    fun playPauseTracking() {
+        if (currentRunState.value.isTracking) {
             trackingManager.pauseTracking()
-        }else {
+        } else {
             trackingManager.startResumeTracking()
         }
     }
 
-    fun finishRun(averageHeartRate: Double){
+    fun finishRun(averageHeartRate: Double) {
         trackingManager.pauseTracking()
         currentRunResult = CurrentRunResult(
             distanceInMeters = currentRunState.value.distanceInMeters,
@@ -61,9 +62,9 @@ class RunViewModel(
         trackingManager.stop()
     }
 
-    fun saveRun(run: Run) {
+    private fun saveRun(run: Run) {
         viewModelScope.launch {
-            Log.d(tag, "Save run ${run}")
+            Log.d(tag, "Save run $run")
             roomDb.runDao.addRun(run)
         }
     }
@@ -77,7 +78,7 @@ class RunViewModel(
                 extras: CreationExtras
             ): T {
                 return RunViewModel(
-                   RunalyzeApp.appModule.trackingManager,
+                    RunalyzeApp.appModule.trackingManager,
                     RunalyzeApp.appModule.runDb
                 ) as T
             }

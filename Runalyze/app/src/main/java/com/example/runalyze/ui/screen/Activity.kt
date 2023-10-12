@@ -1,6 +1,5 @@
 package com.example.runalyze.ui.screen
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -23,6 +22,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -62,16 +62,14 @@ fun Activity(viewModel: ActivityViewModel, navController: NavController) {
     var displayedView by remember {
         mutableStateOf("summary")
     }
-    var selectedButton by remember { mutableStateOf(1) }
+    var selectedButton by remember { mutableIntStateOf(1) }
 
-    Scaffold(
-        modifier = Modifier
-            .fillMaxSize()
-            .nestedScroll(scrollBehavior.nestedScrollConnection),
+    Scaffold(modifier = Modifier
+        .fillMaxSize()
+        .nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             ScreenHeader(stringResource(id = R.string.activity_header))
-        }
-    ) { values ->
+        }) { values ->
         Column(
             modifier = Modifier
                 .verticalScroll(rememberScrollState())
@@ -93,14 +91,11 @@ fun Activity(viewModel: ActivityViewModel, navController: NavController) {
                         filteredData = summarizedData.filter {
                             val day = Converters().fromTimestamp(it.timestamp).toString().split("-")
                             val today = Calendar.getInstance()
-                            Log.d("Runalyze", "today: ${day}- ${today}")
-                            day[2].toInt() == today.get(Calendar.DAY_OF_MONTH) &&
-                                    day[1].toInt() == today.get(Calendar.MONTH) + 1 &&
-                                    day[0].toInt() == today.get(Calendar.YEAR)
+                            day[2].toInt() == today.get(Calendar.DAY_OF_MONTH) && day[1].toInt() == today.get(
+                                Calendar.MONTH
+                            ) + 1 && day[0].toInt() == today.get(Calendar.YEAR)
                         }
-                    },
-                    modifier = Modifier
-                        .background(
+                    }, modifier = Modifier.background(
                             if (selectedButton == 1) Color(255, 59, 48) else Color.White,
                             shape = RoundedCornerShape(16.dp)
                         )
@@ -123,9 +118,7 @@ fun Activity(viewModel: ActivityViewModel, navController: NavController) {
 
                             month == currentMonth + 1
                         }
-                    },
-                    modifier = Modifier
-                        .background(
+                    }, modifier = Modifier.background(
                             if (selectedButton == 2) Color(255, 59, 48) else Color.White,
                             shape = RoundedCornerShape(16.dp)
                         )
@@ -148,9 +141,7 @@ fun Activity(viewModel: ActivityViewModel, navController: NavController) {
 
                             year == currentYear
                         }
-                    },
-                    modifier = Modifier
-                        .background(
+                    }, modifier = Modifier.background(
                             if (selectedButton == 3) Color(255, 59, 48) else Color.White,
                             shape = RoundedCornerShape(16.dp)
                         )
@@ -159,28 +150,25 @@ fun Activity(viewModel: ActivityViewModel, navController: NavController) {
                         text = "Year",
                         color = if (selectedButton == 3) Color.White else Color(255, 59, 48),
                         fontSize = 16.sp,
-                        fontWeight = FontWeight.Bold 
+                        fontWeight = FontWeight.Bold
                     )
                 }
             }
 
             if (allData != null) {
                 summarizedData = prepareRunSummary(allData)
-                Log.d("Runalyze", "SummarizedData: ${summarizedData}")
             }
             if (displayedView == "graph") {
-                Log.d("Runalyze", "Input data: $summarizedData")
                 GraphView(allData = filteredData, screenWidth = screenWidth)
             } else {
-                Log.d("Runalyze", "Goal: $goal")
                 displayedView = "summary"
                 filteredData = summarizedData.filter {
                     val day = Converters().fromTimestamp(it.timestamp).toString().split("-")
                     val today = Calendar.getInstance()
 
-                    day[2].toInt() == today.get(Calendar.DAY_OF_MONTH) &&
-                            day[1].toInt() == today.get(Calendar.MONTH) + 1 &&
-                            day[0].toInt() == today.get(Calendar.YEAR)
+                    day[2].toInt() == today.get(Calendar.DAY_OF_MONTH) && day[1].toInt() == today.get(
+                        Calendar.MONTH
+                    ) + 1 && day[0].toInt() == today.get(Calendar.YEAR)
                 }
                 SummaryView(filteredData, goal.value)
             }
@@ -219,8 +207,6 @@ fun prepareRunSummary(data: List<Run>): List<Run> {
             )
         )
     }
-
-    Log.d("Runalyze", "SummarizedData: ${groupedRuns}")
     return summarizedRuns
 }
 
@@ -245,7 +231,6 @@ fun GraphView(allData: List<Run>, screenWidth: Dp) {
 
 @Composable
 fun SummaryView(data: List<Run>, goal: Goal?) {
-    Log.d("Runalyze", "Summary view: $data")
     Column(modifier = Modifier.padding(16.dp)) {
         CurrentGoalView(data = goal)
         Spacer(modifier = Modifier.height(32.dp))
@@ -312,7 +297,6 @@ fun CurrentGoalView(data: Goal?) {
 
 @Composable
 fun TrainingSummary(run: Run, goal: Goal?) {
-    Log.d("Runalyze", "Summary view: $run")
     Column {
         Text(text = "Progress", fontWeight = FontWeight.Bold, fontSize = 16.sp)
         Spacer(modifier = Modifier.height(16.dp))
@@ -328,9 +312,7 @@ fun TrainingSummary(run: Run, goal: Goal?) {
                     val progress =
                         round((run.distanceInMeters / 1000) / goal.targetDistanceInKm * 100).toInt()
                     Text(
-                        text = "$progress%",
-                        fontSize = 50.sp,
-                        color = Color(241, 78, 47)
+                        text = "$progress%", fontSize = 50.sp, color = Color(241, 78, 47)
                     )
                 }
                 Spacer(modifier = Modifier.width(16.dp))

@@ -41,7 +41,7 @@ fun TextModifiedWithPaddingStart(
 }
 
 @Composable
-fun RunStats(text: String, value: String, unit: String){
+fun RunStats(text: String, value: String, unit: String) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -57,7 +57,8 @@ fun RunStats(text: String, value: String, unit: String){
         )
         Text(
             text = unit,
-            modifier = Modifier.padding(5.dp))
+            modifier = Modifier.padding(5.dp)
+        )
     }
 }
 

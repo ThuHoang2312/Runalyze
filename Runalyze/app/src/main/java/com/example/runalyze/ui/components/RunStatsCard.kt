@@ -82,17 +82,17 @@ fun RunStatsCard(
                 value = runState.speedInKMH.toString(),
                 unit = stringResource(id = R.string.speed_unit)
             )
-            if(heartRate != 0){
-            Box(
-                modifier = Modifier
-                    .width(1.dp)
-                    .fillMaxHeight()
-                    .padding(vertical = 5.dp)
-                    .align(Alignment.CenterVertically)
-                    .background(
-                        color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f),
-                    )
-            )
+            if (heartRate != 0) {
+                Box(
+                    modifier = Modifier
+                        .width(1.dp)
+                        .fillMaxHeight()
+                        .padding(vertical = 5.dp)
+                        .align(Alignment.CenterVertically)
+                        .background(
+                            color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f),
+                        )
+                )
                 RunningStatItem(
                     painter = painterResource(id = R.drawable.heart_beat),
                     value = heartRate.toString(),

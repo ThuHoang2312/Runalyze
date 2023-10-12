@@ -18,7 +18,7 @@ fun BottomNavigationMenu(navController: NavController) {
         BottomNavItem.Statistic,
     )
 
-    NavigationBar() {
+    NavigationBar {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route
         items.forEach {
