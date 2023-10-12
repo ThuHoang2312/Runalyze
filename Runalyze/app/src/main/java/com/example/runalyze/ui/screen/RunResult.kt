@@ -93,7 +93,7 @@ fun RunResult(navController: NavController, viewModel: RunViewModel) {
                     text = stringResource(id = R.string.heart_rate),
                     value = if (viewModel.currentRunResult?.avgHeartRate == 0.0) "Not available" else
                         String.format("%.2f", (viewModel.currentRunResult?.avgHeartRate)),
-                    unit = stringResource(id = R.string.heart_rate_unit)
+                    unit = if (viewModel.currentRunResult?.avgHeartRate != 0.0) "bpm" else ""
                 )
             }
 

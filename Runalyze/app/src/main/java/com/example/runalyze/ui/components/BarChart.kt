@@ -1,7 +1,6 @@
 package com.example.runalyze.ui.components
 
 import android.graphics.Paint
-import android.util.Log
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -26,13 +25,14 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 import kotlin.math.roundToInt
 
+// Component for using processed data from and draw the bar graph
 @Composable
 fun BarChart(data: List<Run>, key: String, screenWidth: Dp) {
     var maxValue by remember { mutableFloatStateOf(0.0F) }
     val textColor = if (isSystemInDarkTheme()) {
-        Color.White // Use white text color for dark mode
+        Color.White
     } else {
-        Color.Black // Use black text color for light mode
+        Color.Black
     }
 
     data.map {
@@ -93,19 +93,24 @@ fun BarChart(data: List<Run>, key: String, screenWidth: Dp) {
 
             val dateFormatter = SimpleDateFormat("dd/MM", Locale.getDefault())
             val dateTime =
-                dateFormatter.format(Converters().fromTimestamp(trainingDetail.timestamp))
-            val textWidth = dateTime.length * 2.dp.toPx()
+                Converters().fromTimestamp(trainingDetail.timestamp)
+                    ?.let { dateFormatter.format(it) }
+            val textWidth = dateTime?.length?.times(2.dp.toPx())
 
             drawIntoCanvas { canvas ->
-                canvas.nativeCanvas.drawText(
-                    dateTime,
-                    ((x - textWidth / 2).toFloat()),
-                    size.height + 16.dp.toPx(),
-                    Paint().apply {
-                        color = textColor.hashCode()
-                        textSize = 16.dp.toPx()
+                if (dateTime != null) {
+                    if (textWidth != null) {
+                        canvas.nativeCanvas.drawText(
+                            dateTime,
+                            ((x - textWidth / 2).toFloat()),
+                            size.height + 16.dp.toPx(),
+                            Paint().apply {
+                                color = textColor.hashCode()
+                                textSize = 16.dp.toPx()
+                            }
+                        )
                     }
-                )
+                }
             }
         }
     }

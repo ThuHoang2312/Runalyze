@@ -36,7 +36,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import com.example.runalyze.R
 import com.example.runalyze.database.Converters
 import com.example.runalyze.database.Goal
@@ -50,9 +49,10 @@ import java.util.Date
 import java.util.Locale
 import kotlin.math.round
 
+// Create view for Statistics tab
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Activity(viewModel: ActivityViewModel, navController: NavController) {
+fun Activity(viewModel: ActivityViewModel) {
     val allData by viewModel.allTrainings.observeAsState(emptyList())
     val goal = viewModel.getNewestGoal().observeAsState(null)
     var summarizedData by remember { mutableStateOf(emptyList<Run>()) }
@@ -155,9 +155,7 @@ fun Activity(viewModel: ActivityViewModel, navController: NavController) {
                 }
             }
 
-            if (allData != null) {
-                summarizedData = prepareRunSummary(allData)
-            }
+            summarizedData = prepareRunSummary(allData)
             if (displayedView == "graph") {
                 GraphView(allData = filteredData, screenWidth = screenWidth)
             } else {
@@ -176,6 +174,7 @@ fun Activity(viewModel: ActivityViewModel, navController: NavController) {
     }
 }
 
+// Prepare data for today training summary
 fun prepareRunSummary(data: List<Run>): List<Run> {
     val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
     val groupedRuns = mutableMapOf<String, MutableList<Run>>()
@@ -210,6 +209,7 @@ fun prepareRunSummary(data: List<Run>): List<Run> {
     return summarizedRuns
 }
 
+// Component to render graphs for month and year buttons
 @Composable
 fun GraphView(allData: List<Run>, screenWidth: Dp) {
     Text(text = "Distance (Km)", fontWeight = FontWeight.Bold, fontSize = 16.sp)
@@ -229,6 +229,7 @@ fun GraphView(allData: List<Run>, screenWidth: Dp) {
     Spacer(modifier = Modifier.height(50.dp))
 }
 
+// Progress component for today training summary
 @Composable
 fun SummaryView(data: List<Run>, goal: Goal?) {
     Column(modifier = Modifier.padding(16.dp)) {
@@ -242,6 +243,8 @@ fun SummaryView(data: List<Run>, goal: Goal?) {
     }
 }
 
+// Render the latest goal in the database.
+// The goal is have the most recent createdAt timestamp will be displayed as the current goal.
 @Composable
 fun CurrentGoalView(data: Goal?) {
     if (data == null) {
@@ -295,6 +298,7 @@ fun CurrentGoalView(data: Goal?) {
     }
 }
 
+// Combine the SummaryView and CurrentGoalView into TrainingSummary Screen for Today button
 @Composable
 fun TrainingSummary(run: Run, goal: Goal?) {
     Column {

@@ -1,7 +1,6 @@
 package com.example.runalyze.ui.screen
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -68,6 +67,7 @@ import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 
+// Set a goal screen
 @SuppressLint("RememberReturnType", "UnrememberedMutableState")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -124,6 +124,7 @@ fun AddGoalView(
                 .padding(16.dp)
                 .verticalScroll(rememberScrollState())
         ) {
+            // Date picker
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
@@ -148,6 +149,7 @@ fun AddGoalView(
 
             Spacer(modifier = Modifier.size(8.dp))
 
+            // Day-of-the-week checkbox
             Column {
                 Text(
                     text = "Repeat: ",
@@ -164,6 +166,7 @@ fun AddGoalView(
 
             Spacer(modifier = Modifier.size(8.dp))
 
+            // Reminder time picker
             Column {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
@@ -213,6 +216,7 @@ fun AddGoalView(
 
             Spacer(modifier = Modifier.size(8.dp))
 
+            // Target distance text field
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center,
@@ -235,6 +239,7 @@ fun AddGoalView(
 
             Spacer(modifier = Modifier.size(8.dp))
 
+            // Target speed text field
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center,
@@ -257,6 +262,7 @@ fun AddGoalView(
 
             Spacer(modifier = Modifier.size(8.dp))
 
+            // Target heart rate text field
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center,
@@ -279,6 +285,7 @@ fun AddGoalView(
 
             Spacer(modifier = Modifier.size(8.dp))
 
+            // Save and exit to home screen button
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -318,11 +325,7 @@ fun AddGoalView(
         DateRangePickerDialog(
             state = dateRangePickerState,
             onDismissRequest = { openDateRangePickerDialog.value = false },
-            onSaveClick = { startDateMillis, endDateMillis ->
-                Log.d(
-                    "Runalyze App",
-                    "Saved range (timestamps): $startDateMillis..$endDateMillis"
-                )
+            onSaveClick = { _, _ ->
                 openDateRangePickerDialog.value = false
             }
         )
@@ -340,7 +343,7 @@ fun AddGoalView(
     }
 }
 
-
+// Date picker Dialog: to pick the start date and end date
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DateRangePickerDialog(
@@ -395,6 +398,7 @@ fun DateRangePickerDialog(
     }
 }
 
+// To render the label for date of the week and their checkboxes
 @Composable
 fun DayOfWeekSelection(
     daysOfWeek: List<String>,
@@ -424,6 +428,7 @@ fun DayOfWeekSelection(
 
 }
 
+// To open the time picker when the add reminder button is clicked
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TimePickerDialog(

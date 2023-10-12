@@ -12,5 +12,5 @@ sealed class BottomNavItem(val route: String, val icon: ImageVector, val title: 
     object Planning :
         BottomNavItem("plan", icon = Icons.AutoMirrored.Outlined.DirectionsRun, title = "Plan")
     object Statistic :
-        BottomNavItem(route = "activity", icon = Icons.Outlined.QueryStats, title = "Statistic")
+        BottomNavItem(route = "activity", icon = Icons.Outlined.QueryStats, title = "Statistics")
 }

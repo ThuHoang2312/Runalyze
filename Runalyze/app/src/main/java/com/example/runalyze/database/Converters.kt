@@ -1,13 +1,12 @@
 package com.example.runalyze.database
 
-import android.util.Log
 import androidx.room.TypeConverter
 import java.sql.Date
 
+// To convert Long value to Date and vice versa
 class Converters {
     @TypeConverter
     fun fromTimestamp(value: Long?): Date? {
-        Log.d("Runalyze", "Time stamp to Date: $value - ${value?.let { Date(it) }}")
         return value?.let {
             Date(it)
         }

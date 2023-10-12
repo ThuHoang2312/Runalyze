@@ -1,6 +1,5 @@
 package com.example.runalyze.ui
 
-import com.example.runalyze.ui.screen.RunScreen
 import android.annotation.SuppressLint
 import android.net.Uri
 import androidx.compose.foundation.ScrollState
@@ -34,6 +33,7 @@ import com.example.runalyze.ui.screen.Activity
 import com.example.runalyze.ui.screen.AddGoalView
 import com.example.runalyze.ui.screen.Home
 import com.example.runalyze.ui.screen.RunResult
+import com.example.runalyze.ui.screen.RunScreen
 import com.example.runalyze.ui.screen.runningPlan.RunningPlanDetailScreen
 import com.example.runalyze.ui.screen.runningPlan.RunningPlanListScreen
 import com.example.runalyze.utils.Destination
@@ -171,6 +171,6 @@ fun NavGraphBuilder.bottomNavigation(
         RunningPlanListScreen(runningPlanList, navController = navController)
     }
     composable(BottomNavItem.Statistic.route) {
-        Activity(activityViewModel, navController)
+        Activity(activityViewModel)
     }
 }
