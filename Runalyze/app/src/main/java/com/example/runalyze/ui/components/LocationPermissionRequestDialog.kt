@@ -11,6 +11,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 
 @Composable
+// Location permission request dialog
 fun LocationPermissionRequestDialog(
     modifier: Modifier = Modifier,
     onDismissClick: () -> Unit,

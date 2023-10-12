@@ -8,7 +8,8 @@ import com.example.runalyze.service.RunningPlan
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class WebServiceRepository() {
+//View model for retrofit and fetching data from internet
+class WebServiceRepository {
     private val call = GetRunningPlanApi.service
     suspend fun getRunningPlan() = call.runningPlanList()
 }

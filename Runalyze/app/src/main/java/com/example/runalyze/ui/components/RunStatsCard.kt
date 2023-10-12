@@ -25,6 +25,7 @@ import com.example.runalyze.service.location.models.CurrentRunState
 import java.math.RoundingMode
 
 @Composable
+// Running status card
 fun RunStatsCard(
     modifier: Modifier,
     durationInMillis: Long = 0L,

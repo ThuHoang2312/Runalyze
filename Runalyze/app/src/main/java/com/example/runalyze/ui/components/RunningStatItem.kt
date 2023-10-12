@@ -20,6 +20,7 @@ import com.example.runalyze.R
 
 
 @Composable
+// Running status item component
 fun RunningStatItem(
     painter: Painter,
     value: String,

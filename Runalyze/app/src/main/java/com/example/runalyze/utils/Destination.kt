@@ -37,7 +37,7 @@ sealed class Destination(val route: String) {
         }
     }
 
-    //navigation
+    // Navigation
     companion object {
         fun navigateToRunScreen(navController: NavController) {
             navController.navigate(CurrentRun.route)

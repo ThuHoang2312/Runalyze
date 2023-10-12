@@ -1,3 +1,6 @@
+package com.example.runalyze.ui.screen
+
+import TopBar
 import android.app.Activity
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.EnterTransition
@@ -58,8 +61,8 @@ import com.google.maps.android.compose.rememberCameraPositionState
 import com.google.maps.android.compose.rememberMarkerState
 import kotlinx.coroutines.delay
 
-// Displaying a user interface for tracking a run on a map
 @Composable
+// Displaying a user interface for tracking a run on a map
 fun RunScreen(
     navController: NavController,
     viewModel: RunViewModel
@@ -198,7 +201,7 @@ private fun BoxScope.ShowMapLoadingProgressBar(
     }
 }
 
-//drawing the path based on path points using polylines and markers
+//drawing the path based on path points using poly-lines and markers
 @Composable
 @GoogleMapComposable
 private fun DrawPathPoints(

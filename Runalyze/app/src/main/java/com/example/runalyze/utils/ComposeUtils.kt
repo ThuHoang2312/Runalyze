@@ -12,9 +12,9 @@ import androidx.compose.ui.Modifier
 
 object ComposeUtils {
     const val slideDownInDuration = 250
-    const val slideDownOutDuration = 250
+    private const val slideDownOutDuration = 250
 
-    //handle the enter and exit animations, making it easy to create slide-down effects for Composable elements.
+    // Handle the enter and exit animations, making it easy to create slide-down effects for Composable elements.
     @Composable
     fun SlideDownAnimatedVisibility(
         modifier: Modifier = Modifier,

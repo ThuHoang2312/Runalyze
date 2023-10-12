@@ -41,6 +41,7 @@ fun TextModifiedWithPaddingStart(
 }
 
 @Composable
+// Run status component
 fun RunStats(text: String, value: String, unit: String) {
     Row(
         modifier = Modifier

@@ -1,6 +1,6 @@
 package com.example.runalyze.ui
 
-import RunScreen
+import com.example.runalyze.ui.screen.RunScreen
 import android.annotation.SuppressLint
 import android.net.Uri
 import androidx.compose.foundation.ScrollState
@@ -52,8 +52,6 @@ fun RunalyzeApp(
 ) {
     val scrollState = rememberScrollState()
     val navController = rememberNavController()
-
-    //activityViewModel.addDummyData()
 
     LaunchedEffect(key1 = true){
         if(data != null) Destination.navigateToRunScreen(navController)
@@ -112,6 +110,7 @@ fun MainScreen(
 }
 
 @Composable
+// Navigation for the app
 fun Navigation(
     navController: NavHostController,
     goalViewModel: GoalViewModel,
@@ -147,7 +146,6 @@ fun Navigation(
             "runningPlanDetail/{runningPlanId}",
             arguments = listOf(navArgument("runningPlanId") { type = NavType.IntType })
         ) { backStackEntry ->
-            val planId = backStackEntry.arguments?.getInt("runningPlanId")
             RunningPlanDetailScreen(
                 backStackEntry.arguments?.getInt("runningPlanId") ?: 1,
                 runningPlanList,
@@ -160,6 +158,7 @@ fun Navigation(
     }
 }
 
+// Build bottom navigation
 fun NavGraphBuilder.bottomNavigation(
     navController: NavController,
     activityViewModel: ActivityViewModel,

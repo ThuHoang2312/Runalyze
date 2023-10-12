@@ -19,7 +19,7 @@ object LocationUtils {
             LOCATION_UPDATE_INTERVAL
         )
 
-    const val LOCATION_ENABLE_REQUEST_CODE = 5234
+    private const val LOCATION_ENABLE_REQUEST_CODE = 5234
 
     fun checkAndRequestLocationSetting(activity: Activity) {
         val locationRequest = locationRequestBuilder.build()

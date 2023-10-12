@@ -16,6 +16,7 @@ import androidx.navigation.NavController
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
+// Top navigation
 fun TopNavigation(navController: NavController, text: String) {
     CenterAlignedTopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(

@@ -36,12 +36,13 @@ data class HomeOption(
     val route: String
 )
 
+// Home screen element object
 object Options {
     val optionList = listOf(
         HomeOption(
             id = 1,
             image = R.drawable.running_red,
-            text = "Start a quick run",
+            text = "Start running",
             route = Destination.CurrentRun.route
         ),
         HomeOption(
@@ -61,6 +62,7 @@ object Options {
 
 
 @Composable
+// Home screen
 fun Home(navController: NavController) {
     Column(
         modifier = Modifier.fillMaxWidth(),
@@ -75,6 +77,7 @@ fun Home(navController: NavController) {
 }
 
 @Composable
+// Home item
 fun HomeItem(option: HomeOption, navController: NavController) {
     Box(
         modifier = Modifier

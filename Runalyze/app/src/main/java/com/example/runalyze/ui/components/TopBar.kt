@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
+// Top navigation for running screen
 fun TopBar(
     modifier: Modifier = Modifier,
     onUpButtonClick: () -> Unit

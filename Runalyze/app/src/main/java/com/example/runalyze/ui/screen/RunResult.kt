@@ -32,9 +32,9 @@ import com.example.runalyze.viewmodel.RunViewModel
 
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
+// Run result screen
 fun RunResult(navController: NavController, viewModel: RunViewModel) {
     val durationInMinutes = viewModel.currentRunResult?.timeInMillis?.div(60000.0)
-
 
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -82,7 +82,10 @@ fun RunResult(navController: NavController, viewModel: RunViewModel) {
                         value = if (durationInMinutes <= 60) {
                             String.format("%.2f", durationInMinutes)
                         } else
-                            String.format("%.2f", RunUtils.getRunTimeInHours(viewModel.currentRunResult?.timeInMillis!!)),
+                            String.format(
+                                "%.2f",
+                                RunUtils.getRunTimeInHours(viewModel.currentRunResult?.timeInMillis!!)
+                            ),
                         unit = stringResource(id = R.string.duration_unit)
                     )
                 }

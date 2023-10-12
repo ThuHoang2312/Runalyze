@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import com.example.runalyze.utils.RunUtils
 
 @Composable
+// Running time card
 fun RunTimeCard(
     modifier: Modifier,
     durationInMillis: Long,

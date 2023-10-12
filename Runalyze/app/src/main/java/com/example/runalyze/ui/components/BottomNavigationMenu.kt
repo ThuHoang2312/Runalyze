@@ -11,6 +11,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.runalyze.BottomNavItem
 
 @Composable
+// Bottom navigation
 fun BottomNavigationMenu(navController: NavController) {
     val items = listOf(
         BottomNavItem.Home,
